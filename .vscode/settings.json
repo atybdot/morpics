@@ -1,0 +1,21 @@
+{
+  "css.customData": [".vscode/tailwind.json"],
+  "html.autoClosingTags": true,
+  "search.exclude": {
+    "**/node_modules/**": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/*-lock.*":true,
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.hg/store/**": true,
+    "**/.node_modules/**":true
+  },
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.autoSaveWhenNoErrors": true,
+  "typescript.experimental.useTsgo": true,
+  "editor.minimap.enabled": false
+}
