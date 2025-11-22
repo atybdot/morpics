@@ -1,0 +1,43 @@
+{
+  "name": "@morpics/buckets",
+  "exports": {
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "default": "./src/client.ts"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "default": "./src/server.ts"
+    },
+    "./lib": {
+      "types": "./dist/lib.d.ts",
+      "default": "./src/lib.ts"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "default": "./src/types.ts"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "default": "./src/utils.ts"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsdown"
+  },
+  "devDependencies": {
+    "@morpics/config": "workspace:*",
+    "tsdown": "catalog:"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.933.0",
+    "@aws-sdk/s3-request-presigner": "^3.933.0",
+    "@morpics/db": "workspace:*",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  }
+}
