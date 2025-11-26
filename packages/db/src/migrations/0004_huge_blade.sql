@@ -1,0 +1,1 @@
+ALTER TABLE "images" ADD CONSTRAINT "images_image_key_unique" UNIQUE("image_key");

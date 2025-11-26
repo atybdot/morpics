@@ -11,16 +11,13 @@ import { imageStatusEnum, mimeEnum } from "./enums";
 
 export const image = pgTable("images", {
   id: uuid("id").primaryKey().defaultRandom(),
-  key: text("image_key").notNull(),
+  key: text("image_key").notNull().unique(),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   orgId: text("organization_id")
     .notNull()
     .references(() => organization.id, { onDelete: "cascade" }),
-  orgSlug: text("organization_slug")
-    .notNull()
-    .references(() => organization.slug, { onDelete: "cascade" }),
 
   uploadingStatus: imageStatusEnum("status").notNull().default("pending"),
   createdAt: timestamp("created_at", { withTimezone: true })
