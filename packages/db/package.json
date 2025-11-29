@@ -33,19 +33,20 @@
     "db:backfill": "pnpm dlx tsx scripts/backfill-buckets.ts"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.31.2",
+    "@morpics/config": "workspace:*",
     "@types/ws": "^8.18.1",
-    "tsdown": "catalog:",
-    "@morpics/config": "workspace:*"
+    "drizzle-kit": "^0.31.2",
+    "tsdown": "catalog:"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
-    "drizzle-orm": "^0.44.2",
     "@neondatabase/serverless": "^1.0.1",
-    "ws": "^8.18.3",
     "dotenv": "catalog:",
+    "drizzle-orm": "^0.44.2",
+    "drizzle-zod": "^0.8.3",
+    "ws": "^8.18.3",
     "zod": "catalog:"
   }
 }
