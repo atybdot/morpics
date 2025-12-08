@@ -9,12 +9,21 @@ const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
       theme={theme as ToasterProps["theme"]}
-      className="toaster group"
+      className="toaster group rounded-none"
+      toastOptions={{
+        style: {
+          borderRadius: "var(--radius)",
+        },
+        closeButton: true,
+        cancelButtonStyle: { borderRadius: "var(--radius)" },
+        "classNames":{"closeButton":"rounded-none"}
+      }}
       style={
         {
           "--normal-bg": "var(--popover)",
           "--normal-text": "var(--popover-foreground)",
           "--normal-border": "var(--border)",
+          borderRadius: "none",
         } as React.CSSProperties
       }
       {...props}

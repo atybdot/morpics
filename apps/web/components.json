@@ -19,10 +19,16 @@
     "hooks": "@/hooks"
   },
   "registries": {
+    "@fancy": "https://fancycomponents.dev/r/{name}.json",
     "@reui": "https://reui.io/r/{name}.json",
     "@animate-ui": "https://animate-ui.com/r/{name}.json",
     "@blocks": "https://blocks.so/r/{name}.json",
     "@elements": "https://tryelements.dev/r/{name}.json",
-    "@hooks": "https://shadcn-hooks.vercel.app/r/{name}.json"
+    "@hooks": "https://shadcn-hooks.vercel.app/r/{name}.json",
+    "@react-bits": "https://reactbits.dev/r/{name}.json",
+    "@kokonutui": "https://kokonutui.com/r/{name}.json",
+    "@aceternity": "https://ui.aceternity.com/registry/{name}.json",
+    "@efferd": "https://efferd.com/r/{name}.json",
+    "@basecn": "https://basecn.dev/r/{name}.json"
   }
 }

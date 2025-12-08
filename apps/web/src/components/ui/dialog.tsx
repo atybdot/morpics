@@ -1,8 +1,8 @@
 import { Dialog as DialogPrimitive } from "@base-ui-components/react/dialog";
-import { X } from "lucide-react";
 import * as React from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { PiX } from "react-icons/pi";
 
 function Dialog({
   ...props
@@ -81,15 +81,15 @@ function DialogPopup({
       className={cn(
         `
           fixed z-50 grid
-          gap-4 border bg-background p-6 shadow-lg shadow-black/5 
+          gap-4 border bg-background shadow-lg shadow-black/5 
           transition-all duration-150 
           data-[ending-style]:scale-90 data-[ending-style]:opacity-0 
           data-[starting-style]:scale-90 data-[starting-style]:opacity-0 
-          sm:rounded-lg
+          
         `,
         fullscreen
           ? "inset-5"
-          : "left-[50%] top-[50%] w-full max-w-[calc(100%-2rem)] sm:max-w-lg translate-x-[-50%] translate-y-[-50%]",
+          : "left-1/2 top-1/2 w-full max-w-[calc(100%-2rem)] sm:max-w-lg -translate-x-1/2 -translate-y-1/2",
         className,
       )}
       {...props}
@@ -121,12 +121,12 @@ function DialogContent({
           <DialogPrimitive.Close
             data-slot="alert-dialog-dismiss"
             className={cn(
-              buttonVariants({ variant: "dim", size: "sm" }),
-              "absolute top-2.5 end-2.5",
+              buttonVariants({ variant: "secondary", size: "xs" }),
+              "absolute top-0 end-0 aspect-square",
               className,
             )}
           >
-            <X />
+            <PiX/>
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         )}
@@ -149,7 +149,7 @@ function DialogBody({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-body"
-      className={cn("px-4 py-2.5", className)}
+      className={cn(" p-2", className)}
       {...props}
     />
   );

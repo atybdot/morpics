@@ -24,7 +24,7 @@ export default function Home() {
               Try for free
             </Link>
             <Link
-              href={"/palyground"}
+              href={"/playground"}
               className={cn(
                 buttonVariants({ size: "xl", variant: "secondary" }),
                 "bg-secondary/40 text-secondary-foreground/50",

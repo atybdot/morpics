@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar } from "@base-ui-components/react/avatar";
-import { cva, VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +30,7 @@ function AvatarRoot({
   return (
     <Avatar.Root
       data-slot="avatar"
-      className={cn("relative flex h-10 w-10 shrink-0", className)}
+      className={cn("relative flex size-6 shrink-0", className)}
       {...props}
     />
   );
@@ -45,7 +45,7 @@ function AvatarImage({
     <Avatar.Image
       data-slot="avatar-image"
       className={cn(
-        "aspect-square overflow-hidden h-full w-full rounded-full",
+        "aspect-square overflow-hidden h-full w-full",
         className,
       )}
       {...props}
@@ -62,7 +62,7 @@ function AvatarFallback({
     <Avatar.Fallback
       data-slot="avatar-fallback"
       className={cn(
-        "flex h-full w-full items-center justify-center rounded-full bg-muted text-sm font-medium text-muted-foreground overflow-hidden",
+        "flex h-full w-full items-center justify-center bg-muted text-sm font-medium text-muted-foreground overflow-hidden",
         className,
       )}
       {...props}

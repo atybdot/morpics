@@ -3,6 +3,7 @@
 import type React from "react";
 import {
   type ChangeEvent,
+  type ClipboardEvent,
   type DragEvent,
   type InputHTMLAttributes,
   useCallback,
@@ -51,12 +52,15 @@ export type FileUploadActions = {
   handleDragOver: (e: DragEvent<HTMLElement>) => void;
   handleDrop: (e: DragEvent<HTMLElement>) => void;
   handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handlePaste: (e: ClipboardEvent<HTMLElement>) => void;
   openFileDialog: () => void;
   getInputProps: (
     props?: InputHTMLAttributes<HTMLInputElement>,
   ) => InputHTMLAttributes<HTMLInputElement> & {
     ref: React.Ref<HTMLInputElement>;
   };
+  // onFilesAdded:(files:FileList|File[])=>void;
+  // onFIlesRemoved:(files:FileList|File[])=>void
 };
 
 export const useFileUpload = (
@@ -363,6 +367,45 @@ export const useFileUpload = (
     [addFiles],
   );
 
+  const handlePaste = useCallback(
+    (e: ClipboardEvent<HTMLElement>) => {
+      e.preventDefault();
+      
+      // Don't process files if the input is disabled
+      if (inputRef.current?.disabled) {
+        return;
+      }
+
+      const clipboardItems = e.clipboardData?.items;
+      if (!clipboardItems) return;
+
+      const files: File[] = [];
+      
+      // Extract files from clipboard
+      for (let i = 0; i < clipboardItems.length; i++) {
+        const item = clipboardItems[i];
+        
+        // Check if the item is a file
+        if (item.kind === 'file') {
+          const file = item.getAsFile();
+          if (file) {
+            files.push(file);
+          }
+        }
+      }
+
+      if (files.length > 0) {
+        // In single file mode, only use the first file
+        if (!multiple) {
+          addFiles([files[0]]);
+        } else {
+          addFiles(files);
+        }
+      }
+    },
+    [addFiles, multiple],
+  );
+
   const openFileDialog = useCallback(() => {
     if (inputRef.current) {
       inputRef.current.click();
@@ -395,6 +438,7 @@ export const useFileUpload = (
       handleDragOver,
       handleDrop,
       handleFileChange,
+      handlePaste,
       openFileDialog,
       getInputProps,
     },

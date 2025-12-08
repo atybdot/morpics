@@ -1,12 +1,10 @@
 "use client";
-
-import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import type React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type SVGProps } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
+import { useQueryState } from "nuqs";
 interface ThemeSwitcherButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
@@ -16,8 +14,11 @@ export function ThemeSwitcherButton({
   className,
   ...props
 }: ThemeSwitcherButtonProps) {
-  const { theme, setTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [theme, setThemeQuery] = useQueryState("theme", {
+    defaultValue: resolvedTheme || "light",
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -25,41 +26,59 @@ export function ThemeSwitcherButton({
 
   if (!mounted) {
     return (
-      <Button variant="outline" size="icon" disabled className={className}>
-        <div className="w-4 h-4 bg-input rounded animate-pulse" />
+      <Button variant="dim" size="icon" disabled className={className}>
+        <div className=" bg-input animate-pulse" />
       </Button>
     );
   }
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
+    setThemeQuery(theme);
   };
-
-  const isDark = theme === "dark";
 
   return (
     <Button
-      variant="outline"
+      variant="dim"
       size="icon"
       onClick={toggleTheme}
       className={cn("relative overflow-hidden", className)}
       {...props}
     >
-      <SunIcon
-        className={`w-4 h-4 transition-all duration-300 ${
-          isDark
-            ? "rotate-90 scale-0 opacity-0"
-            : "rotate-0 scale-100 opacity-100"
-        }`}
+      <IconParkOutlineContrastViewCircle
+        className={"size-3.5 transition-all duration-300 rotate-180"}
       />
-      <MoonIcon
-        className={`absolute w-4 h-4 transition-all duration-300 ${
-          isDark
-            ? "rotate-0 scale-100 opacity-100"
-            : "-rotate-90 scale-0 opacity-0"
-        }`}
-      />
+
       <span className="sr-only">Toggle theme</span>
     </Button>
+  );
+}
+
+export function IconParkOutlineContrastViewCircle(
+  props: SVGProps<SVGSVGElement>,
+) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 48 48"
+      {...props}
+    >
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="4"
+      >
+        <path
+          strokeLinecap="round"
+          d="M24 4C12.954 4 4 12.954 4 24s8.954 20 20 20z"
+          clipRule="evenodd"
+        />
+        <path d="M24 4c11.046 0 20 8.954 20 20s-8.954 20-20 20z" />
+        <path strokeLinecap="round" d="M24 36H9m15-8H5m19-8H5m19-8H9" />
+      </g>
+    </svg>
   );
 }

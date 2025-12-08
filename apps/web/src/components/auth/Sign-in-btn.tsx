@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { Button, type ButtonProps } from "../ui/button";
+import { useState } from "react";
 
 function button({
   text,
@@ -17,23 +18,34 @@ function button({
   text: string;
   signup: boolean;
 } & ButtonProps) {
+  const [success, setSuccess] = useState<"success" | "error">();
   const mutation = useMutation({
     mutationFn: () =>
       authClient.signIn.social({
         provider,
-        callbackURL: `${window.location.origin}/dashnoard/orgs/`,
+        callbackURL: `${window.location.origin}/dashboard`,
         requestSignUp: signup,
-        newUserCallbackURL: `${window.location.origin}/orgs/new`,
+        newUserCallbackURL: `${window.location.origin}/buckets/new`,
       }),
 
     mutationKey: [`${provider}-login`],
+    onSuccess: (ctx) => {
+      if (ctx.error) {
+        setSuccess("error");
+        toast.error(ctx.error.message, {
+          action: { label: "retry", onClick: () => mutation.mutate() },
+        });
+      } else {
+        setSuccess("success");
+      }
+    },
     onError: (e) => {
       console.error(e);
       toast.error(e.message ?? "something went wrong", {
         action: (
           <Button
             size={"sm"}
-            variant={mutation.isSuccess ? "success" : "outline"}
+            variant={success === "success" ? "success" : "outline"}
             className="mt-auto"
             onClick={() => {
               toast.dismiss();
@@ -57,17 +69,21 @@ function button({
   });
   return (
     <Button
-      variant={mutation.isSuccess ? "success" : variant}
-      className={cn("w-full rounded-xl")}
+      variant={success === "success" ? "success" : variant}
+      className={cn("w-full")}
       size="lg"
       disabled={disabled || mutation.isPending}
       onClick={() => !disabled && mutation.mutate()}
       {...props}
     >
-      {mutation.isPending || mutation.isSuccess ? (
+      {mutation.isPending || success === "success" ? (
         <LoaderIcon className="animate-spin" />
       ) : null}
-      {mutation.isSuccess ? <span>Redirecting...</span> : <span>{text}</span>}
+      {success === "success" ? (
+        <span>Redirecting...</span>
+      ) : (
+        <span>{text}</span>
+      )}
     </Button>
   );
 }

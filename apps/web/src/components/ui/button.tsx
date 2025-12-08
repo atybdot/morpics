@@ -42,6 +42,7 @@ const buttonVariants = cva(
         dashed: "",
       },
       size: {
+        xl: "h-12 px-6 text-base gap-1.5 [&_svg:not([class*=size-])]:size-4",
         lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
         md: "h-9 px-3 gap-1.5 text-sm [&_svg:not([class*=size-])]:size-4",
         sm: "h-8 px-2.5 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
@@ -51,10 +52,6 @@ const buttonVariants = cva(
       autoHeight: {
         true: "",
         false: "",
-      },
-      radius: {
-        md: "rounded-md",
-        full: "rounded-full",
       },
       mode: {
         default:
@@ -372,7 +369,6 @@ const buttonVariants = cva(
       variant: "primary",
       mode: "default",
       size: "md",
-      radius: "md",
       appearance: "default",
     },
   },
@@ -392,7 +388,6 @@ function Button({
   className,
   selected,
   variant,
-  radius,
   appearance,
   mode,
   size,
@@ -408,7 +403,6 @@ function Button({
       buttonVariants({
         variant,
         size,
-        radius,
         appearance,
         mode,
         autoHeight,
