@@ -1,0 +1,28 @@
+{
+  "name": "auth-server",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "wrangler deploy --dry-run",
+    "check-types": "tsc -b",
+    "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
+    "dev": "wrangler dev --port=3000 --remote",
+    "start": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "hono": "catalog:",
+
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "@morpics/auth": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "tsdown": "catalog:",
+    "@morpics/config": "workspace:*",
+    "wrangler": "^4.40.3",
+    "@types/node": "catalog:"
+  }
+}
