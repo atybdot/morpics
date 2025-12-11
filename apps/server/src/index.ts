@@ -17,9 +17,9 @@ app.use(logger());
 app.use(
   "/*",
   cors({
-    origin: env.CORS_ORIGIN || "",
+    origin: [env.FRONTEND_URL, env.BACKEND_URL, env.BETTER_AUTH_URL],
     allowMethods: ["GET", "POST", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization"],
+    allowHeaders: ["Content-Type", "Authorization", "Cache-Control", "ETag"],
     credentials: true,
   }),
 );
