@@ -1,13 +1,14 @@
 "use client";
 import { useState } from "react";
-import {
-  PiAsteriskBold,
-  PiCheckSquare,
-} from "react-icons/pi";
+import { PiAsteriskBold, PiCheckSquare } from "react-icons/pi";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { nanoid } from "nanoid";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { Skeleton } from "../ui/skeleton";
 interface PricingItems {
   type: "general" | "main";
   heading: string;
@@ -19,6 +20,11 @@ interface PricingItems {
 }
 function PricingGrid() {
   const [year, _sy] = useState(true);
+  const router = useRouter();
+  const { isPending, data: session } = authClient.useSession();
+  if (isPending) {
+    return <Skeleton className="size-24" />;
+  }
   const pricingItems: PricingItems[] = [
     {
       type: "general",
@@ -28,7 +34,7 @@ function PricingGrid() {
       button: {
         label: "Sign up for free",
         action(_plan) {
-          return;
+          router.push("/sign-in");
         },
       },
       packge: [
@@ -47,7 +53,30 @@ function PricingGrid() {
       price: { year: 8, month: 10 },
       button: {
         label: "get started",
-        action(_plan) {
+        async action(_plan) {
+          const { data: checkout, error } =
+            await authClient.dodopayments.checkout({
+              slug: "starter",
+              customer: {
+                email: session?.user.email,
+                name: session?.user.name,
+              },
+              billing: {
+                city: "San Francisco",
+                country: "US",
+                state: "CA",
+                street: "123 Market St",
+                zipcode: "94103",
+              },
+              referenceId: "order_123",
+            });
+          if (error) {
+            console.log(error);
+            toast.error(error.message);
+          }
+          if (checkout) {
+            router.push(checkout.url as any);
+          }
           return;
         },
       },
@@ -67,7 +96,31 @@ function PricingGrid() {
       price: { year: 16, month: 20 },
       button: {
         label: "start with pro",
-        action(_plan) {
+        async action(_plan) {
+          const { data: checkout, error } =
+            await authClient.dodopayments.checkout({
+              slug: "teams",
+              customer: {
+                email: session?.user.email,
+                name: session?.user.name,
+              },
+              billing: {
+                city: "",
+                country: "",
+                state: "",
+                street: "",
+                zipcode: "",
+              },
+              referenceId: "",
+              
+            });
+          if (error) {
+            console.log(error);
+            toast.error(error.message);
+          }
+          if (checkout) {
+            router.push(checkout.url as any);
+          }
           return;
         },
       },

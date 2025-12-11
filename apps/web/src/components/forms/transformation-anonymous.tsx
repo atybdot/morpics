@@ -67,7 +67,7 @@ const formSchema = z.object({
   quality: z.number().min(1).max(100),
 });
 
-function HomeFileUpload() {
+export default function TransformationAnonForm() {
   const [
     { files, isDragging },
     {
@@ -85,7 +85,6 @@ function HomeFileUpload() {
     maxSize: fileUploadConfig.max_file_size,
     accept: fileUploadConfig.accept.join(","),
     multiple: false,
-
   });
   const [imgDimensions, setImgDimensions] = useState<{
     w: number;
@@ -569,4 +568,3 @@ function HomeFileUpload() {
     </>
   );
 }
-export default HomeFileUpload;

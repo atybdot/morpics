@@ -12,6 +12,7 @@ import {
   PiCreditCard,
   PiGear,
   PiGearSix,
+  PiGithubLogo,
   PiImagesSquare,
   PiLifebuoy,
   PiPlugs,
@@ -75,7 +76,7 @@ export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
   const { data: session, isPending } = authClient.useSession();
   const { toggleTheme } = useTheme();
-  const naviItems: Record<string, SidebarItem[]> = {
+  const navItems: Record<string, SidebarItem[]> = {
     header: [
       {
         title: "images",
@@ -99,12 +100,6 @@ export function AppSidebar() {
       },
       {
         as: "a",
-        title: "api",
-        href: "/profile/api",
-        icon: PiPlugs,
-      },
-      {
-        as: "a",
         title: "support",
         href: "/support",
         icon: PiLifebuoy,
@@ -114,26 +109,6 @@ export function AppSidebar() {
         title: "report",
         href: "/report",
         icon: PiBugBeetle,
-      },
-    ],
-    footer: [
-      {
-        title: "profile",
-        href: "/profile",
-        icon: PiUser,
-        as: "a",
-      },
-      {
-        title: "billing",
-        href: "/profile/billing",
-        icon: PiCreditCard,
-        as: "a",
-      },
-      {
-        title: "Settings",
-        href: "/profile/settings",
-        icon: PiGearSix,
-        as: "a",
       },
     ],
     socials: [
@@ -157,14 +132,32 @@ export function AppSidebar() {
         href: "https://github.com/atybdot",
         as: "a",
         target: "_blank",
-        icon: FaGithub,
+        icon: PiGithubLogo,
       },
     ],
-  };
+    profile: [
+      {
+        title: "profile",
+        href: "/profile",
+        icon: PiUser,
+        as: "a",
+      },
+      {
+        title: "billing",
+        as: "a",
+        icon: PiCreditCard,
+        href: "/profile/billing",
+      },
+      {
+        as: "a",
+        title: "api-keys",
+        href: "/profile/api-keys",
+        icon: PiPlugs,
+      },
+    ],
+  } as const;
 
   const pathname = usePathname();
-  const router = useRouter();
-  const useMobile = useIsMobile();
   return (
     <Sidebar className="border" collapsible="icon">
       <SidebarContent className="gap-0">
@@ -194,7 +187,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {naviItems.header.map(
+              {navItems.header.map(
                 ({ as, title, icon: Icon, subItems, ...item }) => (
                   <SidebarMenuItem key={title} className="relative">
                     <SidebarMenuButton
@@ -209,18 +202,17 @@ export function AppSidebar() {
                       //@ts-expect-error
                       isActive={pathname === item?.href}
                       className={cn(
-                        "font-light text-muted-foreground z-5 relative",
+                        "font-light text-muted-foreground relative",
                         // item?.className,
                       )}
                     >
                       <Icon className="stroke-1" />
                       <span>{title}</span>
 
-                      {pathname === item?.href  && (
+                      {pathname === item?.href && (
                         <div className="pl-0.5 inset-y-0 absolute bg-primary left-0" />
                       )}
                     </SidebarMenuButton>
-              
                   </SidebarMenuItem>
                 ),
               )}
@@ -231,7 +223,7 @@ export function AppSidebar() {
         <SidebarGroup className="">
           <SidebarGroupContent>
             <SidebarMenu>
-              {naviItems.bottom.map(({ as, ...item }) => (
+              {navItems.profile.map(({ as, ...item }) => (
                 <SidebarMenuItem key={item.title} className="relative">
                   <SidebarMenuButton
                     render={
@@ -245,7 +237,8 @@ export function AppSidebar() {
                     //@ts-expect-error
                     isActive={pathname === item?.href}
                     className={cn(
-                      "font-light text-muted-foreground z-5 relative",
+                      "font-light text-muted-foreground relative",
+                      // item?.className,
                     )}
                   >
                     <item.icon className="stroke-1" />
@@ -259,11 +252,42 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarSeparator className={"m-0"} />
+        <SidebarGroup className="">
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navItems.bottom.map(({ as, ...item }) => (
+                <SidebarMenuItem key={item.title} className="relative">
+                  <SidebarMenuButton
+                    render={
+                      as === "button" ? (
+                        <Button {...(item as ButtonProps)} />
+                      ) : (
+                        //@ts-expect-error
+                        <Link {...item} />
+                      )
+                    }
+                    //@ts-expect-error
+                    isActive={pathname === item?.href}
+                    className={cn("font-light text-muted-foreground relative")}
+                  >
+                    <item.icon className="stroke-1" />
+                    <span className="">{item.title}</span>
+                    {pathname === item?.href && (
+                      <div className="pl-0.5 inset-y-0 absolute bg-primary left-0" />
+                    )}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
         <SidebarSeparator className={"mx-0 my-0"} />
         <SidebarGroup className="">
           <SidebarGroupContent>
             <SidebarMenu>
-              {naviItems.socials.map(({ as, ...item }) => (
+              {navItems.socials.map(({ as, ...item }) => (
                 <SidebarMenuItem key={item.title} className="relative">
                   <SidebarMenuButton
                     render={
@@ -277,7 +301,7 @@ export function AppSidebar() {
                     //@ts-expect-error
                     isActive={pathname === item?.href}
                     className={cn(
-                      "font-light text-muted-foreground z-5 relative",
+                      "font-light text-muted-foreground relative",
                       // item?.className,
                     )}
                   >
@@ -290,98 +314,38 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarSeparator className={"mx-0 my-0"} />
+
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem className="text-rose-400 dark:text-rose-600 hover:*:text-rose-400 dark:hover:*:text-rose-600">
+                <SidebarMenuButton title="log-out">
+                  <PiSignOut /> log out
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarSeparator className={"mx-0 my-0"} />
         <SidebarFooter>
           {!isPending ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    className="h-fit p-1 items-center gap-x-2 flex aria-[expanded='true']:bg-accent aria-[expanded='true']:text-sidebar-accent-foreground w-full "
-                  />
-                }
-              >
-                <Avatar className={"size-8 aspect-square"}>
-                  <AvatarImage src={session?.user.image as string} />
-                  <AvatarFallback
-                    className={"text-lg object-cover aspect-square"}
-                  >
-                    {session?.user.name[0]}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col items-start justify-center flex-1 font-light gap-0.5 group-data-[state='collapsed']:hidden">
-                  <p> {session?.user.name}</p>
-                  <p className="text-muted-foreground text-xs">
-                    {session?.user.email}
-                  </p>
-                </div>
-                <PiCaretUpDown className="size-4 mr-1 group-data-[state='collapsed']:hidden" />
-              </DropdownMenuTrigger>
-              <DropdownMenuPositioner
-                align="end"
-                side={useMobile ? "top" : "left"}
-              >
-                <DropdownMenuContent
-                  className={cn(
-                    useMobile ? "mb-2" : "-mb-1",
-                    "text-sm font-light min-w-48 ml-4 text-muted-foreground",
-                  )}
+            <div className="h-fit p-1 items-center gap-x-4 flex aria-[expanded='true']:bg-accent aria-[expanded='true']:text-sidebar-accent-foreground w-full bg-none hover:bg-none cursor-default">
+              <Avatar className={"size-8 aspect-square"}>
+                <AvatarImage src={session?.user.image as string} />
+                <AvatarFallback
+                  className={"text-lg object-cover aspect-square"}
                 >
-                  <DropdownMenuGroup>
-                    <DropdownMenuLabel
-                      className={"text-muted-foreground/70 text-xs"}
-                    >
-                      Account
-                    </DropdownMenuLabel>
-                    {naviItems.footer.map(({ as, ...item }) => (
-                      <SidebarMenuButton
-                        key={nanoid()}
-                        render={
-                          as === "button" ? (
-                            <Button {...(item as ButtonProps)} />
-                          ) : (
-                            //@ts-expect-error
-                            <Link {...(item as React.ComponentProps<"a">)} />
-                          )
-                        }
-                        //@ts-expect-error
-                        isActive={pathname === item?.href}
-                        className={cn(
-                          "font-light text-muted-foreground z-5 relative",
-                          // item?.className,
-                        )}
-                      >
-                        <item.icon className="stroke-1" />
-                        <span className="">{item.title}</span>
-
-                        {pathname === item?.href && (
-                          <div className="pl-0.5 inset-y-0 absolute bg-primary left-0" />
-                        )}
-                      </SidebarMenuButton>
-                    ))}
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-
-                  <DropdownMenuItem
-                    onClick={() => {
-                      authClient.signOut({
-                        fetchOptions: {
-                          onSuccess: () => {
-                            router.push("/sign-in");
-                          },
-                        },
-                      });
-                    }}
-                    className={
-                      " cursor-pointer text-muted-foreground hover:text-foreground"
-                    }
-                  >
-                    <PiSignOut />
-                    Log out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenuPositioner>
-            </DropdownMenu>
+                  {session?.user.name[0]}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col items-start justify-center flex-1 font-light gap-0.5 group-data-[state='collapsed']:hidden text-muted-foreground">
+                <p className="font-medium">
+               
+                  {session?.user.name}
+                </p>
+                <p className="text-xs">{session?.user.email}</p>
+              </div>
+            </div>
           ) : (
             <Skeleton className="w-full h-12 flex gap-2 bg-transparent">
               <Skeleton className="w-8 h-full" />

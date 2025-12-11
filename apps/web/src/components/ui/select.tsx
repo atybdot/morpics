@@ -47,16 +47,22 @@ function SelectGroup({
 }
 
 function SelectPortal({
+  className,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Portal>) {
-  return <SelectPrimitive.Portal data-slot="select-portal" {...props} />;
+  return <SelectPrimitive.Portal data-slot="select-portal" className={cn("z-9999", className)} {...props} />;
 }
 
 function SelectPositioner({
+  className,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Positioner>) {
   return (
-    <SelectPrimitive.Positioner data-slot="select-positioner" {...props} />
+    <SelectPrimitive.Positioner
+      data-slot="select-positioner"
+      className={cn("z-9999", className)}
+      {...props}
+    />
   );
 }
 
@@ -217,6 +223,7 @@ function SelectContent({
   return (
     <SelectPortal>
       <SelectPositioner
+        className="z-[9999]"
         sideOffset={sideOffset}
         alignItemWithTrigger={position === "item-aligned"}
         side={side}
@@ -228,7 +235,7 @@ function SelectContent({
           data-slot="select-content"
           className={cn(
             `
-							relative z-50 max-h-(--available-height) min-w-(--anchor-width) overflow-x-hidden overflow-y-auto
+							relative max-h-(--available-height) min-w-(--anchor-width) overflow-x-hidden overflow-y-auto
 							bg-popover text-popover-foreground
 						 border p-1 							
 							origin-[var(--transform-origin)]

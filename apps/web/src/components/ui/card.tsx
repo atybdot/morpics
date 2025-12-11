@@ -23,20 +23,17 @@ const useCardContext = () => {
 };
 
 // Variants
-const cardVariants = cva(
-  "flex flex-col items-stretch text-card-foreground",
-  {
-    variants: {
-      variant: {
-        default: "bg-card border border-border shadow-xs black/5",
-        accent: "bg-muted shadow-xs p-1",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
+const cardVariants = cva("flex flex-col items-stretch text-card-foreground", {
+  variants: {
+    variant: {
+      default: "bg-card border border-border shadow-xs black/5",
+      accent: "bg-muted shadow-xs p-1",
     },
   },
-);
+  defaultVariants: {
+    variant: "default",
+  },
+});
 
 const cardHeaderVariants = cva(
   "flex items-center justify-between flex-wrap px-5 min-h-14 gap-2.5",
@@ -222,6 +219,50 @@ function CardDescription({
   );
 }
 
+// Card Component
+function CardAlt({
+  className,
+  outer = true,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> &
+  VariantProps<typeof cardVariants> & { outer?: boolean }) {
+  return (
+    <div
+      data-slot="card"
+      className={cn(outer ? "p-2" : "","border", className)}
+      {...props}
+    />
+  );
+}
+
+// CardHeader Component
+function CardHeaderAlt({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      data-slot="card-header"
+      className={cn("p-2 bg-muted", className)}
+      {...props}
+    />
+  );
+}
+
+// CardContent Component
+function CardContentAlt({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      data-slot="card-content"
+      className={cn("bg-background ", className)}
+      {...props}
+    />
+  );
+}
+
 // Exports
 export {
   Card,
@@ -233,4 +274,7 @@ export {
   CardTable,
   CardTitle,
   CardToolbar,
+  CardAlt,
+  CardHeaderAlt,
+  CardContentAlt,
 };
