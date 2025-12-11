@@ -1,5 +1,5 @@
 import React from "react";
-import HomeFileUpload from "@/components/file-upload/home-file-upload";
+import HomeFileUpload from "@/components/forms/transformation-anonymous";
 
 function Page() {
   return (
