@@ -1,9 +1,13 @@
 "use client";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import UplaodSections from "@/components/file-upload/file-upload";
+import UplaodSections from "@/components/forms/file-upload";
 import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/auth-client";
+import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { PiArrowLeft } from "react-icons/pi";
+import GoBackBtn from "@/components/elements/go-back-btn";
 
 function Page() {
   const { data: session, isPending } = authClient.useSession();
@@ -14,11 +18,14 @@ function Page() {
       }
     }
   }, [isPending]);
-
+  const isMobile = useIsMobile();
+  const router = useRouter();
   return (
-    <section className="h-full w-full flex items-start justify-center">
+    <section className="h-full w-full flex items-center flex-col justify-center relative">
+      <GoBackBtn divProps={{ className: "  absolute left-0 top-0" }} />
+
       {isPending ? (
-        <Skeleton className="w-1/3 h-1/4 my-auto" />
+        <Skeleton className="w-2/3 h-10/12 my-auto" />
       ) : (
         session?.session && (
           <UplaodSections

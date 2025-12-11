@@ -1,63 +1,39 @@
 "use client";
-import Loader from "@/components/loader";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { nanoid } from "nanoid";
+import Link from "next/link";
+import React from "react";
+import {
+  PiArrowSquareOut,
+  PiCopy,
+  PiPlusBold,
+  PiSpinner,
+  PiTrash,
+} from "react-icons/pi";
+import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Input,
-  InputAddon,
-  InputGroup,
-  InputWrapper,
-} from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MultiSelectCombobox } from "@/components/ui/multi-select-combobox";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import {
-  Sheet,
-  SheetBody,
-  SheetContent,
-  SheetHeader,
-} from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Textarea } from "@/components/ui/textarea";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { orpc, queryClient } from "@/utils/orpc";
-import { faker } from "@faker-js/faker";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { nanoid } from "nanoid";
-import Link from "next/link";
-import { useQueryState } from "nuqs";
-import React from "react";
-
-import {
-  PiArrowSquareOut,
-  PiCopy,
-  PiEye,
-  PiNotePencil,
-  PiPencilSimple,
-  PiPlus,
-  PiPlusBold,
-  PiSpinner,
-  PiSpinnerBold,
-  PiSpinnerGap,
-  PiTrash,
-  PiTrayArrowUp,
-  PiX,
-} from "react-icons/pi";
-import { toast } from "sonner";
 
 function Page() {
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const { data: activeOrg } = authClient.useActiveOrganization();
-  const { data: images, isPending } = useQuery(
-    orpc.protectedRoutes.queries.getAllImages.queryOptions({
+  const {
+    data: images,
+    isPending,
+    error,
+  } = useQuery(
+    orpc.protectedRoutes.queries.getOriginalImages.queryOptions({
       input: {
         orgId: activeOrg?.id as string,
       },
       enabled: !!activeOrg?.id,
-      queryKey: ["images"],
+      queryKey: ["images", "all-images"],
     }),
   );
   const [selectedImages, setSelectedImages] = React.useState<typeof images>([]);
@@ -92,73 +68,75 @@ function Page() {
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full gap-2 relative">
       <div className="col-span-full flex items-center justify-between flex-wrap gap-2 px-2">
-        <div
-          className={cn(
-            buttonVariants({ variant: "secondary", size: "sm" }),
-            "flex-row-reverse justify-between",
-          )}
-        >
-          <Label>Select All images</Label>
-          <Checkbox
-            
-            size={"xs"}
-            className={"mr-1 opacity-80"}
-            checked={selectedImages?.length === images?.length}
-            indeterminate={
-              selectedImages?.length !== images?.length &&
-              (selectedImages?.length ?? 0) > 0
-            }
-            onCheckedChange={(e) => {
-              if (e) {
-                setSelectedImages(images);
-              } else {
-                setSelectedImages([]);
-              }
-            }}
-          />
-        </div>
-
-        <div className="flex flex-wrap items-center justify-between gap-x-2 md:gap-x-4 gap-y-2">
-          {(selectedImages?.length ?? 0) > 0 && (
-            <Button
-              size={"sm"}
-              variant={"destructive"}
-              onClick={async () => {
-                deleteImageMutation.mutate(
-                  selectedImages?.map((i) => i.key) as string[],
-                );
-              }}
-              disabled={deleteImageMutation.isPending}
-            >
-              {deleteImageMutation.isPending ? (
-                <>
-                  <PiSpinner className="animate-spin" /> deleting...
-                </>
-              ) : (
-                <>
-                  <PiTrash />
-                  Delete{" "}
-                  {selectedImages?.length === images?.length
-                    ? "all"
-                    : selectedImages?.length}{" "}
-                  image
-                </>
+        <h1 className="text-2xl">Images</h1>
+        <div className="flex gap-2 flex-wrap mb-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 md:gap-x-4">
+            <div
+              className={cn(
+                buttonVariants({ variant: "dim", size: "sm" }),
+                "flex-row-reverse justify-between",
               )}
-            </Button>
-          )}
-          <Link
-            className={cn(buttonVariants({ size: "sm", variant: "secondary" }))}
-            href={"/images/new"}
-          >
-            <PiPlusBold className="size-3"/> Upload Images
-          </Link>
+            >
+              <Label className="text-sm font-medium">Select All images</Label>
+              <Checkbox
+                size={"xs"}
+                className={"mr-1 opacity-80"}
+                checked={selectedImages?.length === images?.length}
+                indeterminate={
+                  selectedImages?.length !== images?.length &&
+                  (selectedImages?.length ?? 0) > 0
+                }
+                onCheckedChange={(e) => {
+                  if (e) {
+                    setSelectedImages(images);
+                  } else {
+                    setSelectedImages([]);
+                  }
+                }}
+              />
+            </div>
+            {(selectedImages?.length ?? 0) > 0 && (
+              <Button
+                size={"sm"}
+                variant={"destructive"}
+                onClick={async () => {
+                  deleteImageMutation.mutate(
+                    selectedImages?.map((i) => i.key) as string[],
+                  );
+                }}
+                disabled={deleteImageMutation.isPending}
+              >
+                {deleteImageMutation.isPending ? (
+                  <>
+                    <PiSpinner className="animate-spin" /> deleting...
+                  </>
+                ) : (
+                  <>
+                    <PiTrash />
+                    Delete{" "}
+                    {selectedImages?.length === images?.length
+                      ? "all"
+                      : selectedImages?.length}{" "}
+                    image
+                  </>
+                )}
+              </Button>
+            )}
+            <Link
+              className={cn(buttonVariants({ size: "sm" }))}
+              href={"/images/new"}
+            >
+              <PiPlusBold className="size-3" /> Upload Images
+            </Link>
+          </div>
         </div>
       </div>
-      <Separator className={"col-span-full mb-2"} />
       {isPending
         ? Array(isMobile ? 6 : 16)
             .fill(0)
-            .map(() => <Skeleton key={nanoid()} className=" aspect-video h-full" />)
+            .map(() => (
+              <Skeleton key={nanoid()} className=" aspect-video h-full" />
+            ))
         : images?.map((item) => (
             <div key={nanoid()} className="flex flex-col border p-1 relative">
               <div
