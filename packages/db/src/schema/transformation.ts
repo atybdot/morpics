@@ -1,4 +1,10 @@
-import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from "drizzle-orm/pg-core";
 import { mimeEnum } from "./enums";
 import { image } from "./images";
 
@@ -15,7 +21,8 @@ export const transformation = pgTable("transformation", {
 });
 export const transformation_metadata = pgTable("transformation_metadata", {
   id: uuid("id").primaryKey().defaultRandom(),
-  transformationId: uuid("image_id")
+  transformationId: uuid("transformation_id")
+    .notNull()
     .references(() => transformation.id, {
       onDelete: "cascade",
     })
@@ -26,5 +33,14 @@ export const transformation_metadata = pgTable("transformation_metadata", {
   rotate: integer("rotation"),
   mimetype: mimeEnum("mimetype"),
   quality: integer("quality"),
-  filter: text("filter"),
+});
+
+export const filters = pgTable("filters", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  transformationId: uuid("transformation_id")
+    .notNull()
+    .references(() => transformation.id, { onDelete: "cascade" })
+    .unique(),
+  blur: integer("blur"),
+  grayscale: integer("grayscale"),
 });
