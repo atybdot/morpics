@@ -43,6 +43,27 @@
       "when": 1764082286899,
       "tag": "0005_green_timeslip",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1765219286332,
+      "tag": "0006_hot_the_anarchist",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1765219429752,
+      "tag": "0007_lush_johnny_blaze",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1765221908189,
+      "tag": "0008_watery_eternity",
+      "breakpoints": true
     }
   ]
 }

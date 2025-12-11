@@ -1,0 +1,1 @@
+ALTER TABLE "image_tags" ADD COLUMN "value" text NOT NULL;

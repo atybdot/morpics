@@ -1,0 +1,1 @@
+ALTER TABLE "image_tags" ALTER COLUMN "tag_id" SET DEFAULT gen_random_uuid();
