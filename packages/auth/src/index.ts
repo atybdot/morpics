@@ -10,7 +10,17 @@ import {
   oAuthProxy,
   organization,
 } from "better-auth/plugins";
-
+import DodoPayments from "dodopayments";
+import {
+  checkout,
+  dodopayments,
+  portal,
+  webhooks,
+} from "@dodopayments/better-auth";
+export const dodoPayments = new DodoPayments({
+  bearerToken: env.DODO_PAYMENTS_API_KEY,
+  environment: "test_mode", // or "live_mode" for production
+});
 export const auth = betterAuth<BetterAuthOptions>({
   appName: "morpics",
   databaseHooks: {
@@ -47,7 +57,32 @@ export const auth = betterAuth<BetterAuthOptions>({
     lastLoginMethod({ storeInDatabase: true }),
     apiKey(),
     oAuthProxy(),
+    dodopayments({
+      client: dodoPayments,
+      createCustomerOnSignUp: true,
+      use: [
+        checkout({
+          products: [
+            {
+              productId: "pdt_iCxFJZdCmRysteABIDBTf",
+              slug: "stater",
+            },
+            { productId: "pdt_tvgrl7Wwim1aNHlrUNJQi", slug: "teams" },
+          ],
+          successUrl: "/success",
+          authenticatedUsersOnly: true,
+        }),
+        portal(),
+        webhooks({
+          webhookKey: env.DODO_PAYMENTS_WEBHOOK_SECRET!,
+          onPayload: async (payload) => {
+            console.log("Received webhook:", payload?.type);
+          },
+        }),
+      ],
+    }),
   ],
+
   trustedOrigins: [env.BACKEND_URL, env.FRONTEND_URL],
   emailAndPassword: {
     enabled: false,

@@ -26,6 +26,8 @@
     "dotenv": "catalog:",
     "zod": "catalog:",
     "@morpics/db": "workspace:*",
-    "@morpics/buckets": "workspace:*"
+    "@morpics/buckets": "workspace:*",
+    "@dodopayments/better-auth": "catalog:",
+    "dodopayments": "catalog:"
   }
 }
