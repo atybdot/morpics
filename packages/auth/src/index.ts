@@ -35,11 +35,6 @@ export const auth = betterAuth<BetterAuthOptions>({
         },
       },
     },
-    user: {
-      create: {
-        after: async () => {},
-      },
-    },
   },
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -53,7 +48,7 @@ export const auth = betterAuth<BetterAuthOptions>({
     apiKey(),
     oAuthProxy(),
   ],
-  trustedOrigins: [env.CORS_ORIGIN],
+  trustedOrigins: [env.BACKEND_URL, env.FRONTEND_URL],
   emailAndPassword: {
     enabled: false,
   },
