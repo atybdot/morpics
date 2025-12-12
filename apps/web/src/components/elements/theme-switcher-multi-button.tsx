@@ -1,7 +1,11 @@
 "use client";
 
 import type React from "react";
-import { PiLaptopBold, PiMoonStarsBold, PiSunBold } from "react-icons/pi";
+import {
+  PiMonitor,
+  PiMoonStars,
+  PiSun,
+} from "react-icons/pi";
 import { useTheme } from "@/hooks/use-theme";
 
 import { cn } from "@/lib/utils";
@@ -19,15 +23,15 @@ export function ThemeSwitcherMultiButton({
   const { setTheme, theme } = useTheme();
 
   const themes = [
-    { value: "system", icon: PiLaptopBold, label: "Switch to system theme" },
-    { value: "light", icon: PiSunBold, label: "Switch to light theme" },
-    { value: "dark", icon: PiMoonStarsBold, label: "Switch to dark theme" },
+    { value: "light", icon: PiSun, label: "Switch to light theme" },
+    { value: "dark", icon: PiMoonStars, label: "Switch to dark theme" },
+    { value: "system", icon: PiMonitor, label: "Switch to system theme" },
   ];
 
   return (
     <div
       className={cn(
-        "relative isolate inline-flex items-center border p-1 w-fit",
+        "relative isolate inline-flex items-center w-fit",
         className,
       )}
       {...props}
@@ -38,13 +42,11 @@ export function ThemeSwitcherMultiButton({
           aria-label={label}
           title={label}
           type="button"
+          size={"icon"}
           variant={"ghost"}
           onClick={() => setTheme(value)}
           className="group relative transition duration-200 ease-out size-6"
         >
-          {theme === value && (
-            <div className="-z-1 absolute inset-0 bg-muted" />
-          )}
           <Icon
             className={`relative m-auto size-4 transition duration-200 ease-out ${
               theme === value

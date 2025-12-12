@@ -48,15 +48,15 @@ export default function Header() {
     <section className="bg-background sticky top-0 z-10">
       <header
         className={cn(
-          "flex flex-row items-center justify-center py-2 sm:py-4 border-b backdrop-blur-sm w-full mx-auto sticky top-0",
-          "sm:w-full sm:px-12 px-4",
+          "flex flex-row items-center justify-center border-b backdrop-blur-sm w-full mx-auto sticky top-0",
+          "sm:w-full sm:px-12 px-4 py-2 sm:py-4 ",
         )}
       >
         <NavigationMenu className={"w-full flex-1 gap-1 justify-between"}>
           <Link href={"/"} className="flex items-center justify-center gap-2">
             <SquareDashedMousePointerIcon className="size-5" />
 
-            <p className="font-semibold text-xl ring-0">morpics</p>
+            <p className="font-normal text-xl ring-0">morpics</p>
           </Link>
 
           <div className="space-x-2 items-center hidden sm:flex">
@@ -114,8 +114,7 @@ export default function Header() {
 
                 <AuthBtn showLogin={!session?.session} isPending={isPending} />
               </SheetBody>
-              <SheetFooter className="  mt-auto w-full flex items-center justify-between flex-row">
-                <ThemeSwitcherMultiButton />
+              {/* <SheetFooter className="  mt-auto w-full flex items-center justify-between flex-row">
                 <div className="space-x-2">
                   <Button
                     asChild
@@ -148,7 +147,7 @@ export default function Header() {
                     </a>
                   </Button>
                 </div>
-              </SheetFooter>
+              </SheetFooter> */}
             </SheetContent>
           </Sheet>
 

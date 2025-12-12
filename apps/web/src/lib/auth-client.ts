@@ -2,6 +2,7 @@ import type { auth } from "@morpics/auth";
 import {
   apiKeyClient,
   inferAdditionalFields,
+  lastLoginMethodClient,
   multiSessionClient,
   organizationClient,
 } from "better-auth/client/plugins";
@@ -14,6 +15,7 @@ export const authClient = createAuthClient({
   plugins: [
     inferAdditionalFields<typeof auth>(),
     organizationClient({}),
+    lastLoginMethodClient(),
     apiKeyClient(),
     multiSessionClient(),
     dodopaymentsClient(),

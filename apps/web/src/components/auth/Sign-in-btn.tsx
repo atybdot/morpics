@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { Button, type ButtonProps } from "../ui/button";
 import { useState } from "react";
+import { Badge } from "../ui/badge";
 
 function button({
   text,
@@ -67,10 +68,11 @@ function button({
       });
     },
   });
+  const lastUsed = authClient.isLastUsedLoginMethod(provider);
   return (
     <Button
       variant={success === "success" ? "success" : variant}
-      className={cn("w-full")}
+      className={cn("w-full relative")}
       size="lg"
       disabled={disabled || mutation.isPending}
       onClick={() => !disabled && mutation.mutate()}
@@ -82,7 +84,18 @@ function button({
       {success === "success" ? (
         <span>Redirecting...</span>
       ) : (
-        <span>{text}</span>
+        <>
+          <span>{text}</span>
+          {lastUsed ? (
+            <Badge
+              variant="secondary"
+              size={"xs"}
+              className="font-light mb-0 absolute top-0 right-0 "
+            >
+              last used
+            </Badge>
+          ) : null}
+        </>
       )}
     </Button>
   );

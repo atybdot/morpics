@@ -62,6 +62,7 @@ import {
 import { Skeleton } from "./skeleton";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { SquareDashedMousePointerIcon } from "lucide-react";
+import { toast } from "sonner";
 interface SidebarItembase {
   title: string;
   icon: JSX.ElementType;
@@ -74,7 +75,8 @@ type SidebarItem = SidebarItembase & {
   );
 export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
-  const { data: session, isPending } = authClient.useSession();
+  const { data: session, isPending, refetch } = authClient.useSession();
+  const router = useRouter();
   const { toggleTheme } = useTheme();
   const navItems: Record<string, SidebarItem[]> = {
     header: [
@@ -101,13 +103,13 @@ export function AppSidebar() {
       {
         as: "a",
         title: "support",
-        href: "/support",
+        href: "mailto:support@mor.pics",
         icon: PiLifebuoy,
       },
       {
         as: "a",
         title: "report",
-        href: "/report",
+        href: "mailto:report@mor.pics",
         icon: PiBugBeetle,
       },
     ],
@@ -319,7 +321,25 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem className="text-rose-400 dark:text-rose-600 hover:*:text-rose-400 dark:hover:*:text-rose-600">
-                <SidebarMenuButton title="log-out">
+                <SidebarMenuButton
+                  title="log-out"
+                  onClick={async () => {
+                    toast.promise(
+                      authClient.signOut({
+                        fetchOptions: {
+                          onSuccess: () => {
+                            router.push("/sign-in");
+                            refetch();
+                          },
+                        },
+                      }),
+                      {
+                        loading: "logging out",
+                        success: "logged out",
+                      },
+                    );
+                  }}
+                >
                   <PiSignOut /> log out
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -339,10 +359,7 @@ export function AppSidebar() {
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start justify-center flex-1 font-light gap-0.5 group-data-[state='collapsed']:hidden text-muted-foreground">
-                <p className="font-medium">
-               
-                  {session?.user.name}
-                </p>
+                <p className="font-medium">{session?.user.name}</p>
                 <p className="text-xs">{session?.user.email}</p>
               </div>
             </div>
