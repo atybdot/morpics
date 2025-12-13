@@ -1,7 +1,6 @@
 import { env } from "cloudflare:workers";
 import { createContext } from "@morpics/api/context";
 import { appRouter } from "@morpics/api/routers/index";
-import { auth } from "@morpics/auth";
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
 import { onError } from "@orpc/server";
@@ -17,14 +16,13 @@ app.use(logger());
 app.use(
   "/*",
   cors({
-    origin: [env.FRONTEND_URL, env.BACKEND_URL, env.BETTER_AUTH_URL],
-    allowMethods: ["GET", "POST", "OPTIONS"],
+    origin: [env.FRONTEND_URL, env.BACKEND_URL, env.BETTER_AUTH_URL,env.FUNCTION_URL],
+    allowMethods: ["*"],
     allowHeaders: ["Content-Type", "Authorization", "Cache-Control", "ETag"],
     credentials: true,
   }),
 );
 
-app.on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
 
 export const apiHandler = new OpenAPIHandler(appRouter, {
   plugins: [
@@ -73,6 +71,20 @@ app.use("/*", async (c, next) => {
 
 app.get("/", (c) => {
   return c.text("OK");
+});
+app.get("/:bucketId/:key", async (c) => {
+  const { bucketId, key } = c.req.param();
+  const img = await env.IMAGES.get(key);
+  if (img) {
+    return c.body(img.body, {
+      headers: {
+        "Content-Type": img.httpMetadata?.contentType as string,
+        ETag: img.httpEtag,
+        "Cache-Control": "public, max-age=60, stale-while-revalidate=3600",
+      },
+    });
+  }
+  return c.notFound();
 });
 
 export default app;

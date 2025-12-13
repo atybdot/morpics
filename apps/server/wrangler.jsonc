@@ -5,16 +5,17 @@
 	"compatibility_date": "2025-06-15",
 	"compatibility_flags": ["nodejs_compat"],
 	"vars": {
-		"NODE_ENV": "production"
+		"NODE_ENV": "production",
+		"R2_BUCKET_NAME": "morpics"
 		// Add public environment variables here
 		// Example: "CORS_ORIGIN": "https://your-domain.com"
 	},
 	"r2_buckets": [
     {
       "binding": "IMAGES",
-      "bucket_name": "morpics"
+      "bucket_name": "avatars",
+	  "preview_bucket_name": "morpics"
     },
-	{"binding": "AVATARS","bucket_name": "morpics-avatars"}
   ]
 	// For sensitive data, use:
 	// wrangler secret put SECRET_NAME
