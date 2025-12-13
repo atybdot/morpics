@@ -1,0 +1,8 @@
+# morpics image transformation server 
+the sole purpose of this server for now is to transform an image and return buffer of it using sharjs.
+
+
+### stack
+[![](https://img.shields.io/badge/@morpics%2Fsdk-%232563eb?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMi4wMzQgMTIuNjgxYS40OTguNDk4IDAgMCAxIC42NDctLjY0N2w5IDMuNWEuNS41IDAgMCAxLS4wMzMuOTQzbC0zLjQ0NCAxLjA2OGExIDEgMCAwIDAtLjY2LjY2bC0xLjA2NyAzLjQ0M2EuNS41IDAgMCAxLS45NDMuMDMzeiIvPjxwYXRoIGQ9Ik0yMSAxMVY1YTIgMiAwIDAgMC0yLTJINWEyIDIgMCAwIDAtMiAydjE0YTIgMiAwIDAgMCAyIDJoNiIvPjwvZz48L3N2Zz4=)](https://mor.pics)  
+[![](https://img.shields.io/badge/sharpjs-%2399CC00?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDE2IDE2Ij48IS0tIEljb24gZnJvbSBTdHJlYW1saW5lIEJsb2NrIGJ5IFN0cmVhbWxpbmUgLSBodHRwczovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvNC4wLyAtLT48cGF0aCBmaWxsPSJ3aGl0ZSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJtNSAxNmwuNzUtM2gyTDcgMTZoNGwuNzUtM2gxLjc1bDEtNGgtMS43NWwuNS0ySDE1bDEtNGgtMS43NUwxNSAwaC00bC0uNzUgM2gtMkw5IDBINWwtLjc1IDNIMi41bC0xIDRoMS43NWwtLjUgMkgxbC0xIDRoMS43NUwxIDE2em0yLjI1LTlsLS41IDJoMmwuNS0yeiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PC9zdmc+)](https://sharp.pixelplumbing.com/) [![](https://img.shields.io/badge/hono-orange?style=for-the-badge&logo=hono&logoColor=white)](https://hono.dev/)  [![](https://img.shields.io/badge/vercel-white?style=for-the-badge&logo=vercel&logoColor=black)](https://vercel.com)
+

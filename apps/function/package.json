@@ -1,0 +1,20 @@
+{
+  "name": "function",
+  "type": "module",
+  "dependencies": {
+    "@hono/zod-validator": "^0.7.5",
+    "@morpics/sdk": "workspace:*",
+    "@t3-oss/env-core": "catalog:",
+    "dotenv": "catalog:",
+    "hono": "catalog:",
+    "sharp": "^0.34.5",
+    "zod": "catalog:"
+  },
+  "scripts": {
+    "dev": "vc dev"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  }
+}
