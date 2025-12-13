@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "h": {
+      "type": "number",
+      "minimum": 1
+    },
+    "w": {
+      "type": "number",
+      "minimum": 1
+    },
+    "r": {
+      "type": "number"
+    },
+    "quality": {
+      "default": 80,
+      "type": "number",
+      "minimum": 10,
+      "maximum": 100
+    },
+    "format": {
+      "default": "png",
+      "type": "string",
+      "enum": [
+        "png",
+        "webp",
+        "avif",
+        "jpeg",
+        "tiff",
+        "jp2"
+      ]
+    },
+    "fit": {
+      "default": "cover",
+      "type": "string",
+      "enum": [
+        "contain",
+        "cover",
+        "fill",
+        "inside",
+        "outside"
+      ]
+    },
+    "position": {
+      "default": "center",
+      "type": "string",
+      "enum": [
+        "top",
+        "right top",
+        "right",
+        "right bottom",
+        "bottom",
+        "left bottom",
+        "left",
+        "left top",
+        "center"
+      ]
+    },
+    "blur": {
+      "type": "number",
+      "minimum": 0
+    },
+    "grayscale": {
+      "type": "boolean"
+    },
+    "keepMetadata": {
+      "default": false,
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "quality",
+    "format",
+    "fit",
+    "position",
+    "keepMetadata"
+  ],
+  "additionalProperties": false
+}

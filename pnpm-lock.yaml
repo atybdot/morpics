@@ -21,6 +21,9 @@ catalogs:
     '@orpc/zod':
       specifier: ^1.11.3
       version: 1.11.3
+    '@t3-oss/env-core':
+      specifier: ^0.13.8
+      version: 0.13.8
     '@tailwindcss/postcss':
       specifier: ^4.1.17
       version: 4.1.17
@@ -188,18 +191,12 @@ importers:
       '@hono/zod-validator':
         specifier: ^0.7.5
         version: 0.7.5(hono@4.10.6)(zod@4.1.12)
-      '@morpics/api':
+      '@morpics/sdk':
         specifier: workspace:*
-        version: link:../../packages/api
-      '@morpics/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
-      '@morpics/buckets':
-        specifier: workspace:*
-        version: link:../../packages/buckets
-      '@morpics/db':
-        specifier: workspace:*
-        version: link:../../packages/db
+        version: link:../../packages/sdk
+      '@t3-oss/env-core':
+        specifier: 'catalog:'
+        version: 0.13.8(typescript@5.9.3)(zod@4.1.12)
       dotenv:
         specifier: 'catalog:'
         version: 17.2.3
@@ -213,9 +210,6 @@ importers:
         specifier: 'catalog:'
         version: 4.1.12
     devDependencies:
-      '@morpics/config':
-        specifier: workspace:*
-        version: link:../../packages/config
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.1
@@ -246,9 +240,6 @@ importers:
       '@orpc/zod':
         specifier: 'catalog:'
         version: 1.11.3(@orpc/contract@1.11.3)(@orpc/server@1.11.3(ws@8.18.3))(ws@8.18.3)(zod@4.1.12)
-      better-auth:
-        specifier: 'catalog:'
-        version: 1.3.34(next@16.0.10(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       dotenv:
         specifier: 'catalog:'
         version: 17.2.3
@@ -569,10 +560,11 @@ importers:
         version: 0.15.12(typescript@5.9.3)(unrun@0.2.11)
 
   packages/sdk:
+    dependencies:
+      '@t3-oss/env-core':
+        specifier: 'catalog:'
+        version: 0.13.8(typescript@5.9.3)(zod@4.1.12)
     devDependencies:
-      '@morpics/db':
-        specifier: workspace:*
-        version: link:../db
       tsdown:
         specifier: ^0.16.4
         version: 0.16.6(typescript@5.9.3)

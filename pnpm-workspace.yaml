@@ -24,3 +24,4 @@ catalog:
   zod: ^4.1.12
   '@dodopayments/better-auth': ^1.4.0
   dodopayments: ^2.8.0
+  '@t3-oss/env-core': ^0.13.8
