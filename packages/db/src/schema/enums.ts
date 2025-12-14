@@ -15,3 +15,5 @@ export const imageStatusEnum = pgEnum("image_status_enum", [
   "failed",
   "orphan",
 ]);
+
+export const tierEnum = pgEnum("tier_enum", ["free", "starter", "pro"]);
