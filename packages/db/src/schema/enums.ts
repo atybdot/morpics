@@ -4,7 +4,6 @@ export const mimeEnum = pgEnum("mime_enum", [
   "image/png",
   "image/webp",
   "image/avif",
-  "image/svg+xml",
   "image/jpeg",
   "image/tiff",
   "image/jp2",
