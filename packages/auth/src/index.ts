@@ -1,7 +1,11 @@
 import { env } from "cloudflare:workers";
 import { db } from "@morpics/db";
 import * as schema from "@morpics/db/schema/auth";
-import { type BetterAuthOptions, betterAuth } from "better-auth";
+import {
+  BetterAuthError,
+  type BetterAuthOptions,
+  betterAuth,
+} from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import {
   apiKey,
@@ -23,32 +27,8 @@ export const dodoPayments = new DodoPayments({
 });
 export const auth = betterAuth<BetterAuthOptions>({
   appName: "morpics",
-  databaseHooks: {
-    session: {
-      create: {
-        before: async (useSession) => {
-          const activeOrg = await db.query.member.findFirst({
-            where: (fields, operators) =>
-              operators.eq(fields.userId, useSession.userId),
-            orderBy: (fields, operators) => operators.desc(fields.createdAt),
-            columns: { organizationId: true },
-          });
-          if (activeOrg?.organizationId !== undefined) {
-            return {
-              data: {
-                ...useSession,
-                activeOrganizationId: activeOrg.organizationId,
-              },
-            };
-          }
-          return { data: { ...useSession } };
-        },
-      },
-    },
-  },
   database: drizzleAdapter(db, {
     provider: "pg",
-
     schema: schema,
   }),
   plugins: [
@@ -74,7 +54,7 @@ export const auth = betterAuth<BetterAuthOptions>({
         }),
         portal(),
         webhooks({
-          webhookKey: env.DODO_PAYMENTS_WEBHOOK_SECRET!,
+          webhookKey: env.DODO_PAYMENTS_WEBHOOK_SECRET,
           onPayload: async (payload) => {
             console.log("Received webhook:", payload?.type);
           },
@@ -92,6 +72,10 @@ export const auth = betterAuth<BetterAuthOptions>({
       clientId: env.GITHUB_CLIENT_ID as string,
       clientSecret: env.GITHUB_CLIENT_SECRET as string,
     },
+    google:{
+      clientId:env.GOOGLE_CLIENT_ID as string,
+      clientSecret:env.GOOGLE_CLIENT_SECRET as string
+    }
   },
   // uncomment cookieCache setting when ready to deploy to Cloudflare using *.workers.dev domains
   session: {
@@ -114,5 +98,55 @@ export const auth = betterAuth<BetterAuthOptions>({
     //   enabled: true,
     //   domain: "<your-workers-subdomain>",
     // },
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user, context) => {
+          try {
+            const newUserData = await db
+              .update(schema.user)
+              .set({ activeTier: "free" })
+              .returning();
+            return {
+              data: {
+                ...user,
+                ...newUserData,
+                context,
+              },
+            };
+          } catch (error) {
+            if (error instanceof Error) {
+              throw new BetterAuthError(
+                "Unable to create user",
+                error?.message,
+              );
+            }
+            throw new BetterAuthError("unable to create user");
+          }
+        },
+      },
+    },
+    session: {
+      create: {
+        before: async (useSession) => {
+          const activeOrg = await db.query.member.findFirst({
+            where: (fields, operators) =>
+              operators.eq(fields.userId, useSession.userId),
+            orderBy: (fields, operators) => operators.desc(fields.createdAt),
+            columns: { organizationId: true },
+          });
+          if (activeOrg?.organizationId !== undefined) {
+            return {
+              data: {
+                ...useSession,
+                activeOrganizationId: activeOrg.organizationId,
+              },
+            };
+          }
+          return { data: { ...useSession } };
+        },
+      },
+    },
   },
 });
