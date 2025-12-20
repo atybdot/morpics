@@ -19,9 +19,8 @@ app.use(
 );
 
 app.on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
-
-app.get("/", (c) => {
-  return c.text("OK");
+app.all("/success", (c) => {
+  return c.redirect(`${env.FRONTEND_URL}/dashboard`);
 });
 
 export default app;
