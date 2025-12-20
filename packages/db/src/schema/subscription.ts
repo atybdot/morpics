@@ -1,5 +1,17 @@
-import { boolean, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { user } from "./auth";
+import {
+  boolean,
+  integer,
+  jsonb,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
+import { organization, user } from "./auth";
+import { nanoid } from "nanoid";
+type SeatEntry = {
+  orgId: typeof organization.$inferSelect["id"];
+  members: number;
+};
 
 export const subscription = pgTable("subscription", {
   id: text("id").primaryKey(),
@@ -19,18 +31,48 @@ export const subscription = pgTable("subscription", {
 });
 
 export const usage = pgTable("usage", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$default(() => nanoid()),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   transformations: integer("transformations").default(0).notNull(),
   storage: integer("storage").default(0).notNull(),
-  bandwidth: integer("bandwidth").default(0).notNull(),
   cache: integer("cache").default(0).notNull(),
-  cycleStart: timestamp("cycle_start").notNull(),
-  cycleEnd: timestamp("cycle_end").notNull(),
+  buckets: integer("buckets").default(0).notNull(),
+  seats: jsonb("seats")
+    .$type<SeatEntry[]>()
+    .default([])
+    .notNull(),
+  bandwidth: integer("bandwidth").default(0).notNull(),
+
+  cycleStart: timestamp("cycle_start").notNull().defaultNow(),
+  cycleEnd: timestamp("cycle_end")
+    .$defaultFn(() => {
+      const date = new Date();
+      date.setMonth(date.getMonth() + 1);
+      return date;
+    })
+    .notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
     .$onUpdate(() => new Date())
     .notNull(),
 });
+
+// Extract metric columns - these are the trackable usage metrics
+export const USAGE_METRIC_KEYS = [
+  "transformations",
+  "storage",
+  "cache",
+  "buckets",
+  "seats",
+  "bandwidth",
+] as const satisfies ReadonlyArray<keyof typeof usage.$inferSelect>;
+
+export const USAGE_FIELDS = Object.fromEntries(
+  USAGE_METRIC_KEYS.map((key) => [key, usage[key]]),
+) 
+
+export type UsageMetricKey = (typeof USAGE_METRIC_KEYS)[number];

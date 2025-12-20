@@ -1,18 +1,21 @@
+import { env } from "process";
 import { tierEnum } from "./enums";
-interface Item {
+import type { UsageMetricKey } from "./subscription";
+
+export interface Item {
   allowed: number;
   unit: string | undefined;
   label: string;
 }
-interface Package {
-  transformations: Item;
-  storage: Item;
-  cache: Item;
-  seats: Item;
-  bandwidth: Item;
-}
-interface Tier {
+
+// Package type is now tightly coupled to usage metrics
+export type Package = {
+  [K in UsageMetricKey]: Item;
+};
+
+export interface Tier {
   slug: (typeof tierEnum.enumValues)[keyof typeof tierEnum.enumValues];
+  id: string;
   price: number;
   discount: number;
   package: Package;
@@ -20,6 +23,7 @@ interface Tier {
 
 const FREE: Tier = {
   slug: "free",
+  id: "free",
   price: 0,
   discount: 0,
   package: {
@@ -38,6 +42,11 @@ const FREE: Tier = {
       unit: "gb",
       label: "cache storage",
     },
+    buckets: {
+      allowed: 1,
+      unit: "",
+      label: "buckets",
+    },
     seats: {
       allowed: 1,
       unit: undefined,
@@ -52,7 +61,8 @@ const FREE: Tier = {
 };
 
 const STARTER: Tier = {
-  slug: "free",
+  slug: "starter",
+  id: env.STARTER_ID,
   price: 10,
   discount: 20,
   package: {
@@ -71,6 +81,11 @@ const STARTER: Tier = {
       unit: "gb",
       label: "cache storage",
     },
+    buckets: {
+      allowed: 3,
+      unit: "",
+      label: "buckets",
+    },
     seats: {
       allowed: 5,
       unit: undefined,
@@ -88,6 +103,7 @@ const PRO: Tier = {
   slug: "pro",
   price: 25,
   discount: 20,
+  id: env.PRO_ID,
   package: {
     transformations: {
       allowed: 15,
@@ -104,6 +120,11 @@ const PRO: Tier = {
       unit: "gb",
       label: "cache storage",
     },
+    buckets: {
+      allowed: 10,
+      unit: "",
+      label: "buckets",
+    },
     seats: {
       allowed: 20,
       unit: undefined,
@@ -117,4 +138,6 @@ const PRO: Tier = {
   },
 };
 
-export const PRICING_TABLE = { FREE, STARTER, PRO };
+export const PRICING_TABLE = { free: FREE, starter: STARTER, pro: PRO };
+export type UserTier = keyof typeof PRICING_TABLE;
+export const userTier = tierEnum.enumValues;

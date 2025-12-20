@@ -12,7 +12,7 @@ export const updateInfoSchema = z.object({
   imgId: z.string().uuid("Invalid image ID"),
   key: z.string().min(1, "Key must not be empty").optional(),
   fileName: metadataInsertSchema.shape.fileName,
-  altTxt: z.string().optional().default(""),
+  altTxt: z.string().optional(),
   tags: z
     .array(
       z.object({

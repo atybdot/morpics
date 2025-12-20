@@ -71,6 +71,55 @@
       "when": 1765742169693,
       "tag": "0009_volatile_thunderbird",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1765744215053,
+      "tag": "0010_deep_boom_boom",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1765744528813,
+      "tag": "0011_thin_phil_sheldon",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1765744578572,
+      "tag": "0012_third_dreaming_celestial",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1765824319398,
+      "tag": "0013_awesome_squirrel_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1766183405383,
+      "tag": "0014_yellow_xorn",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1766185002126,
+      "tag": "0015_yellow_exiles",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1766262228546,
+      "tag": "0016_far_misty_knight",
+      "breakpoints": true
     }
   ]
 }

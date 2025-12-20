@@ -30,7 +30,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:pull": "drizzle-kit pull",
-    "db:backfill": "pnpm dlx tsx scripts/backfill-buckets.ts"
+    "db:bundle":"drizzle-kit generate && drizzle-kit migrate && tsdown"
   },
   "devDependencies": {
     "@morpics/config": "workspace:*",

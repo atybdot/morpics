@@ -1,0 +1,1 @@
+ALTER TABLE "usage" ALTER COLUMN "id" SET DEFAULT 'qr1ntB0WTMBG-Osajw4qd';

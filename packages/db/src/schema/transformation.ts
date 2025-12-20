@@ -1,4 +1,5 @@
 import {
+  boolean,
   integer,
   pgTable,
   text,
@@ -13,7 +14,9 @@ export const transformation = pgTable("transformation", {
   imageId: uuid("image_id")
     .notNull()
     .references(() => image.id, { onDelete: "cascade" }),
-  cache_key: text("cache_key"),
+  key: text("img_key").notNull(),
+  bucket: text("bucket_slug").notNull(),
+  transformation_query: text("transformation_query").notNull(),
 
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
@@ -37,10 +40,10 @@ export const transformation_metadata = pgTable("transformation_metadata", {
 
 export const filters = pgTable("filters", {
   id: uuid("id").primaryKey().defaultRandom(),
-  transformationId: uuid("transformation_id")
+  transformationMetadataId: uuid("transformation_metadata_id")
     .notNull()
-    .references(() => transformation.id, { onDelete: "cascade" })
+    .references(() => transformation_metadata.id, { onDelete: "cascade" })
     .unique(),
   blur: integer("blur"),
-  grayscale: integer("grayscale"),
+  grayscale: boolean("grayscale"),
 });

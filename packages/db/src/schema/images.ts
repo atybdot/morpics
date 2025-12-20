@@ -16,9 +16,9 @@ export const image = pgTable("images", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  orgId: text("organization_id")
+  bucket_slug: text("bucket_slug")
     .notNull()
-    .references(() => organization.id, { onDelete: "cascade" }),
+    .references(() => organization.slug, { onDelete: "cascade" }),
 
   uploadingStatus: imageStatusEnum("status").notNull().default("pending"),
   createdAt: timestamp("created_at", { withTimezone: true })
@@ -85,8 +85,8 @@ export const imageRelations = relations(image, ({ one, many }) => ({
     references: [user.id],
   }),
   organization: one(organization, {
-    fields: [image.orgId],
-    references: [organization.id],
+    fields: [image.bucket_slug],
+    references: [organization.slug],
   }),
 }));
 
