@@ -20,6 +20,10 @@
     "./utils": {
       "types": "./dist/utils.d.ts",
       "default": "./src/utils.ts"
+    },
+    "./upload-file-config": {
+      "types": "./dist/upload-file-config.d.ts",
+      "default": "./src/upload-file-config.ts"
     }
   },
   "type": "module",
