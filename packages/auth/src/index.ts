@@ -1,17 +1,15 @@
 import { env } from "cloudflare:workers";
 import { db } from "@morpics/db";
 import * as schema from "@morpics/db/schema/auth";
-import {
-  BetterAuthError,
-  type BetterAuthOptions,
-  betterAuth,
-} from "better-auth";
+import z from "zod";
+import { betterAuth, BetterAuthError } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import {
   apiKey,
+  customSession,
   lastLoginMethod,
   multiSession,
-  oAuthProxy,
+  openAPI,
   organization,
 } from "better-auth/plugins";
 import DodoPayments from "dodopayments";
@@ -21,22 +19,131 @@ import {
   portal,
   webhooks,
 } from "@dodopayments/better-auth";
+import { PRICING_TABLE, type UserTier } from "@morpics/db/schema/constants";
+import { usageHelpers } from "@morpics/db/helpers/usage";
+import { getOrgOwner } from "@morpics/db/helpers/index";
+import { tierEnum } from "@morpics/db/schema";
+import { drizzle } from "@morpics/db/dirzzle";
 export const dodoPayments = new DodoPayments({
   bearerToken: env.DODO_PAYMENTS_API_KEY,
-  environment: "test_mode", // or "live_mode" for production
+  environment: env.NODE_ENV !== "dev" ? "live_mode" : "test_mode",
 });
-export const auth = betterAuth<BetterAuthOptions>({
+export const auth = betterAuth({
   appName: "morpics",
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: schema,
   }),
   plugins: [
-    organization(),
+    customSession(async ({ user }) => {
+      const [activeTier, usage, session] = await Promise.all([
+        db.query.user.findFirst({
+          where: (f, o) => o.eq(f.id, user.id),
+          columns: { activeTier: true },
+        }),
+        db.query.usage.findFirst({
+          where: (f, o) => o.eq(f.userId, user.id),
+        }),
+        db.query.session.findFirst({
+          where: (f, o) =>
+            o.and(o.eq(f.userId, user.id), o.gte(f.expiresAt, new Date())),
+          orderBy: (f, o) => o.desc(f.createdAt),
+        }),
+      ]);
+      const activeOrg = await db.query.organization.findFirst({
+        where: (f, o) => o.eq(f.id, session?.activeOrganizationId ?? ""),
+      });
+      return { user: { ...user, ...activeTier }, session, usage, activeOrg };
+    }),
+    openAPI(),
+    organization({
+      allowUserToCreateOrganization: async (user) => {
+        const userTier = (user.activeTier ??
+          "free") as keyof typeof PRICING_TABLE;
+        return await usageHelpers.canUse({
+          userId: user.id,
+          metric: "buckets",
+          userTier,
+        });
+      },
+      organizationHooks: {
+        afterCreateOrganization: async ({ user, organization }) => {
+          await Promise.all([
+            usageHelpers.incrementMetric({
+              userId: user.id,
+              metric: "buckets",
+            }),
+            usageHelpers.incrementMetric({
+              userId: user.id,
+              metric: "seats",
+              orgId: organization.id,
+            }),
+          ]);
+        },
+
+        beforeCreateInvitation: async (data) => {
+          const owner = await getOrgOwner(data.organization.id).catch((err) => {
+            if (err instanceof Error) {
+              throw new BetterAuthError(err.message);
+            }
+            throw new BetterAuthError("unable to retrieve owner details");
+          });
+
+          const ownerActiveTier = owner?.user?.activeTier ?? "free";
+
+          const canAddMember = await usageHelpers.checkOrgSeatsLimit({
+            userId: owner.user.id,
+            orgId: data.organization.id,
+            userTier: ownerActiveTier,
+          });
+
+          if (!canAddMember) {
+            throw new BetterAuthError(
+              `Your ${ownerActiveTier} plan only allows up to ${PRICING_TABLE[ownerActiveTier].package.seats.allowed} members per organization. Please upgrade to add more.`,
+            );
+          }
+        },
+        beforeAddMember: async (data) => {
+          const owner = await getOrgOwner(data.organization.id).catch((err) => {
+            if (err instanceof Error) {
+              throw new BetterAuthError(err.message);
+            }
+            throw new BetterAuthError("unable to retrieve owner details");
+          });
+
+          const ownerActiveTier = owner?.user?.activeTier ?? "free";
+          // Check if owner can add more members to this org
+          const canAddMember = await usageHelpers.checkOrgSeatsLimit({
+            userId: owner.user.id,
+            orgId: data.organization.id,
+            userTier: ownerActiveTier,
+          });
+
+          if (!canAddMember) {
+            throw new BetterAuthError(
+              `Your ${ownerActiveTier} plan only allows up to ${PRICING_TABLE[ownerActiveTier].package.seats.allowed} members per organization. Please upgrade to add more.`,
+            );
+          }
+        },
+        afterAddMember: async (data) => {
+          const owner = await getOrgOwner(data.organization.id).catch((err) => {
+            if (err instanceof Error) {
+              throw new BetterAuthError(err.message);
+            }
+            throw new BetterAuthError("unable to retrieve owner details");
+          });
+          await usageHelpers.incrementMetric({
+            userId: owner.user.id,
+            metric: "seats",
+            orgId: data.organization.id,
+          });
+        },
+      },
+    }),
     multiSession(),
     lastLoginMethod({ storeInDatabase: true }),
     apiKey(),
-    oAuthProxy(),
+    // oAuthProxy(),
     dodopayments({
       client: dodoPayments,
       createCustomerOnSignUp: true,
@@ -44,10 +151,10 @@ export const auth = betterAuth<BetterAuthOptions>({
         checkout({
           products: [
             {
-              productId: "pdt_iCxFJZdCmRysteABIDBTf",
-              slug: "stater",
+              productId: PRICING_TABLE.pro.id,
+              slug: "pro",
             },
-            { productId: "pdt_tvgrl7Wwim1aNHlrUNJQi", slug: "teams" },
+            { productId: PRICING_TABLE.starter.id, slug: "starter" },
           ],
           successUrl: "/success",
           authenticatedUsersOnly: true,
@@ -55,8 +162,60 @@ export const auth = betterAuth<BetterAuthOptions>({
         portal(),
         webhooks({
           webhookKey: env.DODO_PAYMENTS_WEBHOOK_SECRET,
+          // #TODO when planChange/expire notify users if they are using more than allocated resources, like overflow of storage cache bandwidth etc...
+          // # TODO better move to metered billing in dodpayments
           onPayload: async (payload) => {
-            console.log("Received webhook:", payload?.type);
+            const hasReferenceId = (
+              d: unknown,
+            ): d is { metadata?: { referenceId?: string } } =>
+              typeof d === "object" && d !== null && "metadata" in d;
+
+            const referenceId = hasReferenceId(payload.data)
+              ? payload.data.metadata?.referenceId
+              : "";
+
+            if (!referenceId) {
+              console.error(
+                "[WEBHOOK] Missing referenceId in payload:",
+                payload.type,
+              );
+              return;
+            }
+
+            const tier = (Object.entries(PRICING_TABLE).find(
+              //@ts-expect-error it will be there when webhook is received
+              ([_, t]) => t.id === payload.data?.product_id,
+            )?.[0] ?? "free") as UserTier;
+
+            switch (payload.type) {
+              case "subscription.active":
+              case "subscription.renewed": {
+                await db
+                  .update(schema.user)
+                  .set({ activeTier: tier })
+                  .where(drizzle.eq(schema.user.id, referenceId));
+                break;
+              }
+              case "subscription.expired":
+              case "subscription.on_hold":
+              case "refund.succeeded": {
+                await db
+                  .update(schema.user)
+                  .set({ activeTier: "free" })
+                  .where(drizzle.eq(schema.user.id, referenceId));
+                break;
+              }
+              case "subscription.plan_changed": {
+                const new_tier = (Object.entries(PRICING_TABLE).find(
+                  ([_, t]) => t.id === payload.data?.product_id,
+                )?.[0] ?? "free") as UserTier;
+                await db
+                  .update(schema.user)
+                  .set({ activeTier: new_tier })
+                  .where(drizzle.eq(schema.user.id, referenceId));
+                break;
+              }
+            }
           },
         }),
       ],
@@ -72,10 +231,10 @@ export const auth = betterAuth<BetterAuthOptions>({
       clientId: env.GITHUB_CLIENT_ID as string,
       clientSecret: env.GITHUB_CLIENT_SECRET as string,
     },
-    google:{
-      clientId:env.GOOGLE_CLIENT_ID as string,
-      clientSecret:env.GOOGLE_CLIENT_SECRET as string
-    }
+    google: {
+      clientId: env.GOOGLE_CLIENT_ID as string,
+      clientSecret: env.GOOGLE_CLIENT_SECRET as string,
+    },
   },
   // uncomment cookieCache setting when ready to deploy to Cloudflare using *.workers.dev domains
   session: {
@@ -99,30 +258,40 @@ export const auth = betterAuth<BetterAuthOptions>({
     //   domain: "<your-workers-subdomain>",
     // },
   },
+  user: {
+    additionalFields: {
+      activeTier: {
+        defaultValue: "free",
+        required: true,
+        type: "string",
+        fieldName: "active_tier",
+        validator: {
+          input: z.enum(tierEnum.enumValues),
+        },
+      },
+    },
+  },
   databaseHooks: {
     user: {
       create: {
-        before: async (user, context) => {
+        before: async (user) => {
+          return {
+            data: {
+              ...user,
+              activeTier: "free",
+            },
+          };
+        },
+        after: async (user) => {
           try {
-            const newUserData = await db
-              .update(schema.user)
-              .set({ activeTier: "free" })
-              .returning();
-            return {
-              data: {
-                ...user,
-                ...newUserData,
-                context,
-              },
-            };
+            // Initialize usage record for new user
+            await usageHelpers.getUsage(user.id);
           } catch (error) {
-            if (error instanceof Error) {
-              throw new BetterAuthError(
-                "Unable to create user",
-                error?.message,
-              );
-            }
-            throw new BetterAuthError("unable to create user");
+            console.error(
+              "[ERROR] Failed to create usage record for user:",
+              user.id,
+              error,
+            );
           }
         },
       },
