@@ -8,6 +8,10 @@
     "./*": {
       "types": "./dist/*.d.ts",
       "default": "./src/*.ts"
+    },
+    "./schema": {
+      "types": "./dist/schema",
+      "default": "./dist/schema.ts"
     }
   },
   "type": "module",

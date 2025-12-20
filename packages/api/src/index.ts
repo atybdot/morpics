@@ -1,7 +1,17 @@
 import { ORPCError, os } from "@orpc/server";
 import type { Context } from "./context";
 
-export const o = os.$context<Context>();
+import z from "zod";
+import type { UsageMetricKey } from "@morpics/db/schema";
+
+export const o = os.$context<Context>().errors({
+  QUOTA_EXHAUST: {
+    data: z.object({
+      metric: z.custom<UsageMetricKey>(),
+    }),
+    status: 403,
+  },
+});
 
 export const publicProcedure = o;
 
