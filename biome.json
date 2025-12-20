@@ -82,6 +82,9 @@
         "noInferrableTypes": "info",
         "noUselessElse": "info",
         "useImportType": "off"
+      },
+      "performance": {
+        "noImgElement": "off"
       }
     }
   },
