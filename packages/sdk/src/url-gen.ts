@@ -4,17 +4,18 @@ import {
 } from "./schema";
 
 interface props {
-  bucketId: string;
+  bucket: string;
   imageKey: string;
 }
 
 export class URLBuilder {
   private transformation: Partial<TransformationQuerySchema> = {};
   private imageKey;
-  private bucketId;
-  private API_ENDPOINT = process.env.API_ENDPOINT!;
-  constructor({ bucketId, imageKey }: props) {
-    this.bucketId = bucketId;
+  private bucketSlug;
+  //@ts-expect-error
+  private API_ENDPOINT = import.meta?.env.PUBLIC_API_ENDPOINT as string;
+  constructor({ bucket, imageKey }: props) {
+    this.bucketSlug = bucket;
     this.imageKey = imageKey;
     if (this.API_ENDPOINT === undefined || !this.API_ENDPOINT) {
       throw new Error("No API_ENDPOINT found");
@@ -30,7 +31,7 @@ export class URLBuilder {
     return this;
   }
 
-  public format(format: TransformationQuerySchema["format"]) {
+  public type(format: TransformationQuerySchema["format"]) {
     this.transformation.format = format;
     return this;
   }
@@ -75,12 +76,31 @@ export class URLBuilder {
       }
     }
     const url = new URL(this.API_ENDPOINT);
-    url.pathname = `${this.bucketId}/${this.imageKey}`;
+    url.pathname = `${this.bucketSlug}/${this.imageKey}`;
+    url.search = new URLSearchParams(params).toString();
+    return url.href;
+  }
+
+  public format(data: TransformationQuerySchema) {
+    const params: Record<string, string> = {};
+
+    if (data) {
+      for (const [key, value] of Object.entries(data)) {
+        if (value === undefined || value === null) continue;
+        if (typeof value === "object") {
+          params[key] = JSON.stringify(value);
+        } else {
+          params[key] = String(value);
+        }
+      }
+    }
+    const url = new URL(this.API_ENDPOINT);
+    url.pathname = `${this.bucketSlug}/${this.imageKey}`;
     url.search = new URLSearchParams(params).toString();
     return url.href;
   }
 }
 
 export function generateUrl(args: props): URLBuilder {
-  return new URLBuilder({ bucketId: args.bucketId, imageKey: args.imageKey });
+  return new URLBuilder({ bucket: args.bucket, imageKey: args.imageKey });
 }

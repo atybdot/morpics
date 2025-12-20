@@ -38,7 +38,7 @@ export const transformationQuerySchema = z.object({
 export type TransformationQuerySchema = z.infer<
   typeof transformationQuerySchema
 >;
-export const TransformationQueryJSONSchema = z.toJSONSchema(
-  transformationQuerySchema,
-  { target: "draft-7" },
-);
+// export const TransformationQueryJSONSchema = z.toJSONSchema(
+//   transformationQuerySchema,
+//   { target: "draft-7" },
+// );

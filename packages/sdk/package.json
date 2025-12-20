@@ -12,6 +12,7 @@
   "types": "./dist/index.d.mts",
   "exports": {
     ".": "./dist/index.mjs",
+    "./transformationQuerySchema": "./dist/transformationQuerySchema.mjs",
     "./package.json": "./package.json"
   },
   "scripts": {
