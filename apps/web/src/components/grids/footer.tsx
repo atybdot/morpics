@@ -1,13 +1,13 @@
+/** biome-ignore-all lint/performance/noImgElement: <explanation> */
 import React from "react";
 import { ThemeSwitcherMultiButton } from "../elements/theme-switcher-multi-button";
 import Link from "next/link";
-import { SquareDashedMousePointerIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
 import { nanoid } from "nanoid";
-import { PiCopyright } from "react-icons/pi";
-import { Separator } from "../ui/separator";
-import { ThemeSwitcherButton } from "../elements/theme-switcher-button";
+import { PiGithubLogo, PiGlobe, PiXLogo, PiXLogoLight } from "react-icons/pi";
+
+import { Logo } from "../elements/logo";
 
 interface FooterLinkItem {
   label: string;
@@ -47,22 +47,20 @@ function Footer() {
       ],
     },
   ];
+  const links = [
+    { icon: PiGlobe, href: "https://atyb.me" },
+    { icon: PiGithubLogo, href: "https://github.com/atybdot" },
+    { icon: PiXLogo, href: "https://x.com/atybdot" },
+  ];
   return (
-    <footer className="relative">
+    <footer className=" relative bg-background">
       <section className="sm:w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-y-4 sm:pt-12 pb-2 sm:px-12 px-4 max-w-6xl mx-auto">
-        <div className="flex flex-col items-start justify-start my-4 md:my-0 cursor-default sm:col-span-2 md:col-span-1">
-          <Link
-            href={"/"}
-            className="flex items-center justify-center gap-2 mb-2"
-          >
-            <SquareDashedMousePointerIcon className="size-5" />
-
-            <p className="font-normal text-xl ring-0">morpics</p>
-          </Link>
-          <p className="flex items-center text-sm text-muted-foreground font-light max-w-10/12">
-            URL-powered image transformations.
+        <div className="flex flex-col items-start justify-start my-8 py-8 md:py-0 md:my-0 cursor-default sm:col-span-2 md:col-span-1 space-y-3">
+          <Logo className="mb-2"/>
+          <p className="flex items-center text-sm text-muted-foreground font-light">
+            URL-powered image manipulations.
           </p>
-          <div className="text-sm opacity-60 text-muted-foreground mt-2">
+          <div className="text-xs opacity-60 text-muted-foreground font-normal">
             All rights reserved © {new Date().getFullYear()}
           </div>
         </div>
@@ -92,7 +90,7 @@ function Footer() {
             </div>
           );
         })}
-        <div className="pb-2 self-end">
+        <div className="pb-2 self-end col-span-full">
           <ThemeSwitcherMultiButton className="w-full" />
           <div className="text-xs text-muted-foreground text-center flex items-end justify-start gap-2 py-2 group">
             <span>built by</span>
@@ -108,6 +106,19 @@ function Footer() {
               />
               <span className="">atyb</span>
             </Link>
+            <div className="flex-1 flex gap-4 justify-end">
+              {links.map((link) => (
+                <a
+                  className="hover:text-foreground duration-200 ease-in-out transition-all"
+                  target="_blank"
+                  rel="noopener"
+                  href={link.href}
+                  key={nanoid()}
+                >
+                  <link.icon className="size-4" />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -102,7 +102,6 @@ export default function NewBucketForm() {
       });
     },
   });
-  const isMobile = useIsMobile();
   return (
     <form
       id="create-bucket-form"
@@ -119,7 +118,6 @@ export default function NewBucketForm() {
               form.setFieldValue("slug", toSlug(value));
             },
           }}
-          // biome-ignore lint/correctness/noChildrenProp: <explanation>
           children={(field) => {
             const isInvalid =
               field.state.meta.isTouched && !field.state.meta.isValid;

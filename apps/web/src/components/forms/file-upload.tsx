@@ -26,6 +26,7 @@ import z from "zod";
 import {
   PiImageSquare,
   PiMagnifyingGlassPlus,
+  PiPencilSimple,
   PiTrash,
   PiTrashSimple,
   PiTrayArrowUp,
@@ -40,7 +41,7 @@ interface GalleryUploadProps {
   multiple?: boolean;
   className?: string;
   onFilesChange?: (files: FileWithPreview[]) => void;
-  reqMetadata: { orgId: string; userId: string };
+  reqMetadata: { bucketId: string; userId: string; bucket: string };
 }
 
 export const uploadFilesSchema = z.object({
@@ -91,10 +92,11 @@ export default function UploadImagesForm({
     mutationFn: async (filesToUpload: FileWithPreview[]) => {
       abortControllerRef.current = new AbortController();
       // Generate presigned URLs
-      const urls = await orpc.protectedRoutes.mutations.getPreSignedUrl.call(
+      const urls = await orpc.images.getPreSignedUrl.call(
         {
           keys: filesToUpload.map((f) => f.file.name),
-          orgId: reqMetadata.orgId,
+          bucketId: reqMetadata.bucketId,
+          bucket: reqMetadata.bucket,
         },
         { signal: abortControllerRef.current?.signal },
       );
@@ -102,7 +104,9 @@ export default function UploadImagesForm({
       // Upload all files in parallel
       const uploadResults = await Promise.allSettled(
         urls.map(async (url) => {
-          const file = filesToUpload.find((fl) => fl.file.name === url.key);
+          const file = filesToUpload.find(
+            (fl) => `${reqMetadata.bucket}/${fl.file.name}` === url.key,
+          );
 
           if (!file) {
             throw new Error(`File not found for key: ${url.key}`);
@@ -115,33 +119,33 @@ export default function UploadImagesForm({
           })
             .catch(async (err) => {
               toast.error(err?.message);
-              await orpc.protectedRoutes.mutations.mutateStatusSingle.call(
+              await orpc.images["update-status"].call(
                 {
                   imageKey: url.key,
                   status: "failed",
+                  size: file.file.size,
                 },
                 { signal: abortControllerRef.current?.signal },
               );
             })
-            .then(async (res) => {
-              const imgid =
-                await orpc.protectedRoutes.mutations.mutateStatusSingle.call({
-                  imageKey: url.key,
-                  status: "success",
-                });
+            .then(async () => {
+              const imgid = await orpc.images["update-status"].call({
+                imageKey: url.key,
+                status: "success",
+                size: file.file.size,
+              });
               try {
                 const img = new Image();
                 img.src = file.preview as string;
                 img.onload = async () => {
-                  const updateImageInfo =
-                    await orpc.protectedRoutes.mutations.ceateImgInfo.call({
-                      fileName: file.file.name,
-                      fileSize: file.file.size,
-                      mimeType: file.file.type as any,
-                      height: img.naturalHeight,
-                      width: img.naturalWidth,
-                      imageId: imgid[0].id,
-                    });
+                  const updateImageInfo = await orpc.images.createInfo.call({
+                    fileName: file.file.name,
+                    fileSize: file.file.size,
+                    mimeType: file.file.type as any,
+                    height: img.naturalHeight,
+                    width: img.naturalWidth,
+                    imageId: imgid[0].id,
+                  });
                   console.log("[IMAGE INFO ADDED]: ", updateImageInfo);
                 };
               } catch (er) {
@@ -182,16 +186,16 @@ export default function UploadImagesForm({
         e.preventDefault();
       }}
       className={cn(
-        "w-full my-auto max-w-2xl space-y-4 bg-background p-2 border ",
+        "my-auto max-w-2xl space-y-4 bg-background p-2 ",
         className,
       )}
     >
-      <div className="w-full my-auto max-w-2xl space-y-4 bg-background p-2 border ">
+      <div className="my-auto max-w-2xl space-y-4 bg-background p-2 border ">
         {/* Upload Area */}
         {files.length < 1 && (
           <div
             className={cn(
-              "relative border border-dashed p-8 m-auto text-center transition-colors max-w-2xl",
+              "relative border border-dashed p-8 m-auto text-center transition-colors max-w-sm",
               isDragging
                 ? "border-primary bg-primary/5"
                 : "border-muted-foreground/25 hover:border-muted-foreground/50",
@@ -223,7 +227,7 @@ export default function UploadImagesForm({
                 <p className="text-sm text-muted-foreground">
                   Drag and drop images here
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground text-balance ">
                   PNG, JPG, GIF up to {formatBytes(maxSize)} each (max{" "}
                   {maxFiles} files)
                 </p>
@@ -238,8 +242,8 @@ export default function UploadImagesForm({
         )}
         {/* Gallery Stats */}
         {files.length > 0 && (
-          <div className="flex items-center justify-between text-xs sm:text-sm ">
-            <div className="flex items-center gap-1 ">
+          <div className="flex items-center justify-between text-xs sm:text-sm px-1 mb-2 ">
+            <div className="flex flex-col items-start gap-1 ">
               <h4 className=" font-medium">
                 Gallery ({files.length}/{maxFiles})
               </h4>
@@ -267,7 +271,7 @@ export default function UploadImagesForm({
         {/* Image Grid */}
         {files.length > 0 && (
           <ScrollArea
-            className={"max-h-[calc(100vh-12rem)] overflow-scroll bg-secondary"}
+            className={"max-h-[calc(100vh-16rem)] overflow-scroll bg-secondary"}
           >
             <div
               className={cn(
@@ -300,7 +304,16 @@ export default function UploadImagesForm({
                     {/* Overlay */}
                     <div className="flex items-center justify-end gap-1">
                       {/* Edit metadata button */}
-
+                      
+                         <Button
+                          title="change filename"
+                          onClick={() => setSelectedImage(fileItem)}
+                          variant="secondary"
+                          size="icon"
+                          className="size-7"
+                        >
+                          <PiPencilSimple />
+                        </Button>
                       {/* View Button */}
                       {fileItem.preview && (
                         <Button

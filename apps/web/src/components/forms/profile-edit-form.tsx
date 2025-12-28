@@ -1,13 +1,13 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { Loader, RotateCcwIcon, Upload, User } from "lucide-react";
+import { RotateCcwIcon, Upload, User } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Field, FieldError } from "@/components/ui/field";
 import {
   Input,
   InputAddon,
@@ -15,9 +15,8 @@ import {
   InputWrapper,
 } from "@/components/ui/input";
 import { useFileUpload } from "@/hooks/use-file-upload";
-import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
-import { PiLock, PiSpinner } from "react-icons/pi";
+import { PiSpinner } from "react-icons/pi";
 
 const profileSchema = z.object({
   name: z
@@ -36,29 +35,19 @@ export default function ProfileEditForm({
     session.user?.image ?? "",
   );
 
-  const [
-    { files, isDragging, errors },
-    {
-      removeFile,
-      handleDragEnter,
-      handleDragLeave,
-      handleDragOver,
-      handleDrop,
-      openFileDialog,
-      getInputProps,
-    },
-  ] = useFileUpload({
-    maxFiles: 1,
-    maxSize: 5 * 1024 * 1024, // 5MB
-    accept: "image/*",
-    multiple: false,
-    onFilesChange: (newFiles) => {
-      if (newFiles.length > 0 && newFiles[0].preview) {
-        setAvatarPreview(newFiles[0].preview);
-        form.setFieldValue("avatar", newFiles[0].preview);
-      }
-    },
-  });
+  const [{ files, errors }, { removeFile, openFileDialog, getInputProps }] =
+    useFileUpload({
+      maxFiles: 1,
+      maxSize: 5 * 1024 * 1024, // 5MB
+      accept: "image/*",
+      multiple: false,
+      onFilesChange: (newFiles) => {
+        if (newFiles.length > 0 && newFiles[0].preview) {
+          setAvatarPreview(newFiles[0].preview);
+          form.setFieldValue("avatar", newFiles[0].preview);
+        }
+      },
+    });
 
   const { refetch } = authClient.useSession();
   const form = useForm({
@@ -73,14 +62,6 @@ export default function ProfileEditForm({
         toast.error("Validation failed");
         return;
       }
-
-      // Log the changed values
-      console.log("Profile Update Values:", {
-        name: result.data.name.trim(),
-        avatar: result.data.avatar,
-        hasNewAvatar: files.length > 0,
-        avatarFile: files.length > 0 ? files[0].file : null,
-      });
 
       await authClient.updateUser({
         name: value.name,
@@ -199,13 +180,8 @@ export default function ProfileEditForm({
             e-mail
           </InputAddon>
           <InputWrapper className="pe-1">
-            <Input
-              value={session.user.email}
-              readOnly
-              placeholder="email"
-              required
-            />
-            <Button
+            <Input value={session.user.email} readOnly placeholder="email" />
+            {/* <Button
               size={"xs"}
               type="button"
               variant={"outline"}
@@ -213,7 +189,7 @@ export default function ProfileEditForm({
             >
               <PiLock />
               change
-            </Button>
+            </Button> */}
           </InputWrapper>
         </InputGroup>
       </div>

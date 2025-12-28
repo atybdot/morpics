@@ -5,7 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import ImageMotion from "../../components/image-motion";
 import HowItWorksGrid from "@/components/grids/how-it-works";
-import { FaqsGridHome } from "@/components/grids/faqs-grid";
+import { FaqsGridHome } from "@/components/grids/faqs";
 export default function Home() {
   return (
     <section className="space-y-12">

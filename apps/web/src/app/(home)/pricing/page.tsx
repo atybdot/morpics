@@ -1,4 +1,4 @@
-import { FaqsGridPrice } from "@/components/grids/faqs-grid";
+import { FaqsGridPrice } from "@/components/grids/faqs";
 import PricingGrid from "@/components/grids/pricing";
 import React from "react";
 
