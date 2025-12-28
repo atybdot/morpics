@@ -21,32 +21,24 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Slider } from "@/components/ui/slider";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { orpc, queryClient } from "@/utils/orpc";
 import * as schema from "@morpics/api/schemas";
-import { schemas } from "@morpics/api/schemas";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
 import {
-  PiArrowLeft,
   PiCheck,
-  PiCheckCircle,
-  PiCheckSquare,
-  PiCheckSquareFill,
   PiCopy,
   PiFloppyDisk,
   PiLock,
   PiLockOpen,
-  PiLockSimple,
-  PiLockSimpleOpen,
   PiPencilSimple,
   PiPlus,
   PiSpinner,
-  PiX,
+  PiXSquare,
 } from "react-icons/pi";
 import { toast } from "sonner";
 import z from "zod";
@@ -66,16 +58,11 @@ import {
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { Checkbox } from "@/components/ui/checkbox";
 import GoBackBtn from "@/components/elements/go-back-btn";
+import * as sdk from "@morpics/sdk";
+import { toSlug } from "@morpics/buckets/utils";
+import { CardAlt, CardContentAlt } from "@/components/ui/card";
 
-const transformationSchema = z.object({
-  height: z.number().min(10),
-  width: z.number().min(10),
-  rotate: z.number().min(0),
-  blur: z.number().min(0).max(100),
-  grayscale: z.number().min(0).max(100),
-  format: z.enum(schemas.mimeEnum.enumValues),
-  quality: z.number().min(1).max(100),
-});
+const transformationFormSchema = sdk.schema.transformationQuerySchema;
 
 function Page({ params }: { params: Promise<{ key: string }> }) {
   const { key } = React.use(params);
@@ -85,13 +72,22 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
   );
   const { data: bucket } = authClient.useActiveOrganization();
   const { data: image, isPending } = useQuery(
-    orpc.protectedRoutes.queries.getImage.queryOptions({
+    orpc.images.get.queryOptions({
       input: {
-        key,
+        key: `${bucket?.slug}/${key}`,
         bucketId: bucket?.id as string,
+        bucket: bucket?.slug as string,
       },
       enabled: !!bucket?.id,
-      queryKey: ["image", key],
+      queryKey: ["image", key, `${bucket?.slug}/${key}`],
+    }),
+  );
+
+  const { data: transformations, isPending: transformationsPending } = useQuery(
+    orpc.transformation.get.queryOptions({
+      input: {
+        imgId: image?.id as string,
+      },
     }),
   );
 
@@ -117,22 +113,32 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
 
   const transformationForm = useForm({
     defaultValues: {
-      height: imgDimensions.h,
-      width: imgDimensions.w,
-      rotate: 0,
-      filter: undefined,
-      format: image?.metadata.mimeType,
+      h: imgDimensions.h,
+      w: imgDimensions.w,
+      r: 0,
+      format: image?.metadata?.mimeType?.split("/")[1] as any,
       quality: 100,
       blur: 0,
-      grayscale: 0,
-    } as z.input<typeof transformationSchema>,
+    } as z.input<typeof transformationFormSchema>,
     validators: {
-      onChange: transformationSchema,
+      onChange: transformationFormSchema,
     },
     onSubmit: async ({ value }) => {
-      // Parse to get validated/transformed values
-      const validatedData = transformationSchema.safeParse(value);
-      console.log(validatedData);
+      const validatedData = transformationFormSchema.safeParse(value);
+      console.log("validatedData", validatedData.data);
+      if (!validatedData.success) {
+        toast.error("please fix the errors in the form");
+        return;
+      }
+
+      try {
+        const url = sdk
+          .generateUrl({ imageKey: key, bucket: bucket?.slug as string })
+          .format(validatedData.data);
+        console.log(url);
+      } catch (error) {
+        if (error instanceof Error) console.log(error?.message);
+      }
     },
   });
 
@@ -147,11 +153,10 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
     },
     onSubmit: async ({ value }) => {
       const abortControllerRef = new AbortController();
-      const formKeyVal = value?.key;
-
+      const formKeyVal = value.key ? toSlug(value.key) : "";
       toast.promise(
-        orpc.protectedRoutes.mutations.updateInfo.call(
-          allowPublickeyChange ? { key: formKeyVal, ...value } : { ...value },
+        orpc.images.updateInfo.call(
+          allowPublickeyChange ? { ...value } : { ...value },
           {
             signal: abortControllerRef.signal,
           },
@@ -164,11 +169,13 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
           },
           success: (s) => {
             console.log(s);
-            if (key !== formKeyVal) {
-              router.replace(`/images/${formKeyVal}`);
-              queryClient.refetchQueries({ queryKey: [key, formKeyVal] });
+            if (key !== formKeyVal && s.imgKey) {
+              router.replace(`/images/${s.imgKey.split("/")[1]}`);
+              queryClient.refetchQueries({
+                queryKey: [key, formKeyVal, s.imgKey],
+              });
             }
-            queryClient.refetchQueries({ queryKey: [key] });
+            queryClient.invalidateQueries({ queryKey: [key, s.imgKey] });
             return "data updated successfully";
           },
         },
@@ -176,9 +183,9 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
     },
     defaultValues: {
       imgId: image?.id ?? "",
-      key: image?.key ?? "",
+      key: image?.key.split("/")[1] ?? "",
       fileName: image?.metadata.fileName ?? undefined,
-      altTxt: image?.metadata.altText ?? "alt text for image",
+      altTxt: image?.metadata.altText ?? "",
       tags:
         image?.imageTags.map((i) => ({ id: i.tagId, value: i.tag.name })) ?? [],
     } as z.input<typeof schema.updateInfoSchema>,
@@ -206,10 +213,10 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                   "object-contain overflow-hidden origin-center h-94 aspect-auto mx-auto",
                 )}
                 style={{
-                  height: `${Math.round((transformationStates.height / imgDimensions.h) * 100)}%`,
-                  width: `${Math.round((transformationStates.width / imgDimensions.w) * 100)}%`,
-                  rotate: `${transformationStates.rotate}deg`,
-                  filter: `blur(${transformationStates.blur / 10}px) grayscale(${transformationStates.grayscale}%)`,
+                  height: `${Math.round(((transformationStates.h as number) / imgDimensions.h) * 100)}%`,
+                  width: `${Math.round(((transformationStates.w as number) / imgDimensions.w) * 100)}%`,
+                  rotate: `${transformationStates.r}deg`,
+                  filter: `blur(${transformationStates.blur as number}px)`,
                 }}
               />
             </div>
@@ -285,7 +292,10 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                                 <PiLockOpen />
                               )}
                             </DialogTrigger>
-                            <DialogContent className={"p-4"}>
+                            <DialogContent
+                              className={"p-4"}
+                              showDismissButton={false}
+                            >
                               <DialogTitle
                                 className={
                                   "text-muted-foreground font-light text-base"
@@ -305,7 +315,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                                     "prod might break",
                                   ].map((i) => (
                                     <span className="grid grid-cols-[auto_1fr] gap-1 font-light text-foreground text-sm">
-                                      <PiX className="inline mt-1" />
+                                      <PiXSquare className="inline mt-1 text-rose-500" />
                                       {i}
                                     </span>
                                   ))}
@@ -313,28 +323,14 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                               </DialogBody>
                               <DialogFooter>
                                 <DialogAction
-                                  onClick={(e) => {
+                                  onClick={() => {
                                     setPublickeyChange(true);
                                   }}
                                   render={
-                                    <Button
-                                      variant={"dim"}
-                                      size={"sm"}
-                                      // onClick={() => {
-                                      //   setPublickeyChange(true);
-                                      // }}
-                                    />
+                                    <Button variant={"dim"} size={"sm"} />
                                   }
                                 >
-                                  {/* <Button
-                                      variant={"dim"}
-                                      size={"sm"}
-                                      onClick={() => {
-                                        setPublickeyChange(true);
-                                      }}
-                                    > */}
                                   Yes, change public-key
-                                  {/* </Button> */}
                                 </DialogAction>
                                 <DialogClose render={<Button size={"sm"} />}>
                                   No, don't change public-key
@@ -366,12 +362,19 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                         </InputAddon>
                         <InputWrapper className="pe-0">
                           <Input
-                            value={field.state.value}
+                            value={field.state.value as any}
                             onChange={(e) => field.handleChange(e.target.value)}
                           />
-                          <Button size={"icon"} variant={"secondary"}>
+                          <div
+                            className={cn(
+                              buttonVariants({
+                                size: "icon",
+                                variant: "secondary",
+                              }),
+                            )}
+                          >
                             <PiPencilSimple />
-                          </Button>
+                          </div>
                         </InputWrapper>
                       </InputGroup>
                       {isInvalid && (
@@ -398,9 +401,16 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                             value={field.state.value}
                             onChange={(e) => field.handleChange(e.target.value)}
                           />
-                          <Button size={"icon"} variant={"secondary"}>
+                          <div
+                            className={cn(
+                              buttonVariants({
+                                size: "icon",
+                                variant: "secondary",
+                              }),
+                            )}
+                          >
                             <PiPencilSimple />
-                          </Button>
+                          </div>
                         </InputWrapper>
                       </InputGroup>
                       {isInvalid && (
@@ -435,7 +445,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                           }}
                           onCreateTag={async (tagName) => {
                             toast.promise(
-                              orpc.protectedRoutes.mutations.createTag.call({
+                              orpc.images.createTag.call({
                                 name: tagName,
                                 imgId: image?.id as string,
                               }),
@@ -480,13 +490,19 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                 </Button>{" "}
                 <Dialog>
                   <DialogTrigger
+                    disabled={metaForm.state.isSubmitting}
                     onClick={(e) => {
                       if (!updtD) {
                         e.preventBaseUIHandler();
                         metaForm.handleSubmit();
                       }
                     }}
-                    render={<Button type="button" />}
+                    render={
+                      <Button
+                        type="button"
+                        disabled={metaForm.state.isSubmitting}
+                      />
+                    }
                   >
                     {metaForm.state.isSubmitting ? (
                       <PiSpinner className="animate-spin" />
@@ -533,17 +549,13 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                     </DialogBody>
                     <DialogFooter>
                       <DialogAction
-                        onClick={(e) => {
+                        type="submit"
+                        form="metadata-form"
+                        disabled={metaForm.state.isSubmitting}
+                        onClick={async (e) => {
                           setPublickeyChange(true);
                         }}
-                        render={
-                          <Button
-                            variant={"dim"}
-                            size={"sm"}
-                            form="metadata-form"
-                            disabled={metaForm.state.isSubmitting}
-                          />
-                        }
+                        render={<Button variant={"dim"} size={"sm"} />}
                       >
                         {metaForm.state.isSubmitting ? (
                           <PiSpinner className="animate-spin" />
@@ -552,7 +564,10 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                           ? "updating..."
                           : "Yes, Update Metadata"}
                       </DialogAction>
-                      <DialogClose render={<Button size={"sm"} />}>
+                      <DialogClose
+                        render={<Button size={"sm"} />}
+                        disabled={metaForm.state.isSubmitting}
+                      >
                         No, don't update
                       </DialogClose>
                     </DialogFooter>
@@ -572,7 +587,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
             <div className=" p-2 my-auto h-full w-full border flex flex-col justify-between">
               <div className="space-y-4 w-full">
                 <transformationForm.Field
-                  name="height"
+                  name="h"
                   children={(field) => {
                     const isInvalid =
                       field.state.meta.isTouched && !field.state.meta.isValid;
@@ -620,7 +635,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                   }}
                 />
                 <transformationForm.Field
-                  name="width"
+                  name="w"
                   children={(field) => {
                     const isInvalid =
                       field.state.meta.isTouched && !field.state.meta.isValid;
@@ -668,7 +683,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                   }}
                 />
                 <transformationForm.Field
-                  name="rotate"
+                  name="r"
                   children={(field) => {
                     const isInvalid =
                       field.state.meta.isTouched && !field.state.meta.isValid;
@@ -766,7 +781,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                     );
                   }}
                 />
-                <transformationForm.Field
+                {/* <transformationForm.Field
                   name="grayscale"
                   children={(field) => {
                     const isInvalid =
@@ -815,7 +830,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                     );
                   }}
                 />
-                <Separator className={"my-4"} />
+                <Separator className={"my-4"} /> */}
                 <transformationForm.Field
                   name="format"
                   children={(field) => {
@@ -827,12 +842,11 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                     };
                     const isInvalid =
                       field.state.meta.isTouched && !field.state.meta.isValid;
-                    const formatOptions = schemas.mimeEnum.enumValues.map(
-                      (i) => ({
+                    const formatOptions =
+                      schema.schemas.mimeEnum.enumValues.map((i) => ({
                         value: i,
                         label: renderValue(i),
-                      }),
-                    );
+                      }));
                     return (
                       <Field data-invalid={isInvalid} className="gap-y-1">
                         <FieldLabel
@@ -841,7 +855,14 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                         >
                           format
                         </FieldLabel>
-                        <Select items={formatOptions} indicatorPosition="right">
+                        <Select
+                          items={formatOptions}
+                          indicatorPosition="right"
+                          onValueChange={(e) =>
+                            //@ts-expect-error ""
+                            field.handleChange(renderValue(e))
+                          }
+                        >
                           <SelectTrigger
                             // disabled={files.length < 1}
                             className={cn(
@@ -906,7 +927,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                     );
                   }}
                 />
-                <Separator className={"my-4"} />
+                {/* <Separator className={"my-4"} /> */}
               </div>
               <div className="flex flex-wrap items-center justify-end gap-2">
                 <Button
@@ -936,6 +957,33 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
               </div>
             </div>
           </form>
+
+          <div className="col-span-full my-8">
+            <h2 className="text-2xl mb-4">Transformations</h2>
+            {transformationsPending ? (
+              <Skeleton className="col-span-full aspect-square" />
+            ) : transformations?.length === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                no transformations found for this image
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {transformations?.map((t) => {
+                  const imgKey = `${t.key}?${t.transformation_query}`;
+                  return (
+                    <CardAlt>
+                      <CardContentAlt>
+                        <img
+                          src={imgKey}
+                          className=" aspect-square contain w-full border-0"
+                        />
+                      </CardContentAlt>
+                    </CardAlt>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </>
       )}
     </section>

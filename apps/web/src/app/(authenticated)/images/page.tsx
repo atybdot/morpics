@@ -4,11 +4,14 @@ import { nanoid } from "nanoid";
 import Link from "next/link";
 import React from "react";
 import {
+  PiArrowCounterClockwise,
   PiArrowSquareOut,
   PiCopy,
   PiPlusBold,
   PiSpinner,
   PiTrash,
+  PiTray,
+  PiTrayArrowUp,
 } from "react-icons/pi";
 import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -19,6 +22,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { orpc, queryClient } from "@/utils/orpc";
+import { Card, CardContent } from "@/components/ui/card";
+import { useCopyToClipboard } from "@uidotdev/usehooks";
 
 function Page() {
   const abortControllerRef = React.useRef<AbortController | null>(null);
@@ -27,10 +32,12 @@ function Page() {
     data: images,
     isPending,
     error,
+    refetch: refetchImages,
   } = useQuery(
-    orpc.protectedRoutes.queries.getOriginalImages.queryOptions({
+    orpc.images.all.queryOptions({
       input: {
-        orgId: activeOrg?.id as string,
+        bucketId: activeOrg?.id as string,
+        bucket: activeOrg?.slug as string,
       },
       enabled: !!activeOrg?.id,
       queryKey: ["images", "all-images"],
@@ -39,11 +46,14 @@ function Page() {
   const [selectedImages, setSelectedImages] = React.useState<typeof images>([]);
   const deleteImageMutation = useMutation({
     mutationFn: async (keys: string[]) => {
+      if (!activeOrg?.id) {
+        return;
+      }
       try {
         await Promise.allSettled(
           keys.map(
             async (i) =>
-              await orpc.protectedRoutes.mutations.deleteimage.call(
+              await orpc.images.delete.call(
                 { key: i },
                 { signal: abortControllerRef.current?.signal },
               ),
@@ -59,14 +69,43 @@ function Page() {
     },
     onSuccess: () => {
       toast.success("image(s) delete successfully", { closeButton: true });
-      queryClient.refetchQueries({ queryKey: ["images"] });
+      queryClient.invalidateQueries({ queryKey: ["images", "all-images"] });
       setSelectedImages([]);
     },
   });
 
   const isMobile = useIsMobile();
-  return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full gap-2 relative">
+  const [_, copyToClipboard] = useCopyToClipboard();
+  if (error) {
+    console.log(error);
+
+    return (
+      <div className="flex items-center justify-center h-full relative">
+        <Card className="w-full max-w-sm p-2">
+          <CardContent className="border w-full px-6 py-10 pt-14">
+            <div className="flex flex-col items-center space-y-4 text-muted-foreground">
+              <PiTray className="size-12" />
+
+              <div className="space-y-2 text-center">
+                <h1 className="text-xl font-semibold text-foreground">error</h1>
+                <p className="text-muted-foreground text-sm text-pretty">
+                  unable to fetch images
+                </p>
+              </div>
+              <Button variant={"secondary"} onClick={() => refetchImages()}>
+                <PiArrowCounterClockwise />
+                Retry
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+  return images?.length === 0 ? (
+    <Empty />
+  ) : (
+    <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 relative ">
       <div className="col-span-full flex items-center justify-between flex-wrap gap-2 px-2">
         <h1 className="text-2xl">Images</h1>
         <div className="flex gap-2 flex-wrap mb-2">
@@ -135,7 +174,7 @@ function Page() {
         ? Array(isMobile ? 6 : 16)
             .fill(0)
             .map(() => (
-              <Skeleton key={nanoid()} className=" aspect-video h-full" />
+              <Skeleton key={nanoid()} className=" aspect-video w-full" />
             ))
         : images?.map((item) => (
             <div key={nanoid()} className="flex flex-col border p-1 relative">
@@ -169,6 +208,13 @@ function Page() {
                   className="bg-muted h-full"
                   variant={"dim"}
                   size={"icon"}
+                  onClick={() => {
+                    copyToClipboard(item.key);
+                    toast.info("image key copied to clipboard", {
+                      description: item.key,
+                      classNames: { description: "text-xs" },
+                    });
+                  }}
                   title="copy image key"
                 >
                   <PiCopy />
@@ -180,15 +226,41 @@ function Page() {
                     buttonVariants({ variant: "dim", size: "sm" }),
                     "flex-1 font-light text-sm h-full bg-background ",
                   )}
-                  href={`/images/${item.key}`}
+                  href={`/images/${item.key.split("/")[1]}`}
                 >
                   <PiArrowSquareOut className="size-3.5" /> View details
                 </Link>
               </div>
             </div>
-          ))}{" "}
+          ))}
     </section>
   );
 }
 
 export default Page;
+function Empty() {
+  return (
+    <div className="flex items-center justify-center h-full relative">
+      <Card className="w-full max-w-sm p-2">
+        <CardContent className="border w-full px-6 py-10 pt-14">
+          <div className="flex flex-col items-center space-y-4 text-muted-foreground">
+            <PiTray className="size-12" />
+
+            <div className="space-y-2 text-center">
+              <h1 className="text-xl font-semibold text-foreground">
+                It's Empty here
+              </h1>
+              <p className="text-muted-foreground text-sm text-pretty">
+                No images found
+              </p>
+            </div>
+            <Link className={cn(buttonVariants())} href={"/images/new"}>
+              <PiTrayArrowUp />
+              Upload images
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

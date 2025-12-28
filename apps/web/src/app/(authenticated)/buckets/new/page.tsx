@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/a11y/noSvgWithoutTitle: <explanation> */
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { PiShoppingBagOpen } from "react-icons/pi";
@@ -24,7 +23,7 @@ export default function Page() {
                 create new Bucket
               </h1>
               <p className="text-muted-foreground text-sm text-pretty">
-                Buckets are a way to group your assets.
+                Buckets are a way to group your images.
               </p>
             </div>
             <NewBucketForm />

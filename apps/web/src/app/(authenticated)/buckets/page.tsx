@@ -13,24 +13,20 @@ import {
   PiCaretRight,
   PiCubeTransparent,
   PiImageSquare,
-  PiImagesSquare,
   PiPlus,
   PiShoppingBag,
   PiShoppingBagOpenThin,
-  PiUsers,
   PiUsersBold,
 } from "react-icons/pi";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { nanoid } from "nanoid";
 import { Separator } from "@/components/ui/separator";
-import { useQueries, type QueryOptions } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { orpc } from "@/utils/orpc";
-import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
   TooltipContent,
   TooltipPositioner,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
@@ -41,8 +37,8 @@ function Page() {
   const OrgInfo = useQueries({
     queries:
       allOrgs?.map((org) =>
-        orpc.protectedRoutes.queries.getBucketStats.queryOptions({
-          input: { orgId: org.id },
+        orpc.bucket.stats.queryOptions({
+          input: { bucketId: org.id, bucket: org.slug },
           enabled: !!allOrgs && allOrgs.length > 0,
         }),
       ) ?? [],
@@ -88,7 +84,7 @@ function Page() {
 
         {!isPending &&
           allOrgs?.map((org) => (
-            <div className="border p-2 w-full h-fit bg-muted" key={nanoid()}>
+            <div className="border p-1 w-full h-fit bg-muted" key={nanoid()}>
               <div className="border p-2 h-full flex flex-col bg-background">
                 <div className="flex-1 p-2 ">
                   <div className=" aspect-square overflow-hidden w-10 text-muted-foreground">
@@ -102,40 +98,45 @@ function Page() {
                     )}
                   </div>
                   <h2 className="text-lg mb-4"> {org.name}</h2>
-                  {OrgInfo.filter((o) => (o.data?.orgId ?? "") === org.id).map(
-                    (o) => (
-                      <div
-                        key={o.data?.orgId}
-                        className="flex flex-wrap text-sm text-muted-foreground gap-4"
-                      >
-                        <Chip
-                          description="total members"
-                          icon={<PiUsersBold />}
-                          text={o.data?.members}
-                        />
-                        <Chip
-                          description="total images"
-                          icon={<PiImageSquare />}
-                          text={o.data?.images}
-                        />
-                        <Chip
-                          description="total transformations"
-                          icon={<PiCubeTransparent />}
-                          text={o.data?.transformations ?? 0}
-                        />
-                      </div>
-                    ),
+                  {OrgInfo.some((q) => q.isPending) ? (
+                    <Skeleton className="w-full h-6" />
+                  ) : (
+                    OrgInfo.filter((o) => (o.data?.bucketId ?? "") === org.id).map(
+                      (o) => (
+                        <div
+                          key={o.data?.bucketId}
+                          className="flex flex-wrap text-sm text-muted-foreground gap-4"
+                        >
+                          <Chip
+                            description="total members"
+                            icon={<PiUsersBold />}
+                            text={o.data?.members}
+                          />
+                          <Chip
+                            description="total images"
+                            icon={<PiImageSquare />}
+                            text={o.data?.images}
+                          />
+                          <Chip
+                            description="total transformations"
+                            icon={<PiCubeTransparent />}
+                            text={o.data?.transformations ?? 0}
+                          />
+                        </div>
+                      ),
+                    )
                   )}
                 </div>
+
                 <Separator />
                 <Button
                   variant={"dim"}
                   size={"md"}
                   className={cn("w-full justify-end")}
                   key={org.id}
-                  onClick={async (e) => {
+                  onClick={async () => {
                     if (session) {
-                      if (session.session.activeOrganizationId === org.id) {
+                      if (session?.session?.activeOrganizationId === org.id) {
                         return router.push("/images");
                       }
                     }
