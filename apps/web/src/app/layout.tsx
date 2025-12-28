@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import {
   Geist,
   Geist_Mono,
-  IBM_Plex_Mono,
+
   Inter,
-  Manrope,
-  Montserrat,
-  Poppins,
+
 } from "next/font/google";
-import Header from "@/components/header";
+
 import Providers from "@/components/providers";
 import "../index.css";
 const geistSans = Geist({

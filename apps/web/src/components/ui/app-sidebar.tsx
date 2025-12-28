@@ -1,30 +1,23 @@
 "use client";
-import { nanoid } from "nanoid";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import type { JSX } from "react";
-import { FaGithub } from "react-icons/fa6";
 import {
   PiBooks,
   PiBugBeetle,
-  PiCaretUpDown,
   PiCircleHalf,
+  PiCookie,
   PiCreditCard,
-  PiGear,
-  PiGearSix,
+  PiCrownSimple,
   PiGithubLogo,
   PiImagesSquare,
   PiLifebuoy,
   PiPlugs,
-  PiPlus,
-  PiPlusSquare,
+  PiShieldStar,
   PiShoppingBag,
   PiSignOut,
-  PiSlidersHorizontal,
   PiSquareHalf,
-  PiTrayArrowUp,
   PiUser,
-  PiUsers,
   PiXLogo,
 } from "react-icons/pi";
 import {
@@ -37,9 +30,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarRail,
   SidebarSeparator,
   useSidebar,
@@ -48,21 +38,10 @@ import { useTheme } from "@/hooks/use-theme";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-import { Button, buttonVariants, type ButtonProps } from "./button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPositioner,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./dropdown-menu";
+import { Button, type ButtonProps } from "./button";
 import { Skeleton } from "./skeleton";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { SquareDashedMousePointerIcon } from "lucide-react";
 import { toast } from "sonner";
+import TierChip from "../elements/tier-chip";
 interface SidebarItembase {
   title: string;
   icon: JSX.ElementType;
@@ -146,9 +125,21 @@ export function AppSidebar() {
       },
       {
         title: "billing",
-        as: "a",
+        variant: "dim",
+        className: " justify-start",
+        as: "button",
         icon: PiCreditCard,
-        href: "/profile/billing",
+        onClick: async () => {
+          toast.promise(authClient.dodopayments.customer.portal(), {
+            loading: "Redirecting to Billing Portal",
+            success: ({ data, error }) => {
+              if (error) {
+                throw toast.error(error.message);
+              }
+              return "Redirected";
+            },
+          });
+        },
       },
       {
         as: "a",
@@ -359,8 +350,20 @@ export function AppSidebar() {
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start justify-center flex-1 font-light gap-0.5 group-data-[state='collapsed']:hidden text-muted-foreground">
+                {session?.user.activeTier && (
+                  <p
+                    className={
+                      "text-xs flex items-center justify-start gap-x-1 data-[tier='free']:text-amber-500 data-[tier='pro']:text-indigo-500 data-[tier='starter']:text-emerald-500 group"
+                    }
+                    data-tier={session?.user.activeTier}
+                  >
+                    <TierChip slug={session?.user.activeTier} />
+
+                    {session?.user.activeTier}
+                  </p>
+                )}
+
                 <p className="font-medium">{session?.user.name}</p>
-                <p className="text-xs">{session?.user.email}</p>
               </div>
             </div>
           ) : (
