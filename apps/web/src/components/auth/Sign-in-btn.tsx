@@ -4,8 +4,29 @@ import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { Button, type ButtonProps } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
+
+function prepareURL(new_user = false) {
+  const url = new URL(window.location.href);
+  const toRedirect = url.searchParams.get("redirect");
+
+  const slug = url.searchParams.get("slug");
+  const newRedirect = new_user ? "/buckets/new" : "/dashboard";
+
+  if (toRedirect === null) {
+    url.pathname = newRedirect;
+    return url.toString();
+  }
+
+  url.pathname = "/checkout";
+  const params = new URLSearchParams({
+    slug: slug || "",
+    redirect: newRedirect,
+  });
+  url.search = params.toString();
+  return url.toString();
+}
 
 function button({
   text,
@@ -20,13 +41,14 @@ function button({
   signup: boolean;
 } & ButtonProps) {
   const [success, setSuccess] = useState<"success" | "error">();
+
   const mutation = useMutation({
     mutationFn: () =>
       authClient.signIn.social({
         provider,
-        callbackURL: `${window.location.origin}/dashboard`,
+        callbackURL: prepareURL(),
         requestSignUp: signup,
-        newUserCallbackURL: `${window.location.origin}/buckets/new`,
+        newUserCallbackURL: prepareURL(true),
       }),
 
     mutationKey: [`${provider}-login`],
@@ -69,6 +91,7 @@ function button({
     },
   });
   const lastUsed = authClient.isLastUsedLoginMethod(provider);
+
   return (
     <Button
       variant={success === "success" ? "success" : variant}
@@ -88,7 +111,7 @@ function button({
           <span>{text}</span>
           {lastUsed ? (
             <Badge
-              variant="secondary"
+              variant="success"
               size={"xs"}
               className="font-light mb-0 absolute top-0 right-0 "
             >
