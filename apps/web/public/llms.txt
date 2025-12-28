@@ -1,0 +1,68 @@
+# Morpics
+
+> Morpics is a URL-powered image manipulation service that allows developers to transform, resize, compress, and optimize images on the fly. Simple API, type-safe SDK, edge-fast performance.
+
+Important notes:
+
+- Images are transformed by modifying URL parameters - no complex setup required
+- Built for developers who want fast image optimization without managing servers
+- Uses Cloudflare R2 for storage and global edge delivery
+- Free tier available with generous limits
+
+## Getting Started
+
+- [Home](/): Main landing page and overview
+- [Pricing](/pricing): Pricing plans and free tier details
+- [Playground](/playground): Interactive tool to test image transformations
+- [Sign In](/sign-in): User authentication
+
+## Documentation
+
+- [About Us](/about-us): Learn about Morpics' origins and team
+- [Terms of Service](/terms-and-conditions): Usage terms and policies
+- [Privacy Policy](/privacy-policy): Data collection and privacy practices
+- [Media Kit](/media-kit): Brand assets and press resources
+
+## Key Features
+
+- [Image Resizing](/playground): Resize images to any dimensions while maintaining aspect ratio
+- [Format Conversion](/playground): Convert between WebP, AVIF, PNG, JPEG, and other formats
+- [Image Compression](/playground): Compress images to reduce file size without quality loss
+- [URL-Based Transformations](/playground): Apply transformations directly via URL parameters
+- [Edge Delivery](/about-us): Global CDN delivery with Cloudflare R2
+
+## For Developers
+
+- [TypeScript SDK](https://github.com/atybdot/morpics): Type-safe SDK for TypeScript/JavaScript projects
+- [REST API](https://api.mor.pics/docs): Simple RESTful API for HTTP requests
+- [Examples](/playground): Interactive code examples and tutorials
+
+## Optional
+
+- [GitHub Repository](https://github.com/atybdot/morpics): Source code and contributions
+- [Contact](mailto:support@mor.pics): Support and inquiries
+
+## Technical Details
+
+**API Endpoint:** `https://cdn.mor.pics`
+
+**Transformation Parameters:**
+- `w`, `h`: Width and height in pixels
+- `fit`: Crop mode (cover, contain, fill)
+- `q`: Quality (1-100)
+- `f`: Output format (webp, avif, png, jpg)
+- `blur`: Blur radius
+
+**Example Usage:**
+```
+https://cdn.mor.pics/bucket/image.jpg?w=800&h=600&fit=crop&q=80&f=webp
+```
+
+## Company Information
+
+- **Creator:** atyb a.
+- **Email:** support@mor.pics
+- **Twitter:** @atybdot
+- **GitHub:** https://github.com/atybdot
+- **Founded:** 2025
+- **Location:** Remote

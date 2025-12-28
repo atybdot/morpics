@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-
-  Inter,
-
-} from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 
 import Providers from "@/components/providers";
+import { siteMetadata } from "@/components/elements/site-metadata";
+import { SchemaLd } from "@/components/elements/schema-ld";
+import { AIStructuredData } from "@/components/elements/ai-structured-data";
 import "../index.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,11 +21,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "morpics",
-  description: "morpics",
-};
-
+export const metadata: Metadata = siteMetadata;
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,6 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <SchemaLd />
+        <AIStructuredData />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable}  ${interSans.variable}  antialiased bg-background text-foreground mx-auto w-full relative`}
       >
@@ -67,7 +64,7 @@ export default function RootLayout({
             radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)
       `,
               WebkitMaskImage: `
- repeating-linear-gradient(
+  repeating-linear-gradient(
               to right,
               black 0px,
               black 3px,

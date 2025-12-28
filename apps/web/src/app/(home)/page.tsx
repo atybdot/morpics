@@ -13,7 +13,7 @@ export default function Home() {
         <div className="space-y-4 py-12 content-center">
           <h1 className="text-4xl md:text-[3.5rem] font-semibold tracking-tighter text-balance">
             {/* The API your images deserve */}
-            URL-powered image manipulation
+            URL-powered image manipulations
           </h1>
           <h2 className="text-sm text-balance md:text-lg mx-auto text-muted-foreground">
             Clean, declarative URLs that generate every image your app needs.

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
 import { nanoid } from "nanoid";
-import { PiGithubLogo, PiGlobe, PiXLogo, PiXLogoLight } from "react-icons/pi";
+import { PiGithubLogo, PiGlobe, PiXLogo,  } from "react-icons/pi";
 
 import { Logo } from "../elements/logo";
 

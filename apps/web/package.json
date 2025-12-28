@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "@base-ui-components/react": "1.0.0-beta.6",
+    "@dodopayments/better-auth": "catalog:",
     "@morpics/api": "workspace:*",
     "@morpics/auth": "workspace:*",
     "@morpics/buckets": "workspace:*",
     "@morpics/db": "workspace:*",
+    "@morpics/sdk": "workspace:*",
     "@orpc/client": "catalog:",
     "@orpc/server": "catalog:",
     "@orpc/tanstack-query": "^1.10.0",
@@ -28,6 +30,7 @@
     "next": "16.0.10",
     "next-themes": "^0.4.6",
     "nuqs": "^2.8.3",
+    "posthog-js": "^1.310.1",
     "radix-ui": "^1.4.3",
     "react": "catalog:",
     "react-dom": "catalog:",
@@ -35,9 +38,7 @@
     "sonner": "^2.0.5",
     "tailwind-merge": "^3.4.0",
     "tw-animate-css": "^1.3.4",
-    "zod": "catalog:",
-    "@dodopayments/better-auth": "catalog:",
-    "@morpics/sdk": "workspace:*"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@morpics/config": "workspace:*",
