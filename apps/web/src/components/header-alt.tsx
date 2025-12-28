@@ -24,9 +24,9 @@ export default function HeaderAlt() {
         )}
       >
         <NavigationMenu className={"w-full flex-1 gap-1 justify-between"}>
-          <div className="flex items-center justify-center gap-2">
-            <Link href={"/dashboard"}>
-              <SquareDashedMousePointerIcon />
+          <div className="flex items-center justify-center gap-2 text-blue-500">
+            <Link href={"/dashboard"} className="">
+              <SquareDashedMousePointerIcon className="size-5"/>
             </Link>
             {pathname?.map((link, idx) => {
               return (

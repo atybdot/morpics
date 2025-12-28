@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { queryClient } from "@/utils/orpc";
 import { ThemeProvider } from "./theme-provider";
 import { Toaster } from "./ui/sonner";
+import ToasterExtractor from "./ui/toaster-provider";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +17,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         disableTransitionOnChange
       >
         <QueryClientProvider client={queryClient}>
-          {children}
+          <ToasterExtractor>{children}</ToasterExtractor>
           <ReactQueryDevtools buttonPosition="bottom-right" />
         </QueryClientProvider>
         <Toaster richColors className="rounded-none" />

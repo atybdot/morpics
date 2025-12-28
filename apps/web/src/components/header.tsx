@@ -3,27 +3,25 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { Button, buttonVariants, type ButtonProps } from "./ui/button";
 import { nanoid } from "nanoid";
-import logo from "@/assets/logo.svg";
 import { PiListBold as Menu } from "react-icons/pi";
 import {
   Sheet,
   SheetBody,
   SheetClose,
   SheetContent,
-  SheetFooter,
   SheetHeader,
   SheetTrigger,
 } from "./ui/sheet";
-import { FaGithub, FaXTwitter } from "react-icons/fa6";
-import { ThemeSwitcherMultiButton } from "./elements/theme-switcher-multi-button";
+
 import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuPopup,
   NavigationMenuPositioner,
 } from "@/components/ui/navigation-menu";
-import { Loader, SquareDashedMousePointerIcon } from "lucide-react";
+import { Loader } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { Logo } from "./elements/logo";
 type NavLinkVariant = { asLink: true; href: string; className?: string };
 
 type NavLink = NavLinkVariant & { label: string };
@@ -36,7 +34,6 @@ export default function Header() {
   } = {
     brand: {
       label: "morpics",
-      imgURL: logo.src,
     },
     links: [{ label: "docs", href: "/docs", asLink: true }],
     cta: { label: "get started", asLink: true, href: "/sign-in" },
@@ -45,7 +42,7 @@ export default function Header() {
   const pathname = usePathname();
   const { data: session, isPending } = authClient.useSession();
   return (
-    <section className="bg-background sticky top-0 z-10">
+    <section className="bg-background/50 sticky top-0 z-10">
       <header
         className={cn(
           "flex flex-row items-center justify-center border-b backdrop-blur-sm w-full mx-auto sticky top-0",
@@ -53,11 +50,7 @@ export default function Header() {
         )}
       >
         <NavigationMenu className={"w-full flex-1 gap-1 justify-between"}>
-          <Link href={"/"} className="flex items-center justify-center gap-2">
-            <SquareDashedMousePointerIcon className="size-5" />
-
-            <p className="font-normal text-xl ring-0">morpics</p>
-          </Link>
+          <Logo />
 
           <div className="space-x-2 items-center hidden sm:flex">
             <Link
@@ -114,40 +107,6 @@ export default function Header() {
 
                 <AuthBtn showLogin={!session?.session} isPending={isPending} />
               </SheetBody>
-              {/* <SheetFooter className="  mt-auto w-full flex items-center justify-between flex-row">
-                <div className="space-x-2">
-                  <Button
-                    asChild
-                    size={"icon"}
-                    variant={"dim"}
-                    mode={"icon"}
-                    className="text-muted-foreground/50 hover:text-foreground"
-                  >
-                    <a
-                      href="https://github.com/atybdot"
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      <FaXTwitter className="size-5" />
-                    </a>
-                  </Button>
-                  <Button
-                    asChild
-                    size={"icon"}
-                    variant={"dim"}
-                    mode={"icon"}
-                    className="text-muted-foreground/50 hover:text-foreground"
-                  >
-                    <a
-                      href="https://github.com/atybdot"
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      <FaGithub className="size-5" />
-                    </a>
-                  </Button>
-                </div>
-              </SheetFooter> */}
             </SheetContent>
           </Sheet>
 
