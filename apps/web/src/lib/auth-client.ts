@@ -1,6 +1,7 @@
 import type { auth } from "@morpics/auth";
 import {
   apiKeyClient,
+  customSessionClient,
   inferAdditionalFields,
   lastLoginMethodClient,
   multiSessionClient,
@@ -14,6 +15,7 @@ export const authClient = createAuthClient({
   baseURL: env.NEXT_PUBLIC_AUTH_URL,
   plugins: [
     inferAdditionalFields<typeof auth>(),
+    customSessionClient<typeof auth>(),
     organizationClient({}),
     lastLoginMethodClient(),
     apiKeyClient(),

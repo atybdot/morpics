@@ -1,8 +1,14 @@
-import { headers } from "next/headers";
+import { headers as baseHeaders } from "next/headers";
 import { authClient } from "./auth-client";
-export async function checkSession() {
+import type { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
+export async function checkSession({
+  headers,
+}: {
+  headers?: () => Promise<ReadonlyHeaders>;
+}) {
+  const dh = headers ? headers : baseHeaders;
   const { data: session } = await authClient.getSession({
-    fetchOptions: { headers: await headers() },
+    fetchOptions: { headers: await dh() },
   });
-  return !!session;
+  return { hasSession: !!session, session };
 }
