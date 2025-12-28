@@ -4,11 +4,12 @@ import HeaderAlt from "@/components/header-alt";
 import { AppSidebar } from "@/components/ui/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { checkSession } from "@/lib/auth-utils";
+import { headers } from "next/headers";
 
 async function ProtectedLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const hasSession = await checkSession();
+  const { hasSession } = await checkSession({ headers });
   if (!hasSession) {
     return redirect("/sign-in");
   }

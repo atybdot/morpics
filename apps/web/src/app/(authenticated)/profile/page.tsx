@@ -2,26 +2,15 @@
 
 import { authClient } from "@/lib/auth-client";
 import ProfileEditForm from "@/components/forms/profile-edit-form";
-import ApiKeyManager from "@/components/forms/api-key-manager";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Redirect from "@/components/auth/Redirect";
-import { parseAsString, useQueryState } from "nuqs";
-import { useRouter } from "next/navigation";
 import { nanoid } from "nanoid";
 import {
-  PiAndroidLogo,
   PiAndroidLogoLight,
-  PiAppleLogo,
   PiAppleLogoLight,
-  PiClockLight,
   PiCrown,
+  PiCrownSimple,
   PiGithubLogo,
-  PiLinuxLogo,
   PiLinuxLogoLight,
-  PiQuestionMark,
   PiQuestionMarkLight,
-  PiSpinner,
-  PiWindowsLogo,
   PiWindowsLogoLight,
 } from "react-icons/pi";
 import { CardAlt, CardContentAlt, CardHeaderAlt } from "@/components/ui/card";
@@ -30,7 +19,6 @@ import { detectOS } from "@/utils/detect-user-agent";
 import type { IconType } from "react-icons/lib";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { toast } from "sonner";
-import GoBackBtn from "@/components/elements/go-back-btn";
 import { useContext } from "react";
 import { sessionCtx, type AuthSession } from "@/ctx/session";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -61,12 +49,17 @@ function Page() {
         <CardAlt outer={false}>
           <CardHeaderAlt className="text-muted-foreground text-base flex items-center justify-between">
             <span>account Info</span>
-            <Link
-              className={cn(buttonVariants({ size: "xs" }))}
-              href={"/pricing"}
-            >
-              <PiCrown /> Upgrade to Pro
-            </Link>
+            {session.user.activeTier !== "pro" && (
+              <Link
+                className={cn(
+                  buttonVariants({ size: "xs", variant: "dim" }),
+                  "bg-indigo-500 dark:bg-indigo-600 text-foreground",
+                )}
+                href={"/pricing"}
+              >
+                <PiCrownSimple /> Upgrade to pro
+              </Link>
+            )}
           </CardHeaderAlt>
           <CardContentAlt className="p-6">
             <ProfileEditForm session={session} />
@@ -91,7 +84,7 @@ function Page() {
                   )
                   ?.map((s) => {
                     const os = detectOS(s.userAgent);
-                    const isCurrent = s.token === session.session.token;
+                    const isCurrent = s.token === session?.session?.token;
                     let Icon: IconType;
                     switch (os) {
                       case "ios":
@@ -119,7 +112,11 @@ function Page() {
                             {os}
                           </span>
 
-                          <p className="text-muted-foreground">create:</p>
+                          <p className="text-muted-foreground">last updated:</p>
+                          <span className=" break-all">
+                            {s.updatedAt.toLocaleString()}
+                          </span>
+                          <p className="text-muted-foreground">created:</p>
                           <span className=" break-all">
                             {s.createdAt.toLocaleString()}
                           </span>
@@ -155,7 +152,7 @@ function Page() {
                                   },
                                 );
                               }}
-                              variant={isCurrent ? "primary" : "destructive"}
+                              variant={isCurrent ? "secondary" : "destructive"}
                             >
                               {isCurrent ? "current" : "revoke"}
                             </Button>
@@ -167,20 +164,20 @@ function Page() {
           </CardContentAlt>
         </CardAlt>
         {/* <div>
-            <h3 className="border p-2 text-muted-foreground text-base border-b-0 bg-muted">
-              Connected Apps
-            </h3>
-            <div className="border border-t-0 p-2 bg-background">
-              {["github"].map((i) => (
-                <div
-                  className="aspect-square w-fit p-1 content-center"
-                  key={nanoid()}
-                >
-                  <PiGithubLogo className="size-8" />
-                </div>
-              ))}
-            </div>
-          </div> */}
+          <h3 className="border p-2 text-muted-foreground text-base border-b-0 bg-muted">
+            Connected Apps
+          </h3>
+          <div className="border border-t-0 p-2 bg-background">
+            {["github"].map((i) => (
+              <div
+                className="aspect-square w-fit p-1 content-center"
+                key={nanoid()}
+              >
+                <PiGithubLogo className="size-8" />
+              </div>
+            ))}
+          </div>
+        </div> */}
       </section>
     </>
   );

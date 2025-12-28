@@ -1,7 +1,7 @@
 "use client";
 import ApiKeyManager from "@/components/forms/api-key-manager";
 
-import { CardAlt, CardContentAlt } from "@/components/ui/card";
+import { CardAlt, CardContentAlt, CardHeaderAlt } from "@/components/ui/card";
 
 function Page() {
   return (
@@ -13,9 +13,10 @@ function Page() {
         </p>
       </div>
       <section className="space-y-6">
-        <CardAlt outer={false}>
-          <CardContentAlt className="space-y-2 p-2">
-            <ApiKeyManager />
+        <CardAlt  outer>
+          <CardContentAlt className="border">
+            <div className=" aspect-video content-center text-center text-3xl text-muted-foreground">Coming soon...</div>
+            {/* <ApiKeyManager /> */}
           </CardContentAlt>
         </CardAlt>
       </section>
