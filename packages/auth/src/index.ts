@@ -92,7 +92,7 @@ export const auth = betterAuth({
           const ownerActiveTier = owner?.user?.activeTier ?? "free";
 
           const canAddMember = await usageHelpers.checkOrgSeatsLimit({
-            userId: owner.user.id,
+            userId: owner?.user?.id ?? "",
             orgId: data.organization.id,
             userTier: ownerActiveTier,
           });
@@ -103,28 +103,31 @@ export const auth = betterAuth({
             );
           }
         },
-        beforeAddMember: async (data) => {
-          const owner = await getOrgOwner(data.organization.id).catch((err) => {
-            if (err instanceof Error) {
-              throw new BetterAuthError(err.message);
-            }
-            throw new BetterAuthError("unable to retrieve owner details");
-          });
+        // beforeAddMember: async (data) => {
+        //   const owner = await getOrgOwner(
+        //     data.member.organizationId,
+        //     data.user.id,
+        //   ).catch((err) => {
+        //     if (err instanceof Error) {
+        //       throw new BetterAuthError(err.message);
+        //     }
+        //     throw new BetterAuthError("unable to retrieve owner details");
+        //   });
 
-          const ownerActiveTier = owner?.user?.activeTier ?? "free";
-          // Check if owner can add more members to this org
-          const canAddMember = await usageHelpers.checkOrgSeatsLimit({
-            userId: owner.user.id,
-            orgId: data.organization.id,
-            userTier: ownerActiveTier,
-          });
+        //   const ownerActiveTier = owner?.user?.activeTier ?? "free";
+        //   // Check if owner can add more members to this org
+        //   const canAddMember = await usageHelpers.checkOrgSeatsLimit({
+        //     userId: owner.user.id,
+        //     orgId: data.organization.id,
+        //     userTier: ownerActiveTier,
+        //   });
 
-          if (!canAddMember) {
-            throw new BetterAuthError(
-              `Your ${ownerActiveTier} plan only allows up to ${PRICING_TABLE[ownerActiveTier].package.seats.allowed} members per organization. Please upgrade to add more.`,
-            );
-          }
-        },
+        //   if (!canAddMember) {
+        //     throw new BetterAuthError(
+        //       `Your ${ownerActiveTier} plan only allows up to ${PRICING_TABLE[ownerActiveTier].package.seats.allowed} members per organization. Please upgrade to add more.`,
+        //     );
+        //   }
+        // },
         afterAddMember: async (data) => {
           const owner = await getOrgOwner(data.organization.id).catch((err) => {
             if (err instanceof Error) {
@@ -133,7 +136,7 @@ export const auth = betterAuth({
             throw new BetterAuthError("unable to retrieve owner details");
           });
           await usageHelpers.incrementMetric({
-            userId: owner.user.id,
+            userId: owner?.user?.id ?? "",
             metric: "seats",
             orgId: data.organization.id,
           });
@@ -259,17 +262,17 @@ export const auth = betterAuth({
     // },
   },
   user: {
-    additionalFields: {
-      activeTier: {
-        defaultValue: "free",
-        required: true,
-        type: "string",
-        fieldName: "active_tier",
-        validator: {
-          input: z.enum(tierEnum.enumValues),
-        },
-      },
-    },
+    // additionalFields: {
+    //   activeTier: {
+    //     defaultValue: "free",
+    //     required: true,
+    //     type: "string",
+    //     fieldName: "active_tier",
+    //     validator: {
+    //       input: z.enum(tierEnum.enumValues),
+    //     },
+    //   },
+    // },
   },
   databaseHooks: {
     user: {
