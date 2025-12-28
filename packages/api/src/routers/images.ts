@@ -5,7 +5,7 @@ import { db } from "@morpics/db";
 import * as schema from "@morpics/db/schema";
 import { r2Client } from "@morpics/buckets/server";
 import { env } from "cloudflare:workers";
-import { generatePresingedURL } from "@morpics/buckets/utils";
+import { generatePreSignedURL, toSlug } from "@morpics/buckets/utils";
 
 import { drizzle } from "@morpics/db/dirzzle";
 import { imageInfoSchema, updateInfoSchema } from "../schemas";
@@ -40,7 +40,7 @@ const mutations = {
               .values({
                 key: `${input.bucket}/${key}`,
                 userId: session.user.id,
-                orgId: input.bucketId,
+                bucket_slug: input.bucket,
                 uploadingStatus: "pending",
               })
               .onConflictDoUpdate({
@@ -58,8 +58,7 @@ const mutations = {
           throw new Error("Failed to create any images");
         }
 
-        const { urls: singedURL } = await generatePresingedURL({
-          metadata: { orgId: input.bucket, userId: session.user.id },
+        const { urls: singedURL } = await generatePreSignedURL({
           keys: imagesCreated.map((img) => img?.key) as string[],
           client: r2Client,
           bucketName: env.R2_BUCKET_NAME,
@@ -129,24 +128,42 @@ const mutations = {
         })
         .where(drizzle.eq(schema.metadata.imageId, restInput.imgId))
         .returning();
-
+      let imgKey: string | undefined;
       if (restInput.key) {
-        const newKey = restInput.key;
+        imgKey = toSlug(restInput.key);
         await db.query.image
           .findFirst({ where: (f) => drizzle.eq(f.id, restInput.imgId) })
           .then(async (res) => {
+            const newKey = `${res?.bucket_slug}/${imgKey}`;
             const r2Old = await env.IMAGES.get(res?.key as string);
+            console.log("[OLD R2]", r2Old);
+
             if (r2Old) {
               await env.IMAGES.put(newKey, r2Old.body, {
                 httpMetadata: r2Old.httpMetadata,
                 customMetadata: r2Old.customMetadata,
               });
+              await Promise.all([
+                db
+                  .update(schema.image)
+                  .set({ key: newKey })
+                  .where(drizzle.eq(schema.image.id, restInput.imgId)),
+                db
+                  .update(schema.transformation)
+                  .set({ key: newKey })
+                  .where(
+                    drizzle.eq(schema.transformation.imageId, restInput.imgId),
+                  ),
+              ]);
+
+              imgKey = newKey;
+              // Delete old image from R2
+              await env.IMAGES.delete(res?.key as string);
+            } else {
+              imgKey = res?.key as string;
+              console.log("[R2 ERROR] Unable to find old image in R2");
             }
           });
-        await db
-          .update(schema.image)
-          .set({ key: restInput.key })
-          .where(drizzle.eq(schema.image.id, restInput.imgId));
       }
 
       // Handle tags: delete all existing and insert new ones
@@ -169,7 +186,10 @@ const mutations = {
         }
       }
 
-      return metadataUpdate;
+      return {
+        imgKey,
+        metadataUpdate,
+      };
     }),
 
   createInfo: protectedProcedure
@@ -215,17 +235,12 @@ const mutations = {
     }),
   delete: protectedProcedure
     .route({ method: "DELETE", path: "/image" })
-    .input(z.object({ key: z.string().min(1), bucketId: z.string().min(1) }))
+    .input(z.object({ key: z.string().min(1) }))
     .handler(async ({ input, context }) => {
       const [dbImg, r2img] = await Promise.all([
         db.query.image.findFirst({
-          where: (f, o) =>
-            o.and(
-              o.eq(f.key, input.key),
-
-              o.eq(f.orgId, input.bucketId),
-            ),
-          columns: { key: true, orgId: true, userId: true, id: true },
+          where: (f, o) => o.and(o.eq(f.key, input.key)),
+          columns: { key: true, bucket_slug: true, userId: true, id: true },
         }),
         env.IMAGES.head(input.key),
       ]);
@@ -249,10 +264,10 @@ const mutations = {
         );
         deleteImgPromise.push(env.IMAGES.delete(input.key));
       }
+      const t = await Promise.all(deleteImgPromise);
+      console.log(t);
 
-      return (await Promise.allSettled(deleteImgPromise))
-        .filter((pr) => pr.status === "fulfilled")
-        .map((itm) => itm.value);
+      return t;
     }),
 };
 
@@ -271,13 +286,21 @@ const queries = {
     .handler(async ({ input }) => {
       const imgs = await db.query.image.findMany({
         where: (f, o) =>
-          o.and(o.eq(f.orgId, input.bucketId), o.eq(f.uploadingStatus, "success")),
-        columns: { key: true, createdAt: true, userId: true, orgId: true },
+          o.and(
+            o.eq(f.bucket_slug, input.bucket),
+            o.eq(f.uploadingStatus, "success"),
+          ),
+        columns: {
+          key: true,
+          createdAt: true,
+          userId: true,
+          bucket_slug: true,
+        },
       });
       const allDBImgsP = imgs.map((img) => ({
         ...img,
 
-        url: `${env.BACKEND_URL}/${input.bucket}/${img.key}`,
+        url: `${env.BACKEND_URL}/${img.key}`,
       }));
 
       return allDBImgsP;
@@ -295,7 +318,7 @@ const queries = {
       const [img, allOrgTags] = await Promise.all([
         db.query.image.findFirst({
           where: (f, o) =>
-            o.and(o.eq(f.orgId, input.bucketId), o.eq(f.key, input.key)),
+            o.and(o.eq(f.bucket_slug, input.bucket), o.eq(f.key, input.key)),
           with: {
             metadata: true,
             imageTags: {
@@ -317,7 +340,7 @@ const queries = {
                   schema.image,
                   drizzle.eq(schema.imageTags.imageId, schema.image.id),
                 )
-                .where(drizzle.eq(schema.image.orgId, input.bucketId)),
+                .where(drizzle.eq(schema.image.bucket_slug, input.bucket)),
             ),
         }),
       ]);
@@ -327,7 +350,7 @@ const queries = {
 
       return {
         ...img,
-        url: `${env.BACKEND_URL}/${input.bucket}/${input.key}`,
+        url: `${env.BACKEND_URL}/${input.key}`,
         allOrgTags,
       };
     }),

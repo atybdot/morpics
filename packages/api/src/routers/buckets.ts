@@ -8,20 +8,20 @@ const queries = {
   stats: protectedProcedure
     .route({ path: "/bucket/stats" })
     .meta({ "description:": "Get an image for a specified bucket " })
-    .input(z.object({ orgId: z.string() }))
+    .input(z.object({ bucket: z.string(), bucketId: z.string() }))
     .handler(async ({ input }) => {
       const [memberCount, imageCount, transformedImageCount] =
         await Promise.all([
           db
             .select({ count: drizzle.count() })
             .from(schema.member)
-            .where(drizzle.eq(schema.member.organizationId, input.orgId))
+            .where(drizzle.eq(schema.member.organizationId, input.bucketId))
             .then((result) => result[0]?.count ?? 0),
 
           db
             .select({ count: drizzle.count() })
             .from(schema.image)
-            .where(drizzle.eq(schema.image.orgId, input.orgId))
+            .where(drizzle.eq(schema.image.bucket_slug, input.bucket))
             .then((result) => result[0]?.count ?? 0),
 
           db
@@ -33,12 +33,12 @@ const queries = {
               schema.image,
               drizzle.eq(schema.transformation.imageId, schema.image.id),
             )
-            .where(drizzle.eq(schema.image.orgId, input.orgId))
+            .where(drizzle.eq(schema.image.bucket_slug, input.bucket))
             .then((result) => result[0]?.count ?? 0),
         ]);
 
       return {
-        orgId: input.orgId,
+        bucketId: input.bucketId,
         members: memberCount,
         images: imageCount,
         transformations: transformedImageCount,
