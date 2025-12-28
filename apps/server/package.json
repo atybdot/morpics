@@ -21,6 +21,7 @@
     "@morpics/api": "workspace:*",
     "@morpics/auth": "workspace:*",
     "@morpics/db": "workspace:*",
+    "@morpics/sdk": "workspace:*",
     "@morpics/buckets": "workspace:*"
   },
   "devDependencies": {
