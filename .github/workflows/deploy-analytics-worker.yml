@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - development
     paths:
       - "apps/analytics/**"
 
@@ -23,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: apps/analytics
-        run: pnpm i
+        run: pnpm install --no-frozen-lockfile
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
