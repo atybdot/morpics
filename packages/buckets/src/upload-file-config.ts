@@ -1,7 +1,7 @@
 export const fileUploadConfig = {
   multiple_files: true,
   max_files: 20,
-  max_file_size: 1024 * 1024 * 5, // 5MB
+  max_file_size: 1024 * 1024 * 100, // 100MB
   accept: [
     "image/png",
     "image/webp",

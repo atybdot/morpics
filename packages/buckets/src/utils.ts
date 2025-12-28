@@ -2,15 +2,14 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import type { R2Client } from "./types";
 
-export const generatePresingedURL = async ({
+export const generatePreSignedURL = async ({
   keys,
   client,
-  metadata,
   bucketName,
 }: {
   keys: string[];
   client: R2Client;
-  metadata: { orgId: string; userId: string };
+
   bucketName: string;
 }) => {
   const results = await Promise.allSettled(
