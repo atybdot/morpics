@@ -1,7 +1,6 @@
 import { env } from "cloudflare:workers";
 import { db } from "@morpics/db";
 import * as schema from "@morpics/db/schema/auth";
-import z from "zod";
 import { betterAuth, BetterAuthError } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import {
@@ -22,7 +21,6 @@ import {
 import { PRICING_TABLE, type UserTier } from "@morpics/db/schema/constants";
 import { usageHelpers } from "@morpics/db/helpers/usage";
 import { getOrgOwner } from "@morpics/db/helpers/index";
-import { tierEnum } from "@morpics/db/schema";
 import { drizzle } from "@morpics/db/dirzzle";
 export const dodoPayments = new DodoPayments({
   bearerToken: env.DODO_PAYMENTS_API_KEY,
@@ -247,7 +245,7 @@ export const auth = betterAuth({
     },
   },
   secret: env.BETTER_AUTH_SECRET,
-  baseURL: env.BETTER_AUTH_URL,
+  // baseURL: env.BETTER_AUTH_URL,
   advanced: {
     defaultCookieAttributes: {
       sameSite: "none",
@@ -259,19 +257,6 @@ export const auth = betterAuth({
     // crossSubDomainCookies: {
     //   enabled: true,
     //   domain: "<your-workers-subdomain>",
-    // },
-  },
-  user: {
-    // additionalFields: {
-    //   activeTier: {
-    //     defaultValue: "free",
-    //     required: true,
-    //     type: "string",
-    //     fieldName: "active_tier",
-    //     validator: {
-    //       input: z.enum(tierEnum.enumValues),
-    //     },
-    //   },
     // },
   },
   databaseHooks: {

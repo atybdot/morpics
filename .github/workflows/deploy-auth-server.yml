@@ -1,0 +1,62 @@
+name: Deploy Auth Server Worker
+
+on:
+  push:
+    branches:
+      - main
+      - development
+    paths:
+      - "apps/auth-server/**"
+      - "packages/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy Worker
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACC_ID }}
+          workingDirectory: apps/auth-server
+          command: deploy --env production
+          secrets: |
+            DATABASE_URL
+            DATABASE_URL_POOLER
+            BETTER_AUTH_SECRET
+            DODO_PAYMENTS_API_KEY
+            DODO_PAYMENTS_WEBHOOK_SECRET
+            GITHUB_CLIENT_ID
+            GITHUB_CLIENT_SECRET
+            GOOGLE_CLIENT_ID
+            GOOGLE_CLIENT_SECRET
+            PRO_ID
+            STARTER_ID
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL_POOLER: ${{ secrets.DATABASE_URL_POOLER }}
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+          DODO_PAYMENTS_API_KEY: ${{ secrets.DODO_PAYMENTS_API_KEY }}
+          DODO_PAYMENTS_WEBHOOK_SECRET: ${{ secrets.DODO_PAYMENTS_WEBHOOK_SECRET }}
+          GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          PRO_ID: ${{ secrets.PRO_ID }}
+          STARTER_ID: ${{ secrets.STARTER_ID }}
