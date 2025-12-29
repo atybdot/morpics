@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: apps/analytics
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm ci
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
