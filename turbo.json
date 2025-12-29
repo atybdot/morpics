@@ -16,7 +16,18 @@
       "env": [
         "JWT_SECRET",
         "JWT_ISSUER",
-        "BACKEND_URL"
+        "BACKEND_URL",
+        "DATABASE_URL",
+        "DATABASE_URL_POOLER",
+        "BETTER_AUTH_SECRET",
+        "DODO_PAYMENTS_API_KEY",
+        "DODO_PAYMENTS_WEBHOOK_SECRET",
+        "GITHUB_CLIENT_ID",
+        "GITHUB_CLIENT_SECRET",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET",
+        "PRO_ID",
+        "STARTER_ID"
       ]
     },
     "lint": {

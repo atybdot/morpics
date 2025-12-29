@@ -1,23 +1,36 @@
 {
-	"$schema": "./node_modules/wrangler/config-schema.json",
-	"name": "morpics-server",
-	"main": "src/index.ts",
-	"compatibility_date": "2025-06-15",
-	"compatibility_flags": ["nodejs_compat"],
-	"vars": {
-		"NODE_ENV": "production",
-		"R2_BUCKET_NAME": "morpics"
-		// Add public environment variables here
-		// Example: "CORS_ORIGIN": "https://your-domain.com"
-	},
-	"r2_buckets": [
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "morpics-api-server",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-06-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "NODE_ENV": "production",
+    "R2_BUCKET_NAME": "morpics",
+    "BETTER_AUTH_URL": "https://auth.mor.pics",
+    "FRONTEND_URL": "https://mor.pics",
+    "BACKEND_URL": "https://api.mor.pics",
+    "FUNCTION_URL": "https://transform.mor.pics/"
+  },
+  "r2_buckets": [
     {
       "binding": "IMAGES",
-      "bucket_name": "avatars",
-	  "preview_bucket_name": "morpics"
-    },
+      "bucket_name": "morpics"
+    }
+  ],
+  "routes": [{ "pattern": "api.mor.pics", "custom_domain": true }],
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    }
+  },
+  "kv_namespaces": [
+    {
+      "binding": "AUTH_KV",
+      "id": "5b0669786c9c479a87898fad16f1b138"
+    }
   ]
-	// For sensitive data, use:
-	// wrangler secret put SECRET_NAME
-	// Don't add secrets to "vars" - they're visible in the dashboard!
 }

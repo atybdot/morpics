@@ -11,8 +11,6 @@ declare namespace Cloudflare {
 		DATABASE_URL_POOLER: string;
 		BETTER_AUTH_SECRET: string;
 		BETTER_AUTH_URL: string;
-		FRONTEND_URL: string;
-		BACKEND_URL: string;
 		DODO_PAYMENTS_API_KEY: string;
 		DODO_PAYMENTS_WEBHOOK_SECRET: string;
 		GITHUB_CLIENT_ID: string;
@@ -28,7 +26,7 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "NODE_ENV" | "DATABASE_URL" | "DATABASE_URL_POOLER" | "BETTER_AUTH_SECRET" | "BETTER_AUTH_URL" | "FRONTEND_URL" | "BACKEND_URL" | "DODO_PAYMENTS_API_KEY" | "DODO_PAYMENTS_WEBHOOK_SECRET" | "GITHUB_CLIENT_ID" | "GITHUB_CLIENT_SECRET" | "GOOGLE_CLIENT_ID" | "GOOGLE_CLIENT_SECRET" | "PRO_ID" | "STARTER_ID">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "NODE_ENV" | "FRONTEND_URL" | "BACKEND_URL" | "BETTER_AUTH_UR" | "DATABASE_URL" | "DATABASE_URL_POOLER" | "BETTER_AUTH_SECRET" | "BETTER_AUTH_URL" | "DODO_PAYMENTS_API_KEY" | "DODO_PAYMENTS_WEBHOOK_SECRET" | "GITHUB_CLIENT_ID" | "GITHUB_CLIENT_SECRET" | "GOOGLE_CLIENT_ID" | "GOOGLE_CLIENT_SECRET" | "PRO_ID" | "STARTER_ID">> {}
 }
 
 // Begin runtime types

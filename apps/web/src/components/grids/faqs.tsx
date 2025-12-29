@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import {
   Accordion,
   AccordionHeader,
@@ -5,7 +6,6 @@ import {
   AccordionPanel,
   AccordionTrigger,
 } from "../ui/accordion";
-import { nanoid } from "nanoid";
 
 export function FaqsGridHome() {
   const questions = [

@@ -6,20 +6,18 @@ import {
   PiBooks,
   PiBugBeetle,
   PiCircleHalf,
-  PiCookie,
   PiCreditCard,
-  PiCrownSimple,
   PiGithubLogo,
   PiImagesSquare,
   PiLifebuoy,
   PiPlugs,
-  PiShieldStar,
   PiShoppingBag,
   PiSignOut,
   PiSquareHalf,
   PiUser,
   PiXLogo,
 } from "react-icons/pi";
+import { toast } from "sonner";
 import {
   Sidebar,
   SidebarContent,
@@ -37,11 +35,11 @@ import {
 import { useTheme } from "@/hooks/use-theme";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+import TierChip from "../elements/tier-chip";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Button, type ButtonProps } from "./button";
 import { Skeleton } from "./skeleton";
-import { toast } from "sonner";
-import TierChip from "../elements/tier-chip";
+
 interface SidebarItembase {
   title: string;
   icon: JSX.ElementType;
@@ -132,8 +130,10 @@ export function AppSidebar() {
         onClick: async () => {
           toast.promise(authClient.dodopayments.customer.portal(), {
             loading: "Redirecting to Billing Portal",
-            success: ({ data, error }) => {
+            success: ({ error }) => {
               if (error) {
+                console.error("[PORTAL ERROR]", error);
+
                 throw toast.error(error.message);
               }
               return "Redirected";

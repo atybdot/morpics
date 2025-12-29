@@ -1,27 +1,35 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "morpics-auth-server",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-06-15",
-  "compatibility_flags": ["nodejs_compat"],
-  "vars": {
-    "NODE_ENV": "production",
-    "FRONTEND_URL": "https://mor.pics",
-    "BACKEND_URL": "https://api.mor.pics"
-  },
-  "routes": [
-    {
-      "custom_domain": true,
-      "pattern": "auth.mor.pics"
-    }
-  ],
-
-  "observability": {
-    "logs": {
-      "enabled": true,
-      "head_sampling_rate": 1,
-      "invocation_logs": true,
-      "persist": true
-    }
-  }
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "morpics-auth-server",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-06-15",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"vars": {
+		"NODE_ENV": "production",
+		"FRONTEND_URL": "https://mor.pics",
+		"BACKEND_URL": "https://api.mor.pics",
+		"BETTER_AUTH_UR": "https://auth.mor.pics"
+	},
+	"routes": [
+		{
+			"custom_domain": true,
+			"pattern": "auth.mor.pics"
+		}
+	],
+	"observability": {
+		"logs": {
+			"enabled": true,
+			"head_sampling_rate": 1,
+			"invocation_logs": true,
+			"persist": true
+		}
+	},
+	"kv_namespaces": [
+		{
+			"binding": "AUTH_KV",
+			"id": "5b0669786c9c479a87898fad16f1b138"
+		}
+	]
 }

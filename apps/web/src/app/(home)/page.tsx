@@ -12,7 +12,6 @@ export default function Home() {
       <section className="max-w-screen w-full relative sm:min-h-[calc(100svh-4rem)] md:content-center grid md:grid-cols-2 gap-8">
         <div className="space-y-4 py-12 content-center">
           <h1 className="text-4xl md:text-[3.5rem] font-semibold tracking-tighter text-balance">
-            {/* The API your images deserve */}
             URL-powered image manipulations
           </h1>
           <h2 className="text-sm text-balance md:text-lg mx-auto text-muted-foreground">
