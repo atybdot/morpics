@@ -6,8 +6,22 @@
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
     "NODE_ENV": "production",
-    // "BETTER_AUTH_URL": "secrets.BETTER_AUTH_URL ",
-    "FRONTEND_URL": "http://localhost:3001 ",
-    "BACKEND_URL": "http://localhost:3002"
+    "FRONTEND_URL": "https://mor.pics",
+    "BACKEND_URL": "https://api.mor.pics"
+  },
+  "routes": [
+    {
+      "custom_domain": true,
+      "pattern": "auth.mor.pics"
+    }
+  ],
+
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    }
   }
 }
