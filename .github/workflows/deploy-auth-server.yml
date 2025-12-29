@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - development
     paths:
       - "apps/auth-server/**"
       - "packages/db/**"
+      - "packages/auth/**"
 
 jobs:
   deploy:

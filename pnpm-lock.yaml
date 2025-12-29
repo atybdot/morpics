@@ -506,9 +506,6 @@ importers:
       '@dodopayments/better-auth':
         specifier: 'catalog:'
         version: 1.4.0(zod@4.1.13)
-      '@morpics/buckets':
-        specifier: workspace:*
-        version: link:../buckets
       '@morpics/db':
         specifier: workspace:*
         version: link:../db
