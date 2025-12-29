@@ -17,7 +17,7 @@ export class URLBuilder {
   constructor({ bucket, imageKey }: props) {
     this.bucketSlug = bucket;
     this.imageKey = imageKey;
-    if (this.API_ENDPOINT === undefined || !this.API_ENDPOINT) {
+    if (!this.API_ENDPOINT) {
       throw new Error("No API_ENDPOINT found");
     }
   }

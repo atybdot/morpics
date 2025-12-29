@@ -24,7 +24,7 @@ import { getOrgOwner } from "@morpics/db/helpers/index";
 import { drizzle } from "@morpics/db/dirzzle";
 export const dodoPayments = new DodoPayments({
   bearerToken: env.DODO_PAYMENTS_API_KEY,
-  environment: env.NODE_ENV !== "dev" ? "live_mode" : "test_mode",
+  environment: env.NODE_ENV === "production" ? "live_mode" : "test_mode",
 });
 export const auth = betterAuth({
   appName: "morpics",
