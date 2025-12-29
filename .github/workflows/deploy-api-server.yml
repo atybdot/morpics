@@ -10,9 +10,15 @@ on:
       - "packages/**"
 
 jobs:
+  build:
+    uses: ./.github/workflows/build-common.yml
+    with:
+      build-command: pnpm turbo run build
+
   deploy:
     runs-on: ubuntu-latest
     name: Deploy API service
+    needs: build
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,10 +30,7 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: pnpm ci
-
-      - name: Build packages
-        run: pnpm turbo run build
+        run: pnpm install --no-frozen-lockfile
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
