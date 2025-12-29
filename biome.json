@@ -23,7 +23,6 @@
       "!**/.wrangler",
       "!**/.alchemy",
       "!**/.svelte-kit",
-      "!**/wrangler.jsonc",
       "!**/.source"
     ]
   },
@@ -62,11 +61,7 @@
           "level": "off",
           "fix": "safe",
           "options": {
-            "functions": [
-              "clsx",
-              "cva",
-              "cn"
-            ]
+            "functions": ["clsx", "cva", "cn"]
           }
         }
       },

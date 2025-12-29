@@ -1,4 +1,4 @@
-name: Deploy Cloudflare Worker
+name: Deploy Analytics Proxy Worker
 
 on:
   push:
@@ -29,6 +29,6 @@ jobs:
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CF_API_TOKEN_ALT }}
+          accountId: ${{ secrets.CF_ACC_ID_ALT }}
           workingDirectory: apps/analytics
