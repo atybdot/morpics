@@ -32,7 +32,7 @@ export const siteMetadata: Metadata = {
     "serverless images",
     "edge image optimization",
   ],
-  authors: [{ name: "atyb a.", url: "https://github.com/atybdot" }],
+  authors: [{ name: "atyb a.", url: "https://atyb.me" }],
   creator: "@atybdot",
   publisher: "Morpics",
   metadataBase: new URL(SITE_URL),
@@ -88,9 +88,9 @@ export const siteMetadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon/favicon.ico", sizes: "16x16", type: "image/x-icon" },
+      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
 
     apple: [

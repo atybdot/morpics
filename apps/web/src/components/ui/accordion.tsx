@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { Accordion } from "@base-ui-components/react/accordion";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { PiCaretDown, PiPlus } from "react-icons/pi";
+import { PiCaretDown, PiMinus, PiPlus } from "react-icons/pi";
 
 // Variants
 const accordionRootVariants = cva("", {
@@ -48,7 +48,7 @@ const accordionHeaderVariants = cva("flex", {
 });
 
 const accordionTriggerVariants = cva(
-  "flex flex-1 items-center justify-between py-4 gap-2.5 text-foreground font-medium transition-all [&[data-panel-open]>svg]:rotate-180 cursor-pointer text-left",
+  "flex flex-1 items-center justify-between py-4 gap-2.5 text-foreground font-medium transition-all group cursor-pointer text-left",
   {
     variants: {
       variant: {
@@ -57,8 +57,8 @@ const accordionTriggerVariants = cva(
         solid: "",
       },
       indicator: {
-        arrow: "",
-        plus: "[&>svg>path:last-child]:origin-center [&>svg>path:last-child]:transition-all [&>svg>path:last-child]:duration-200 [&[data-panel-open]>svg>path:last-child]:rotate-90 [&[data-panel-open]>svg>path:last-child]:opacity-0 [&[data-panel-open]>svg]:rotate-180",
+        arrow: "group-data-[panel-open]:[&>svg]:rotate-180",
+        plus: "",
         none: "",
       },
     },
@@ -70,7 +70,7 @@ const accordionTriggerVariants = cva(
 );
 
 const accordionPanelVariants = cva(
-  "h-[var(--accordion-panel-height)] overflow-hidden text-sm text-accent-foreground transition-[height] ease-out data-[ending-style]:h-0 data-[starting-style]:h-0",
+  "h-[var(--accordion-panel-height)] overflow-hidden text-sm text-accent-foreground transition-[height] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] opacity-100 data-[ending-style]:h-0 data-[starting-style]:h-0 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
   {
     variants: {
       variant: {
@@ -177,14 +177,20 @@ function AccordionTrigger(
     >
       {children}
       {indicator === "plus" && (
-        <PiPlus
-          className="size-4 shrink-0 transition-transform duration-200"
-          strokeWidth={1}
-        />
+        <div className="relative size-4 shrink-0">
+          <PiPlus
+            className="absolute inset-0 size-4 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-data-panel-open:opacity-0 group-data-panel-open:rotate-180"
+            strokeWidth={1}
+          />
+          <PiMinus
+            className="absolute inset-0 size-4 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 rotate-90 group-data-panel-open:opacity-100 group-data-panel-open:rotate-180"
+            strokeWidth={1}
+          />
+        </div>
       )}
       {indicator === "arrow" && (
         <PiCaretDown
-          className="size-4 shrink-0 transition-transform duration-200"
+          className="size-4 shrink-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
           strokeWidth={1}
         />
       )}
