@@ -11,9 +11,15 @@ on:
       - "packages/auth/**"
 
 jobs:
+  build:
+    uses: ./.github/workflows/build-common.yml
+    with:
+      build-command: pnpm turbo run build --filter=@morpics/db --filter=@morpics/auth
+
   deploy:
     runs-on: ubuntu-latest
     name: Deploy auth service
+    needs: build
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,13 +31,7 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: pnpm ci
-
-      - name: Build db package
-        run: pnpm --filter @morpics/db build
-
-      - name: Build auth package
-        run: pnpm --filter @morpics/auth build
+        run: pnpm install --no-frozen-lockfile
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
