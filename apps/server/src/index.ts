@@ -21,6 +21,7 @@ import { getOwner } from "./lib/utils";
 const app = new Hono();
 
 app.use(logger(), prettyJSON());
+app.get("/favicon.ico", (c) => c.redirect("https://mor.pics/favicon.ico"));
 app.use(
   "/*",
   cors({

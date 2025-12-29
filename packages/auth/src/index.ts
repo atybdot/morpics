@@ -28,10 +28,26 @@ export const dodoPayments = new DodoPayments({
 });
 export const auth = betterAuth({
   appName: "morpics",
+  secret: env.BETTER_AUTH_SECRET,
+  baseURL: env.BETTER_AUTH_URL,
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: schema,
   }),
+  emailAndPassword: {
+    enabled: false,
+  },
+  socialProviders: {
+    github: {
+      clientId: env.GITHUB_CLIENT_ID as string,
+      clientSecret: env.GITHUB_CLIENT_SECRET as string,
+    },
+    google: {
+      clientId: env.GOOGLE_CLIENT_ID as string,
+      clientSecret: env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
+
   plugins: [
     customSession(async ({ user }) => {
       const [activeTier, usage, session] = await Promise.all([
@@ -222,20 +238,13 @@ export const auth = betterAuth({
       ],
     }),
   ],
-
-  trustedOrigins: [env.BACKEND_URL, env.FRONTEND_URL],
-  emailAndPassword: {
-    enabled: false,
-  },
-  socialProviders: {
-    github: {
-      clientId: env.GITHUB_CLIENT_ID as string,
-      clientSecret: env.GITHUB_CLIENT_SECRET as string,
+  secondaryStorage: {
+    get: async (key: string) => await env.AUTH_KV.get(key),
+    set: async (key: string, value: string, ttl?: number) => {
+      if (ttl) await env.AUTH_KV.put(key, value, { expirationTtl: ttl });
+      else await env.AUTH_KV.put(key, value);
     },
-    google: {
-      clientId: env.GOOGLE_CLIENT_ID as string,
-      clientSecret: env.GOOGLE_CLIENT_SECRET as string,
-    },
+    delete: async (key: string) => await env.AUTH_KV.delete(key),
   },
   // uncomment cookieCache setting when ready to deploy to Cloudflare using *.workers.dev domains
   session: {
@@ -244,21 +253,23 @@ export const auth = betterAuth({
       maxAge: 60,
     },
   },
-  secret: env.BETTER_AUTH_SECRET,
-  // baseURL: env.BETTER_AUTH_URL,
   advanced: {
     defaultCookieAttributes: {
       sameSite: "none",
       secure: true,
       httpOnly: true,
     },
-    // uncomment crossSubDomainCookies setting when ready to deploy and replace <your-workers-subdomain> with your actual workers subdomain
-    // https://developers.cloudflare.com/workers/wrangler/configuration/#workersdev
-    // crossSubDomainCookies: {
-    //   enabled: true,
-    //   domain: "<your-workers-subdomain>",
-    // },
+    crossSubDomainCookies: {
+      enabled: true,
+      domain: "api.mor.pics",
+    },
   },
+  trustedOrigins: [
+    env.BACKEND_URL,
+    env.FRONTEND_URL,
+    "http://localhost:3001",
+    "http://localhost:3002",
+  ],
   databaseHooks: {
     user: {
       create: {
