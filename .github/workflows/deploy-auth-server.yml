@@ -39,7 +39,6 @@ jobs:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACC_ID }}
           workingDirectory: apps/auth-server
-          command: versions upload
           secrets: |
             DATABASE_URL
             DATABASE_URL_POOLER
