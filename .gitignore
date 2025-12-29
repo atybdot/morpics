@@ -49,3 +49,4 @@ coverage
 tmp
 temp
 _auth-with-db
+.vercel

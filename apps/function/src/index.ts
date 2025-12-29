@@ -9,11 +9,18 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { etag } from "hono/etag";
 import { cache } from "hono/cache";
+
 type Variables = JwtVariables;
-const app = new Hono<{ Variables: Variables }>();
+const app = new Hono<{ Variables: Variables }>().use(logger());
+
+app.get("/", (c) => {
+  return c.json({
+    message: "Function is running!",
+    timeStamp: new Date().toISOString(),
+  });
+});
 app.use(
   "*",
-  logger(),
   cors({
     origin: (origin) => {
       if (origin.includes("localhost") || origin === env.BACKEND_URL) {

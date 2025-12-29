@@ -12,8 +12,7 @@ export class URLBuilder {
   private transformation: Partial<TransformationQuerySchema> = {};
   private imageKey;
   private bucketSlug;
-  //@ts-expect-error
-  private API_ENDPOINT = import.meta?.env.PUBLIC_API_ENDPOINT as string;
+  private API_ENDPOINT = "https://api.mor.pics";
   constructor({ bucket, imageKey }: props) {
     this.bucketSlug = bucket;
     this.imageKey = imageKey;
