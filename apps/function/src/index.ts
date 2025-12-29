@@ -9,7 +9,6 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { etag } from "hono/etag";
 import { cache } from "hono/cache";
-
 type Variables = JwtVariables;
 const app = new Hono<{ Variables: Variables }>().use(logger());
 app.get("/favicon.ico", (c) => c.redirect("https://mor.pics/favicon.ico"));
