@@ -1,6 +1,6 @@
+import { env } from "@/env";
 import type { Metadata } from "next";
-// export const SITE_URL = "https://mor.pics";
-export const SITE_URL = "http://localhost:3001";
+export const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
 export const siteMetadata: Metadata = {
   generator: "Next.js",
   applicationName: "Morpics",

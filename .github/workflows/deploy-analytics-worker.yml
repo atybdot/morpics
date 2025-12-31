@@ -6,11 +6,12 @@ on:
       - main
     paths:
       - "apps/analytics/**"
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy analytics service
+    name: Build and deploy analytics service worker
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,10 +21,34 @@ jobs:
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
+        with:
+          node-version: "23"
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Cache Turborepo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
 
       - name: Install dependencies
         working-directory: apps/analytics
-        run: pnpm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
