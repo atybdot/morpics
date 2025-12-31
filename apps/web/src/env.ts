@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const env = createEnv({
   client: {
+    NEXT_PUBLIC_SITE_URL: z.string().min(1),
     NEXT_PUBLIC_SERVER_URL: z.string().min(1),
     NEXT_PUBLIC_AUTH_URL: z.string().min(1),
     NEXT_PUBLIC_POSTHOG_KEY: z.string().min(1),
@@ -16,5 +17,6 @@ export const env = createEnv({
     NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
     NEXT_PUBLIC_AUTH_URL: process.env.NEXT_PUBLIC_AUTH_URL,
     NEXT_PUBLIC_POSTHOG_PROXY: process.env.NEXT_PUBLIC_POSTHOG_PROXY,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_URL,
   },
 });
