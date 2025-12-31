@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -17,7 +18,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         disableTransitionOnChange
       >
         <QueryClientProvider client={queryClient}>
-          <ToasterExtractor>{children}</ToasterExtractor>
+          <Suspense>
+            <ToasterExtractor>{children}</ToasterExtractor>
+          </Suspense>
           <ReactQueryDevtools buttonPosition="bottom-right" />
         </QueryClientProvider>
         <Toaster richColors className="rounded-none" />

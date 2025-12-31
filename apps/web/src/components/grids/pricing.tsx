@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { PiAsteriskBold, PiCheckSquare, PiSpinner } from "react-icons/pi";
 import { buttonVariants } from "../ui/button";
 import { cn } from "@/lib/utils";
