@@ -11,11 +11,6 @@ on:
       - "packages/auth/**"
 
 jobs:
-  build:
-    uses: ./.github/workflows/build-common.yml
-    with:
-      build-command: pnpm turbo run build --filter=@morpics/db --filter=@morpics/auth
-
   deploy:
     runs-on: ubuntu-latest
     name: Build and deploy auth service worker

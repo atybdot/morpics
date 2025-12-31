@@ -17,6 +17,6 @@ export const env = createEnv({
     NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
     NEXT_PUBLIC_AUTH_URL: process.env.NEXT_PUBLIC_AUTH_URL,
     NEXT_PUBLIC_POSTHOG_PROXY: process.env.NEXT_PUBLIC_POSTHOG_PROXY,
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_URL,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
 });
