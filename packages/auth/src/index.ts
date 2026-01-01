@@ -8,6 +8,7 @@ import {
   customSession,
   lastLoginMethod,
   multiSession,
+  oAuthProxy,
   openAPI,
   organization,
 } from "better-auth/plugins";
@@ -34,6 +35,7 @@ export const auth = betterAuth({
     provider: "pg",
     schema: schema,
   }),
+  logger: { level: "debug", disabled: false },
   emailAndPassword: {
     enabled: false,
   },
@@ -49,6 +51,10 @@ export const auth = betterAuth({
   },
 
   plugins: [
+    oAuthProxy({
+      currentURL: env.FRONTEND_URL,
+      productionURL: env.BETTER_AUTH_URL,
+    }),
     customSession(async ({ user }) => {
       const [activeTier, usage, session] = await Promise.all([
         db.query.user.findFirst({
@@ -251,17 +257,6 @@ export const auth = betterAuth({
     cookieCache: {
       enabled: true,
       maxAge: 60,
-    },
-  },
-  advanced: {
-    defaultCookieAttributes: {
-      sameSite: "none",
-      secure: true,
-      httpOnly: true,
-    },
-    crossSubDomainCookies: {
-      enabled: true,
-      domain: "api.mor.pics",
     },
   },
   trustedOrigins: [

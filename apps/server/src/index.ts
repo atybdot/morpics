@@ -21,7 +21,9 @@ import { getOwner } from "./lib/utils";
 const app = new Hono();
 
 app.use(logger(), prettyJSON());
-app.get("/favicon.ico", (c) => c.redirect("https://mor.pics/favicon.ico"));
+app.get("/favicon.ico", (c) =>
+  c.redirect("https://mor.pics/favicon/favicon.ico"),
+);
 app.use(
   "/*",
   cors({
@@ -76,6 +78,10 @@ app.use("/*", async (c, next) => {
   });
 
   if (apiResult.matched) {
+    if (env.NODE_ENV === "production") {
+      return c.text("Unauthorized", 401);
+    }
+
     return c.newResponse(apiResult.response.body, apiResult.response);
   }
 

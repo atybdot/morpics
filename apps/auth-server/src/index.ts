@@ -8,6 +8,9 @@ import { logger } from "hono/logger";
 const app = new Hono();
 
 app.use(logger());
+app.get("/favicon.ico", (c) =>
+  c.redirect("https://mor.pics/favicon/favicon.ico"),
+);
 app.use(
   "/*",
   cors({
