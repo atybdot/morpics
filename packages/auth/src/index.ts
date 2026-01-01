@@ -55,7 +55,7 @@ export const auth = betterAuth({
 
   plugins: [
     oAuthProxy({
-      currentURL: env.FRONTEND_URL,
+      currentURL: env.BETTER_AUTH_URL,
       productionURL: env.BETTER_AUTH_URL,
     }),
     customSession(async ({ user }) => {
