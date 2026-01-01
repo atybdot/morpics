@@ -20,7 +20,8 @@
     "db:generate": "turbo -F @morpics/db db:generate",
     "db:migrate": "turbo -F @morpics/db db:migrate",
     "db:pull": "turbo -F @morpics/db db:pull",
-    "server:typegen": "pnpm --filter server typegen"
+    "server:typegen": "pnpm --filter server typegen",
+    "auth:typegen": "pnpm --filter auth-service typegen"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
