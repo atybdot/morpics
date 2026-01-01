@@ -8,7 +8,7 @@
     "NODE_ENV": "production",
     "FRONTEND_URL": "https://mor.pics",
     "BACKEND_URL": "https://api.mor.pics",
-    "BETTER_AUTH_UR": "https://auth.mor.pics"
+    "BETTER_AUTH_URL": "https://auth.mor.pics"
   },
   "routes": [
     {
