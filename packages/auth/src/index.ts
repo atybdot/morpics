@@ -255,6 +255,11 @@ export const auth = betterAuth({
     },
     delete: async (key: string) => await env.AUTH_KV.delete(key),
   },
+  rateLimit: {
+    enabled: true,
+    window: 60,
+    maxRequests: 500,
+  },
   // uncomment cookieCache setting when ready to deploy to Cloudflare using *.workers.dev domains
   session: {
     cookieCache: {
