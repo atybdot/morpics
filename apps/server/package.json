@@ -6,7 +6,7 @@
     "build": "wrangler deploy --dry-run",
     "check-types": "tsc -b",
     "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
-    "dev": "wrangler dev --port=3002 --remote",
+    "dev": "wrangler dev --port=3002 --config wrangler.local.jsonc",
     "start": "wrangler dev",
     "deploy": "wrangler deploy",
     "typegen": "wrangler types --env-interface CloudflareBindings"
