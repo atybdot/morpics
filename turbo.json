@@ -68,7 +68,11 @@
       "persistent": true
     },
     "server:typegen": {
-      "cache": false,
+      "cache": true,
+      "persistent": false
+    },
+    "auth:typegen": {
+      "cache": true,
       "persistent": false
     }
   }

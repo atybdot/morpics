@@ -11,7 +11,7 @@ import { etag } from "hono/etag";
 import { cache } from "hono/cache";
 type Variables = JwtVariables;
 const app = new Hono<{ Variables: Variables }>().use(logger());
-app.get("/favicon.ico", (c) => c.redirect("https://mor.pics/favicon.ico"));
+app.get("/favicon.ico", (c) => c.redirect("https://mor.pics/favicon/favicon.ico"));
 app.get("/", (c) => {
   return c.json({
     message: "Function is running!",

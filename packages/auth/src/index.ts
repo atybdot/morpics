@@ -35,7 +35,10 @@ export const auth = betterAuth({
     provider: "pg",
     schema: schema,
   }),
-  logger: { level: "debug", disabled: false },
+  logger: {
+    level: env.NODE_ENV === "production" ? "error" : "debug",
+    disabled: false,
+  },
   emailAndPassword: {
     enabled: false,
   },

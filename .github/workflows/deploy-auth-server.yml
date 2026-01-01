@@ -50,8 +50,10 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
       - name: typegen
-        run: pnpm typegen
+        run: pnpm auth:typegen
+
       - name: Build
         run: pnpm build -F auth-service
 
