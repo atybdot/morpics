@@ -1,11 +1,7 @@
 "use client";
 
 import type React from "react";
-import {
-  PiMonitor,
-  PiMoonStars,
-  PiSun,
-} from "react-icons/pi";
+import { PiMonitor, PiMoonStars, PiSun } from "react-icons/pi";
 import { useTheme } from "@/hooks/use-theme";
 
 import { cn } from "@/lib/utils";

@@ -1,12 +1,7 @@
-import React from "react";
-import { CardAlt, CardContentAlt, CardHeaderAlt } from "../ui/card";
-import {
-  PiCheck,
-  PiChecks,
-  PiLink,
-  PiUpload,
-} from "react-icons/pi";
 import { nanoid } from "nanoid";
+import React from "react";
+import { PiCheck, PiChecks, PiLink, PiUpload } from "react-icons/pi";
+import { CardAlt, CardContentAlt, CardHeaderAlt } from "../ui/card";
 
 function HowItWorksGrid() {
   const steps = [
@@ -28,20 +23,18 @@ function HowItWorksGrid() {
   ];
   return (
     <>
-    {steps.map((step, index) => (
-      <CardAlt key={nanoid()} className="p-0 w-full">
-        <CardHeaderAlt className="bg-background border-b-2 border-dashed text-muted-foreground">
-          step {index + 1}
-        </CardHeaderAlt>
-        <CardContentAlt className="p-8">
-          {step.i}
-          <h3 className="text-lg font-semibold mb-2">{step.h}</h3>
-          <p className="text-sm text-muted-foreground">
-            {step.d}
-          </p>
-        </CardContentAlt>
-      </CardAlt>
-    ))}
+      {steps.map((step, index) => (
+        <CardAlt key={nanoid()} className="p-0 w-full">
+          <CardHeaderAlt className="bg-background border-b-2 border-dashed text-muted-foreground">
+            step {index + 1}
+          </CardHeaderAlt>
+          <CardContentAlt className="p-8">
+            {step.i}
+            <h3 className="text-lg font-semibold mb-2">{step.h}</h3>
+            <p className="text-sm text-muted-foreground">{step.d}</p>
+          </CardContentAlt>
+        </CardAlt>
+      ))}
     </>
   );
 }

@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   integer,
   pgTable,
@@ -6,7 +7,6 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
 import { organization, user } from "./auth";
 import { imageStatusEnum, mimeEnum } from "./enums";
 

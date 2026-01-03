@@ -1,10 +1,11 @@
 "use client";
 import { useTheme } from "next-themes";
+import { useQueryState } from "nuqs";
 import type React from "react";
-import { useEffect, useState, type SVGProps } from "react";
+import { type SVGProps, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useQueryState } from "nuqs";
+
 interface ThemeSwitcherButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;

@@ -3,10 +3,11 @@
 import { useForm } from "@tanstack/react-form";
 import { RotateCcwIcon, Upload, User } from "lucide-react";
 import { useState } from "react";
+import { PiSpinner } from "react-icons/pi";
 import { toast } from "sonner";
 import z from "zod";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Field, FieldError } from "@/components/ui/field";
 import {
   Input,
@@ -16,7 +17,6 @@ import {
 } from "@/components/ui/input";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { authClient } from "@/lib/auth-client";
-import { PiSpinner } from "react-icons/pi";
 
 const profileSchema = z.object({
   name: z

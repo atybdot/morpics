@@ -1,17 +1,20 @@
 import { zValidator } from "@hono/zod-validator";
+import { schema } from "@morpics/sdk";
 import { Hono } from "hono";
+import { cache } from "hono/cache";
+import { cors } from "hono/cors";
+import { etag } from "hono/etag";
+import { type JwtVariables, jwt } from "hono/jwt";
+import { logger } from "hono/logger";
 import sharp from "sharp";
 import z from "zod";
-import { schema } from "@morpics/sdk";
-import { jwt, type JwtVariables } from "hono/jwt";
 import { env } from "../env.js";
-import { cors } from "hono/cors";
-import { logger } from "hono/logger";
-import { etag } from "hono/etag";
-import { cache } from "hono/cache";
+
 type Variables = JwtVariables;
 const app = new Hono<{ Variables: Variables }>().use(logger());
-app.get("/favicon.ico", (c) => c.redirect("https://mor.pics/favicon/favicon.ico"));
+app.get("/favicon.ico", (c) =>
+  c.redirect("https://mor.pics/favicon/favicon.ico"),
+);
 app.get("/", (c) => {
   return c.json({
     message: "Function is running!",

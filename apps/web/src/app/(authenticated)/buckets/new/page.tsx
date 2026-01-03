@@ -1,10 +1,10 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
-import { PiShoppingBagOpen } from "react-icons/pi";
-import NewBucketForm from "@/components/forms/create-new-bucket";
-import GoBackBtn from "@/components/elements/go-back-btn";
 import { Suspense } from "react";
+import { PiShoppingBagOpen } from "react-icons/pi";
+import GoBackBtn from "@/components/elements/go-back-btn";
+import NewBucketForm from "@/components/forms/create-new-bucket";
 import Loader from "@/components/loader";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function Page() {
   return (

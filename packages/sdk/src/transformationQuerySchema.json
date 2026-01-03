@@ -22,25 +22,12 @@
     "format": {
       "default": "png",
       "type": "string",
-      "enum": [
-        "png",
-        "webp",
-        "avif",
-        "jpeg",
-        "tiff",
-        "jp2"
-      ]
+      "enum": ["png", "webp", "avif", "jpeg", "tiff", "jp2"]
     },
     "fit": {
       "default": "cover",
       "type": "string",
-      "enum": [
-        "contain",
-        "cover",
-        "fill",
-        "inside",
-        "outside"
-      ]
+      "enum": ["contain", "cover", "fill", "inside", "outside"]
     },
     "position": {
       "default": "center",
@@ -69,12 +56,6 @@
       "type": "boolean"
     }
   },
-  "required": [
-    "quality",
-    "format",
-    "fit",
-    "position",
-    "keepMetadata"
-  ],
+  "required": ["quality", "format", "fit", "position", "keepMetadata"],
   "additionalProperties": false
 }

@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { PiPlus } from "react-icons/pi";
 import { Button } from "@/components/ui/button";
 import {
   Combobox,
@@ -22,7 +23,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { PiPlus } from "react-icons/pi";
 
 interface MultiSelectComboboxProps {
   items: LabelItem[];

@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
+import * as React from "react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/components/animate-ui/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/components/animate-ui/icons/icon";
 
 type SlidersHorizontalProps = IconProps<keyof typeof animations>;
 
@@ -16,59 +16,59 @@ const animations = {
   default: {
     line1: {
       initial: { x2: 10 },
-      animate: { x2: 4, transition: { ease: 'easeInOut', duration: 0.4 } },
+      animate: { x2: 4, transition: { ease: "easeInOut", duration: 0.4 } },
     },
     line2: {
       initial: { x1: 14, x2: 14 },
       animate: {
         x1: 8,
         x2: 8,
-        transition: { ease: 'easeInOut', duration: 0.4 },
+        transition: { ease: "easeInOut", duration: 0.4 },
       },
     },
     line3: {
       initial: { x1: 14 },
-      animate: { x1: 8, transition: { ease: 'easeInOut', duration: 0.4 } },
+      animate: { x1: 8, transition: { ease: "easeInOut", duration: 0.4 } },
     },
     line4: {
       initial: { x2: 8 },
-      animate: { x2: 16, transition: { ease: 'easeInOut', duration: 0.4 } },
+      animate: { x2: 16, transition: { ease: "easeInOut", duration: 0.4 } },
     },
     line5: {
       initial: { x1: 8, x2: 8 },
       animate: {
         x1: 16,
         x2: 16,
-        transition: { ease: 'easeInOut', duration: 0.4 },
+        transition: { ease: "easeInOut", duration: 0.4 },
       },
     },
     line6: {
       initial: { x1: 12 },
-      animate: { x1: 20, transition: { ease: 'easeInOut', duration: 0.4 } },
+      animate: { x1: 20, transition: { ease: "easeInOut", duration: 0.4 } },
     },
     line7: {
       initial: { x2: 12 },
-      animate: { x2: 7, transition: { ease: 'easeInOut', duration: 0.4 } },
+      animate: { x2: 7, transition: { ease: "easeInOut", duration: 0.4 } },
     },
     line8: {
       initial: { x1: 16, x2: 16 },
       animate: {
         x1: 11,
         x2: 11,
-        transition: { ease: 'easeInOut', duration: 0.4 },
+        transition: { ease: "easeInOut", duration: 0.4 },
       },
     },
     line9: {
       initial: { x1: 16 },
-      animate: { x1: 11, transition: { ease: 'easeInOut', duration: 0.4 } },
+      animate: { x1: 11, transition: { ease: "easeInOut", duration: 0.4 } },
     },
   } satisfies Record<string, Variants>,
-  'default-loop': {
+  "default-loop": {
     line1: {
       initial: { x2: 10 },
       animate: {
         x2: [10, 4, 10],
-        transition: { ease: 'easeInOut', duration: 0.8 },
+        transition: { ease: "easeInOut", duration: 0.8 },
       },
     },
     line2: {
@@ -76,21 +76,21 @@ const animations = {
       animate: {
         x1: [14, 8, 14],
         x2: [14, 8, 14],
-        transition: { ease: 'easeInOut', duration: 0.8 },
+        transition: { ease: "easeInOut", duration: 0.8 },
       },
     },
     line3: {
       initial: { x1: 14 },
       animate: {
         x1: [14, 8, 14],
-        transition: { ease: 'easeInOut', duration: 0.8 },
+        transition: { ease: "easeInOut", duration: 0.8 },
       },
     },
     line4: {
       initial: { x2: 8 },
       animate: {
         x2: [8, 16, 8],
-        transition: { ease: 'easeInOut', duration: 0.8 },
+        transition: { ease: "easeInOut", duration: 0.8 },
       },
     },
     line5: {
@@ -98,21 +98,21 @@ const animations = {
       animate: {
         x1: [8, 16, 8],
         x2: [8, 16, 8],
-        transition: { ease: 'easeInOut', duration: 0.8 },
+        transition: { ease: "easeInOut", duration: 0.8 },
       },
     },
     line6: {
       initial: { x1: 12 },
       animate: {
         x1: [12, 20, 12],
-        transition: { ease: 'easeInOut', duration: 0.8 },
+        transition: { ease: "easeInOut", duration: 0.8 },
       },
     },
     line7: {
       initial: { x2: 12 },
       animate: {
         x2: [12, 7, 12],
-        transition: { ease: 'easeInOut', duration: 0.8 },
+        transition: { ease: "easeInOut", duration: 0.8 },
       },
     },
     line8: {
@@ -120,14 +120,14 @@ const animations = {
       animate: {
         x1: [16, 11, 16],
         x2: [16, 11, 16],
-        transition: { ease: 'easeInOut', duration: 0.8 },
+        transition: { ease: "easeInOut", duration: 0.8 },
       },
     },
     line9: {
       initial: { x1: 16 },
       animate: {
         x1: [16, 11, 16],
-        transition: { ease: 'easeInOut', duration: 0.8 },
+        transition: { ease: "easeInOut", duration: 0.8 },
       },
     },
   } satisfies Record<string, Variants>,

@@ -1,13 +1,13 @@
 /** biome-ignore-all lint/performance/noImgElement: <explanation> */
-import React from "react";
-import { ThemeSwitcherMultiButton } from "../elements/theme-switcher-multi-button";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "../ui/button";
-import { nanoid } from "nanoid";
-import { PiGithubLogo, PiGlobe, PiXLogo,  } from "react-icons/pi";
 
+import { nanoid } from "nanoid";
+import Link from "next/link";
+import React from "react";
+import { PiGithubLogo, PiGlobe, PiXLogo } from "react-icons/pi";
+import { cn } from "@/lib/utils";
 import { Logo } from "../elements/logo";
+import { ThemeSwitcherMultiButton } from "../elements/theme-switcher-multi-button";
+import { buttonVariants } from "../ui/button";
 
 interface FooterLinkItem {
   label: string;
@@ -56,7 +56,7 @@ function Footer() {
     <footer className=" relative bg-background">
       <section className="sm:w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-y-4 sm:pt-12 pb-2 sm:px-12 px-4 max-w-6xl mx-auto">
         <div className="flex flex-col items-start justify-start my-8 py-8 md:py-0 md:my-0 cursor-default sm:col-span-2 md:col-span-1 space-y-3">
-          <Logo className="mb-2"/>
+          <Logo className="mb-2" />
           <p className="flex items-center text-sm text-muted-foreground font-light">
             URL-powered image manipulations.
           </p>

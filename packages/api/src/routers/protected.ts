@@ -1,12 +1,13 @@
+import { env } from "cloudflare:workers";
+import { r2Client } from "@morpics/buckets/server";
+import { generatePresingedURL } from "@morpics/buckets/utils";
+import { db } from "@morpics/db";
+import { drizzle } from "@morpics/db/dirzzle";
+import * as schemas from "@morpics/db/schema";
 import z from "zod";
 import { protectedProcedure } from "..";
-import { generatePresingedURL } from "@morpics/buckets/utils";
-import { r2Client } from "@morpics/buckets/server";
-import { db } from "@morpics/db";
-import * as schemas from "@morpics/db/schema";
 import { imageInfoSchema, updateInfoSchema } from "../schemas";
-import { drizzle } from "@morpics/db/dirzzle";
-import { env } from "cloudflare:workers";
+
 const mutations = {
   // mutateImageStatus: protectedProcedure
   //   .route({ method: "PATCH", path: "/mutate-status" })
@@ -180,10 +181,8 @@ const queries = {
   //     });
   //     const allDBImgsP = imgs.map((img) => ({
   //       ...img,
-
   //       url: `${env.BACKEND_URL}/${img.orgId}/${img.key}`,
   //     }));
-
   //     return allDBImgsP;
   //   }),
   // getTransformedImages: protectedProcedure
@@ -203,19 +202,15 @@ const queries = {
   //     });
   //     const allDBImgsP = imgs.map((img) => ({
   //       ...img,
-
   //       url: `${env.BACKEND_URL}/${img.orgId}/${img.key}`,
   //     }));
-
   //     return allDBImgsP;
   //   }),
-
   // getImage: protectedProcedure
   //   .route({ method: "GET", path: "/get-image" })
   //   .input(z.object({ bucketId: z.string().min(1), key: z.string().min(1) }))
   //   .handler(async ({ input, context }) => {
   //     console.log("[CONTROL REACHED]", context);
-
   //     const [img, allOrgTags] = await Promise.all([
   //       db.query.image.findFirst({
   //         where: (f, o) =>
@@ -245,20 +240,16 @@ const queries = {
   //           ),
   //       }),
   //     ]);
-
   //     console.log("[IMAGE metadata]: ", JSON.stringify(img?.metadata, null, 2));
-
   //     if (!img) {
   //       return null;
   //     }
-
   //     return {
   //       ...img,
   //       url: `${env.BACKEND_URL}/${input.bucketId}/${input.key}`,
   //       allOrgTags,
   //     };
   //   }),
-
   // getBucketStats: protectedProcedure
   //   .route({ path: "/get-org-stats", method: "GET" })
   //   .meta({ "description:": "Get an image for a specified bucket " })
@@ -271,13 +262,11 @@ const queries = {
   //           .from(schemas.member)
   //           .where(drizzle.eq(schemas.member.organizationId, input.orgId))
   //           .then((result) => result[0]?.count ?? 0),
-
   //         db
   //           .select({ count: drizzle.count() })
   //           .from(schemas.image)
   //           .where(drizzle.eq(schemas.image.orgId, input.orgId))
   //           .then((result) => result[0]?.count ?? 0),
-
   //         db
   //           .select({
   //             count: drizzle.countDistinct(schemas.transformation.imageId),
@@ -290,7 +279,6 @@ const queries = {
   //           .where(drizzle.eq(schemas.image.orgId, input.orgId))
   //           .then((result) => result[0]?.count ?? 0),
   //       ]);
-
   //     return {
   //       orgId: input.orgId,
   //       members: memberCount,

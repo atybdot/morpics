@@ -111,8 +111,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --font-sans:var(--font-inter-sans);
-  --font-mono:var(--font-geist-mono);
+  --font-sans: var(--font-inter-sans);
+  --font-mono: var(--font-geist-mono);
 
   --animate-marquee: marquee var(--duration) infinite linear;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
@@ -198,7 +198,7 @@ html {
   body {
     @apply bg-background text-foreground;
   }
- button[data-close-button]{
-  border-radius: none;
- }
+  button[data-close-button] {
+    border-radius: none;
+  }
 }

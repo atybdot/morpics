@@ -1,8 +1,8 @@
 import { Dialog as DialogPrimitive } from "@base-ui-components/react/dialog";
 import * as React from "react";
+import { PiX } from "react-icons/pi";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { PiX } from "react-icons/pi";
 
 function Dialog({
   ...props
@@ -126,7 +126,7 @@ function DialogContent({
               className,
             )}
           >
-            <PiX/>
+            <PiX />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         )}
@@ -147,11 +147,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
 
 function DialogBody({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
-      data-slot="sheet-body"
-      className={cn(" p-2", className)}
-      {...props}
-    />
+    <div data-slot="sheet-body" className={cn(" p-2", className)} {...props} />
   );
 }
 

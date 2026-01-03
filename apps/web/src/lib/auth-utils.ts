@@ -1,6 +1,6 @@
+import type { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import { headers as baseHeaders } from "next/headers";
 import { authClient } from "./auth-client";
-import type { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 export async function checkSession({
   headers,
 }: {

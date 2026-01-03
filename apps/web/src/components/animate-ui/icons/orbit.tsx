@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
+import * as React from "react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/components/animate-ui/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/components/animate-ui/icons/icon";
 
 type OrbitProps = IconProps<keyof typeof animations>;
 
@@ -20,9 +20,9 @@ const animations = {
         rotate: 360,
         transition: {
           duration: 2,
-          ease: 'linear',
+          ease: "linear",
           repeat: Number.POSITIVE_INFINITY,
-          repeatType: 'loop',
+          repeatType: "loop",
         },
       },
     },

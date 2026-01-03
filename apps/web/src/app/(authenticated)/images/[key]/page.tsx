@@ -1,13 +1,49 @@
 /** biome-ignore-all lint/a11y/useKeyWithClickEvents: <explanation> */
 "use client";
+import * as schema from "@morpics/api/schemas";
+import { toSlug } from "@morpics/buckets/utils";
+import * as sdk from "@morpics/sdk";
+import { useForm, useStore } from "@tanstack/react-form";
+import { useQuery } from "@tanstack/react-query";
+import { useCopyToClipboard, useLocalStorage } from "@uidotdev/usehooks";
+import { useRouter } from "next/navigation";
+import { parseAsBoolean, useQueryState } from "nuqs";
+import React from "react";
+import {
+  PiCheck,
+  PiCopy,
+  PiFloppyDisk,
+  PiLock,
+  PiLockOpen,
+  PiPencilSimple,
+  PiPlus,
+  PiSpinner,
+  PiXSquare,
+} from "react-icons/pi";
+import { toast } from "sonner";
+import z from "zod";
+import GoBackBtn from "@/components/elements/go-back-btn";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { CardAlt, CardContentAlt } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogAction,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import {
   Input,
   InputAddon,
   InputGroup,
-  inputVariants,
   InputWrapper,
+  inputVariants,
 } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MultiSelectCombobox } from "@/components/ui/multi-select-combobox";
@@ -24,43 +60,6 @@ import { Slider } from "@/components/ui/slider";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { orpc, queryClient } from "@/utils/orpc";
-import * as schema from "@morpics/api/schemas";
-import { useForm, useStore } from "@tanstack/react-form";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import React from "react";
-import {
-  PiCheck,
-  PiCopy,
-  PiFloppyDisk,
-  PiLock,
-  PiLockOpen,
-  PiPencilSimple,
-  PiPlus,
-  PiSpinner,
-  PiXSquare,
-} from "react-icons/pi";
-import { toast } from "sonner";
-import z from "zod";
-
-import { useCopyToClipboard, useLocalStorage } from "@uidotdev/usehooks";
-import {
-  Dialog,
-  DialogAction,
-  DialogBody,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { parseAsBoolean, useQueryState } from "nuqs";
-import { Checkbox } from "@/components/ui/checkbox";
-import GoBackBtn from "@/components/elements/go-back-btn";
-import * as sdk from "@morpics/sdk";
-import { toSlug } from "@morpics/buckets/utils";
-import { CardAlt, CardContentAlt } from "@/components/ui/card";
 
 const transformationFormSchema = sdk.schema.transformationQuerySchema;
 

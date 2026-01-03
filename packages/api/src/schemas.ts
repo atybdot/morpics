@@ -1,5 +1,5 @@
 import { imageStatusEnum } from "@morpics/db/schema";
-import { updateInfoSchema, imageInfoSchema } from "@morpics/db/zod";
+import { imageInfoSchema, updateInfoSchema } from "@morpics/db/zod";
 import z from "zod";
 
 export const mutateImageStatusSchema = {
@@ -14,9 +14,7 @@ export const mutateImageStatusSchemaSingle = {
     status: z.enum(imageStatusEnum.enumValues),
   }),
 };
-export const transformationSchema = {
-  
-};
+export const transformationSchema = {};
 export { updateInfoSchema, imageInfoSchema };
 
 export * as schemas from "@morpics/db/schema";

@@ -1,11 +1,10 @@
 "use client";
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
 import { Accordion } from "@base-ui-components/react/accordion";
 import { cva, type VariantProps } from "class-variance-authority";
-
+import * as React from "react";
 import { PiCaretDown, PiMinus, PiPlus } from "react-icons/pi";
+import { cn } from "@/lib/utils";
 
 // Variants
 const accordionRootVariants = cva("", {

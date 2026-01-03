@@ -44,10 +44,7 @@ function AvatarImage({
   return (
     <Avatar.Image
       data-slot="avatar-image"
-      className={cn(
-        "aspect-square overflow-hidden h-full w-full",
-        className,
-      )}
+      className={cn("aspect-square overflow-hidden h-full w-full", className)}
       {...props}
     />
   );

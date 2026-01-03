@@ -1,10 +1,20 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
 import { fileUploadConfig } from "@morpics/buckets/upload-file-config";
+import { useMutation } from "@tanstack/react-query";
 
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import {
+  PiImageSquare,
+  PiMagnifyingGlassPlus,
+  PiPencilSimple,
+  PiTrash,
+  PiTrashSimple,
+  PiTrayArrowUp,
+  PiWarning,
+} from "react-icons/pi";
 import { toast } from "sonner";
+import z from "zod";
 import {
   Alert,
   AlertContent,
@@ -22,16 +32,6 @@ import {
 } from "@/hooks/use-file-upload";
 import { cn } from "@/lib/utils";
 import { orpc, queryClient } from "@/utils/orpc";
-import z from "zod";
-import {
-  PiImageSquare,
-  PiMagnifyingGlassPlus,
-  PiPencilSimple,
-  PiTrash,
-  PiTrashSimple,
-  PiTrayArrowUp,
-  PiWarning,
-} from "react-icons/pi";
 import { Dialog, DialogBody, DialogContent } from "../ui/dialog";
 
 interface GalleryUploadProps {
@@ -304,16 +304,16 @@ export default function UploadImagesForm({
                     {/* Overlay */}
                     <div className="flex items-center justify-end gap-1">
                       {/* Edit metadata button */}
-                      
-                         <Button
-                          title="change filename"
-                          onClick={() => setSelectedImage(fileItem)}
-                          variant="secondary"
-                          size="icon"
-                          className="size-7"
-                        >
-                          <PiPencilSimple />
-                        </Button>
+
+                      <Button
+                        title="change filename"
+                        onClick={() => setSelectedImage(fileItem)}
+                        variant="secondary"
+                        size="icon"
+                        className="size-7"
+                      >
+                        <PiPencilSimple />
+                      </Button>
                       {/* View Button */}
                       {fileItem.preview && (
                         <Button

@@ -1,8 +1,8 @@
-import * as React from "react";
-import { cn } from "@/lib/utils";
 import { Checkbox as BaseCheckbox } from "@base-ui-components/react/checkbox";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Check, Minus } from "lucide-react";
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 // Define the variants for the Checkbox using cva.
 const checkboxVariants = cva(

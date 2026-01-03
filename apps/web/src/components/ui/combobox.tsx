@@ -3,8 +3,8 @@
 import { Combobox as ComboboxPrimitive } from "@base-ui-components/react/combobox";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-import { cn } from "@/lib/utils";
 import { PiCaretDown, PiCheck, PiX } from "react-icons/pi";
+import { cn } from "@/lib/utils";
 import { buttonVariants } from "./button";
 import { InputWrapper } from "./input";
 

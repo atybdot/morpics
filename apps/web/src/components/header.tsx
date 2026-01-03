@@ -1,9 +1,18 @@
 "use client";
-import Link from "next/link";
-import { authClient } from "@/lib/auth-client";
-import { Button, buttonVariants, type ButtonProps } from "./ui/button";
+import { Loader } from "lucide-react";
 import { nanoid } from "nanoid";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { PiListBold as Menu } from "react-icons/pi";
+import {
+  NavigationMenu,
+  NavigationMenuPopup,
+  NavigationMenuPositioner,
+} from "@/components/ui/navigation-menu";
+import { authClient } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
+import { Logo } from "./elements/logo";
+import { Button, type ButtonProps, buttonVariants } from "./ui/button";
 import {
   Sheet,
   SheetBody,
@@ -13,15 +22,6 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 
-import { cn } from "@/lib/utils";
-import {
-  NavigationMenu,
-  NavigationMenuPopup,
-  NavigationMenuPositioner,
-} from "@/components/ui/navigation-menu";
-import { Loader } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { Logo } from "./elements/logo";
 type NavLinkVariant = { asLink: true; href: string; className?: string };
 
 type NavLink = NavLinkVariant & { label: string };

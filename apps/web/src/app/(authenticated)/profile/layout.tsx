@@ -1,12 +1,13 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import type React from "react";
 import { createContext } from "react";
 import { PiSpinner } from "react-icons/pi";
-import { sessionCtx } from "@/ctx/session";
 import GoBackBtn from "@/components/elements/go-back-btn";
+import { sessionCtx } from "@/ctx/session";
+import { authClient } from "@/lib/auth-client";
+
 function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
   const { isPending, data } = authClient.useSession();
   const router = useRouter();
