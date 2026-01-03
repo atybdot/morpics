@@ -257,6 +257,11 @@ export const auth = betterAuth({
     window: 60,
     maxRequests: 500,
   },
+  rateLimit: {
+    enabled: true,
+    window: 60,
+    maxRequests: 500,
+  },
   // uncomment cookieCache setting when ready to deploy to Cloudflare using *.workers.dev domains
   session: {
     cookieCache: {
