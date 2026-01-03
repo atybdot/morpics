@@ -1,7 +1,17 @@
 import { env } from "cloudflare:workers";
+import {
+  checkout,
+  dodopayments,
+  portal,
+  webhooks,
+} from "@dodopayments/better-auth";
 import { db } from "@morpics/db";
+import { drizzle } from "@morpics/db/dirzzle";
+import { getOrgOwner } from "@morpics/db/helpers/index";
+import { usageHelpers } from "@morpics/db/helpers/usage";
 import * as schema from "@morpics/db/schema/auth";
-import { betterAuth, BetterAuthError } from "better-auth";
+import { PRICING_TABLE, type UserTier } from "@morpics/db/schema/constants";
+import { BetterAuthError, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import {
   apiKey,
@@ -9,20 +19,9 @@ import {
   lastLoginMethod,
   multiSession,
   oAuthProxy,
-  openAPI,
   organization,
 } from "better-auth/plugins";
 import DodoPayments from "dodopayments";
-import {
-  checkout,
-  dodopayments,
-  portal,
-  webhooks,
-} from "@dodopayments/better-auth";
-import { PRICING_TABLE, type UserTier } from "@morpics/db/schema/constants";
-import { usageHelpers } from "@morpics/db/helpers/usage";
-import { getOrgOwner } from "@morpics/db/helpers/index";
-import { drizzle } from "@morpics/db/dirzzle";
 export const dodoPayments = new DodoPayments({
   bearerToken: env.DODO_PAYMENTS_API_KEY,
   environment: env.NODE_ENV === "production" ? "live_mode" : "test_mode",
@@ -36,7 +35,7 @@ export const auth = betterAuth({
     schema: schema,
   }),
   logger: {
-    level: env.NODE_ENV === "production" ? "error" : "debug",
+    level: "debug",
     disabled: false,
   },
   emailAndPassword: {
@@ -78,7 +77,6 @@ export const auth = betterAuth({
       });
       return { user: { ...user, ...activeTier }, session, usage, activeOrg };
     }),
-    openAPI(),
     organization({
       allowUserToCreateOrganization: async (user) => {
         const userTier = (user.activeTier ??
@@ -169,7 +167,6 @@ export const auth = betterAuth({
     multiSession(),
     lastLoginMethod({ storeInDatabase: true }),
     apiKey(),
-    // oAuthProxy(),
     dodopayments({
       client: dodoPayments,
       createCustomerOnSignUp: true,
@@ -247,14 +244,14 @@ export const auth = betterAuth({
       ],
     }),
   ],
-  secondaryStorage: {
-    get: async (key: string) => await env.AUTH_KV.get(key),
-    set: async (key: string, value: string, ttl?: number) => {
-      if (ttl) await env.AUTH_KV.put(key, value, { expirationTtl: ttl });
-      else await env.AUTH_KV.put(key, value);
-    },
-    delete: async (key: string) => await env.AUTH_KV.delete(key),
-  },
+  // secondaryStorage: {
+  //   get: async (key: string) => await env.AUTH_KV.get(key),
+  //   set: async (key: string, value: string, ttl?: number) => {
+  //     if (ttl) await env.AUTH_KV.put(key, value, { expirationTtl: ttl });
+  //     else await env.AUTH_KV.put(key, value);
+  //   },
+  //   delete: async (key: string) => await env.AUTH_KV.delete(key),
+  // },
   rateLimit: {
     enabled: true,
     window: 60,

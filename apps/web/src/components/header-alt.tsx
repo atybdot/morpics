@@ -1,6 +1,7 @@
 "use client";
 
 import { SquareDashedMousePointerIcon } from "lucide-react";
+import { nanoid } from "nanoid";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { PiSquareHalf } from "react-icons/pi";
@@ -9,7 +10,6 @@ import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { SidebarTrigger, useSidebar } from "./ui/sidebar";
-import { nanoid } from "nanoid";
 
 export default function HeaderAlt() {
   // const pathname = usePathname().split("/")[1] ?? "/";
@@ -26,7 +26,7 @@ export default function HeaderAlt() {
         <NavigationMenu className={"w-full flex-1 gap-1 justify-between"}>
           <div className="flex items-center justify-center gap-2 text-blue-500">
             <Link href={"/dashboard"} className="">
-              <SquareDashedMousePointerIcon className="size-5"/>
+              <SquareDashedMousePointerIcon className="size-5" />
             </Link>
             {pathname?.map((link, idx) => {
               return (

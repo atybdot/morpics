@@ -16,7 +16,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         },
         closeButton: true,
         cancelButtonStyle: { borderRadius: "var(--radius)" },
-        "classNames":{"closeButton":"rounded-none"}
+        classNames: { closeButton: "rounded-none" },
       }}
       style={
         {

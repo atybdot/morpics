@@ -1,6 +1,6 @@
+import React from "react";
 import { FaqsGridPrice } from "@/components/grids/faqs";
 import PricingGrid from "@/components/grids/pricing";
-import React from "react";
 
 function Page() {
   return (

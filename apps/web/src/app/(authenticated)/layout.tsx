@@ -1,10 +1,10 @@
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
 import HeaderAlt from "@/components/header-alt";
 import { AppSidebar } from "@/components/ui/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { checkSession } from "@/lib/auth-utils";
-import { headers } from "next/headers";
 
 async function ProtectedLayout({
   children,

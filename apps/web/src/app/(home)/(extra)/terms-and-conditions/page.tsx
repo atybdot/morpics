@@ -15,10 +15,9 @@ export default function TermsAndConditionsPage() {
         <div>
           <h2 className="font-medium mb-3">1. The Gist</h2>
           <p className="text-muted-foreground text-sm text-balance">
-            We're not here to
-            trap you in legal loopholes. We just want to provide a killer image
-            manipulation API. By using Morpics, you agree to play nice and not
-            abuse the service.
+            We're not here to trap you in legal loopholes. We just want to
+            provide a killer image manipulation API. By using Morpics, you agree
+            to play nice and not abuse the service.
           </p>
         </div>
 
@@ -83,7 +82,8 @@ export default function TermsAndConditionsPage() {
             <li>Content that infringes on someone else's copyright.</li>
           </ul>
           <p className="text-muted-foreground mt-4 text-sm">
-            If you do, we'll have to ban you. We are not left with any other option
+            If you do, we'll have to ban you. We are not left with any other
+            option
           </p>
         </div>
 

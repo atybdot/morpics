@@ -6,10 +6,11 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { organization, user } from "./auth";
 import { nanoid } from "nanoid";
+import { organization, user } from "./auth";
+
 type SeatEntry = {
-  orgId: typeof organization.$inferSelect["id"];
+  orgId: (typeof organization.$inferSelect)["id"];
   members: number;
 };
 
@@ -41,10 +42,7 @@ export const usage = pgTable("usage", {
   storage: integer("storage").default(0).notNull(),
   cache: integer("cache").default(0).notNull(),
   buckets: integer("buckets").default(0).notNull(),
-  seats: jsonb("seats")
-    .$type<SeatEntry[]>()
-    .default([])
-    .notNull(),
+  seats: jsonb("seats").$type<SeatEntry[]>().default([]).notNull(),
   bandwidth: integer("bandwidth").default(0).notNull(),
 
   cycleStart: timestamp("cycle_start").notNull().defaultNow(),
@@ -73,6 +71,6 @@ export const USAGE_METRIC_KEYS = [
 
 export const USAGE_FIELDS = Object.fromEntries(
   USAGE_METRIC_KEYS.map((key) => [key, usage[key]]),
-) 
+);
 
 export type UsageMetricKey = (typeof USAGE_METRIC_KEYS)[number];

@@ -1,9 +1,9 @@
+import { db } from "@morpics/db";
+import { drizzle } from "@morpics/db/dirzzle";
+import * as schema from "@morpics/db/schema";
 import z from "zod";
 import { protectedProcedure } from "..";
-import { db } from "@morpics/db";
-import * as schema from "@morpics/db/schema";
 
-import { drizzle } from "@morpics/db/dirzzle";
 const queries = {
   stats: protectedProcedure
     .route({ path: "/bucket/stats" })

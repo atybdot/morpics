@@ -50,7 +50,13 @@ function SelectPortal({
   className,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Portal>) {
-  return <SelectPrimitive.Portal data-slot="select-portal" className={cn("z-9999", className)} {...props} />;
+  return (
+    <SelectPrimitive.Portal
+      data-slot="select-portal"
+      className={cn("z-9999", className)}
+      {...props}
+    />
+  );
 }
 
 function SelectPositioner({

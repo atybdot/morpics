@@ -1,8 +1,8 @@
 "use client";
-import { Suspense } from "react";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Suspense } from "react";
 import { queryClient } from "@/utils/orpc";
 import { ThemeProvider } from "./theme-provider";
 import { Toaster } from "./ui/sonner";

@@ -1,10 +1,10 @@
-import { authClient } from "@/lib/auth-client";
-import { userTier, type UserTier } from "@morpics/db/schema/constants";
+import { type UserTier, userTier } from "@morpics/db/schema/constants";
+import { headers } from "next/headers";
 
 import { redirect } from "next/navigation";
 
 import z from "zod";
-import { headers } from "next/headers";
+import { authClient } from "@/lib/auth-client";
 
 const schema = z.object({
   slug: z.enum(userTier),
@@ -62,7 +62,9 @@ async function Page({
   if (dodoError) {
     console.log(dodoError);
 
-    return redirect(`/dashboard?error=${encodeURI(dodoError.message ?? "")}` as any);
+    return redirect(
+      `/dashboard?error=${encodeURI(dodoError.message ?? "")}` as any,
+    );
   }
   if (checkout.redirect && checkout.url) {
     throw redirect(checkout.url as any);

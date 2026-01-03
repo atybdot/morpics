@@ -62,8 +62,8 @@ export default function AboutUsPage() {
           <h2 className="font-medium mb-3">Join the Journey</h2>
           <p className="text-muted-foreground text-sm mb-6">
             Whether you're building a small blog or the next big thing, I'd love
-            for Morpics to be a part of your stack. If you have feedback, feature
-            requests, or just want to chat about code, hit me up.
+            for Morpics to be a part of your stack. If you have feedback,
+            feature requests, or just want to chat about code, hit me up.
           </p>
           <div className="flex gap-4 not-prose">
             <Link

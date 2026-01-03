@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { LoaderIcon, RotateCcw } from "lucide-react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import { Button, type ButtonProps } from "../ui/button";
-import { useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
+import { Button, type ButtonProps } from "../ui/button";
 
 function prepareURL(new_user = false) {
   const url = new URL(window.location.href);

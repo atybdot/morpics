@@ -370,7 +370,7 @@ export const useFileUpload = (
   const handlePaste = useCallback(
     (e: ClipboardEvent<HTMLElement>) => {
       e.preventDefault();
-      
+
       // Don't process files if the input is disabled
       if (inputRef.current?.disabled) {
         return;
@@ -380,13 +380,13 @@ export const useFileUpload = (
       if (!clipboardItems) return;
 
       const files: File[] = [];
-      
+
       // Extract files from clipboard
       for (let i = 0; i < clipboardItems.length; i++) {
         const item = clipboardItems[i];
-        
+
         // Check if the item is a file
-        if (item.kind === 'file') {
+        if (item.kind === "file") {
           const file = item.getAsFile();
           if (file) {
             files.push(file);

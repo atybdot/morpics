@@ -229,7 +229,7 @@ function CardAlt({
   return (
     <div
       data-slot="card"
-      className={cn(outer ? "p-2" : "","border", className)}
+      className={cn(outer ? "p-2" : "", "border", className)}
       {...props}
     />
   );

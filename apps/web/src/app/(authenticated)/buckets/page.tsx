@@ -1,14 +1,10 @@
 "use client";
 
+import { useQueries } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
+import { nanoid } from "nanoid";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { Button, buttonVariants } from "@/components/ui/button";
-
-import { Skeleton } from "@/components/ui/skeleton";
-import { authClient } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
 import {
   PiCaretRight,
   PiCubeTransparent,
@@ -18,17 +14,20 @@ import {
   PiShoppingBagOpenThin,
   PiUsersBold,
 } from "react-icons/pi";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { nanoid } from "nanoid";
+import { toast } from "sonner";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useQueries } from "@tanstack/react-query";
-import { orpc } from "@/utils/orpc";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipPositioner,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { authClient } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
+import { orpc } from "@/utils/orpc";
 
 function Page() {
   const { data: allOrgs, isPending } = authClient.useListOrganizations();
@@ -101,30 +100,30 @@ function Page() {
                   {OrgInfo.some((q) => q.isPending) ? (
                     <Skeleton className="w-full h-6" />
                   ) : (
-                    OrgInfo.filter((o) => (o.data?.bucketId ?? "") === org.id).map(
-                      (o) => (
-                        <div
-                          key={o.data?.bucketId}
-                          className="flex flex-wrap text-sm text-muted-foreground gap-4"
-                        >
-                          <Chip
-                            description="total members"
-                            icon={<PiUsersBold />}
-                            text={o.data?.members}
-                          />
-                          <Chip
-                            description="total images"
-                            icon={<PiImageSquare />}
-                            text={o.data?.images}
-                          />
-                          <Chip
-                            description="total transformations"
-                            icon={<PiCubeTransparent />}
-                            text={o.data?.transformations ?? 0}
-                          />
-                        </div>
-                      ),
-                    )
+                    OrgInfo.filter(
+                      (o) => (o.data?.bucketId ?? "") === org.id,
+                    ).map((o) => (
+                      <div
+                        key={o.data?.bucketId}
+                        className="flex flex-wrap text-sm text-muted-foreground gap-4"
+                      >
+                        <Chip
+                          description="total members"
+                          icon={<PiUsersBold />}
+                          text={o.data?.members}
+                        />
+                        <Chip
+                          description="total images"
+                          icon={<PiImageSquare />}
+                          text={o.data?.images}
+                        />
+                        <Chip
+                          description="total transformations"
+                          icon={<PiCubeTransparent />}
+                          text={o.data?.transformations ?? 0}
+                        />
+                      </div>
+                    ))
                   )}
                 </div>
 

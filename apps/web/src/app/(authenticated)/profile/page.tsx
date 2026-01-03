@@ -1,8 +1,10 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
-import ProfileEditForm from "@/components/forms/profile-edit-form";
+import { useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
+import Link from "next/link";
+import { useContext } from "react";
+import type { IconType } from "react-icons/lib";
 import {
   PiAndroidLogoLight,
   PiAppleLogoLight,
@@ -13,17 +15,15 @@ import {
   PiQuestionMarkLight,
   PiWindowsLogoLight,
 } from "react-icons/pi";
-import { CardAlt, CardContentAlt, CardHeaderAlt } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
-import { detectOS } from "@/utils/detect-user-agent";
-import type { IconType } from "react-icons/lib";
-import { Button, buttonVariants } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useContext } from "react";
-import { sessionCtx, type AuthSession } from "@/ctx/session";
+import ProfileEditForm from "@/components/forms/profile-edit-form";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { CardAlt, CardContentAlt, CardHeaderAlt } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
+import { type AuthSession, sessionCtx } from "@/ctx/session";
+import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+import { detectOS } from "@/utils/detect-user-agent";
 
 function Page() {
   const session = useContext(sessionCtx) as AuthSession;

@@ -3,12 +3,7 @@
 import { toSlug } from "@morpics/buckets/utils";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import {
-    CheckIcon,
-    Loader,
-    Plus,
-    RotateCcwIcon
-} from "lucide-react";
+import { CheckIcon, Loader, Plus, RotateCcwIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import z from "zod";

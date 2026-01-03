@@ -1,11 +1,10 @@
 "use client";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
+import GoBackBtn from "@/components/elements/go-back-btn";
 import UploadSection from "@/components/forms/file-upload";
 import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/auth-client";
-
-import GoBackBtn from "@/components/elements/go-back-btn";
 
 function Page() {
   const { data: session, isPending } = authClient.useSession();

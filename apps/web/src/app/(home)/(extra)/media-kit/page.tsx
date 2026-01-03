@@ -1,9 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCopyToClipboard } from "@uidotdev/usehooks";
+import { Check, Copy, Download } from "lucide-react";
+import { useEffect, useState } from "react";
+import { PiCheck, PiCopy, PiDownloadSimple } from "react-icons/pi";
+import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Download, Copy, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Input, InputGroup } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -11,10 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input, InputGroup } from "@/components/ui/input";
-import { useCopyToClipboard } from "@uidotdev/usehooks";
-import { PiCheck, PiCopy, PiDownloadSimple } from "react-icons/pi";
-import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface AssetItem {
   label: string;

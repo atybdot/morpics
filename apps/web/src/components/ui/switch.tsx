@@ -1,17 +1,17 @@
-import * as React from 'react';
-import { Switch as SwitchPrimitive } from '@base-ui-components/react/switch';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils';
+import { Switch as SwitchPrimitive } from "@base-ui-components/react/switch";
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 // Define a context for `size` state
-const SwitchContext = React.createContext<{ size: 'sm' | 'md' | 'lg' }>({
-  size: 'md',
+const SwitchContext = React.createContext<{ size: "sm" | "md" | "lg" }>({
+  size: "md",
 });
 
 const useSwitchContext = () => {
   const context = React.useContext(SwitchContext);
   if (!context) {
-    throw new Error('SwitchThumb must be used within a Switch component');
+    throw new Error("SwitchThumb must be used within a Switch component");
   }
   return context;
 };
@@ -27,29 +27,29 @@ const switchVariants = cva(
   {
     variants: {
       size: {
-        sm: 'h-4 w-6',
-        md: 'h-5 w-8',
-        lg: 'h-6 w-10',
+        sm: "h-4 w-6",
+        md: "h-5 w-8",
+        lg: "h-6 w-10",
       },
     },
     defaultVariants: {
-      size: 'md',
+      size: "md",
     },
   },
 );
 
 const switchThumbVariants = cva(
-  'bg-background dark:data-[unchecked]:bg-foreground dark:data-[checked]:bg-primary-foreground pointer-events-none rounded-full ring-0 transition-transform flex items-center justify-center',
+  "bg-background dark:data-[unchecked]:bg-foreground dark:data-[checked]:bg-primary-foreground pointer-events-none rounded-full ring-0 transition-transform flex items-center justify-center",
   {
     variants: {
       size: {
-        sm: 'size-3 data-[checked]:translate-x-[calc(100%-2px)] data-[unchecked]:translate-x-0',
-        md: 'size-4 data-[checked]:translate-x-[calc(100%-2px)] data-[unchecked]:translate-x-0',
-        lg: 'size-5 data-[checked]:translate-x-[calc(100%-2px)] data-[unchecked]:translate-x-0',
+        sm: "size-3 data-[checked]:translate-x-[calc(100%-2px)] data-[unchecked]:translate-x-0",
+        md: "size-4 data-[checked]:translate-x-[calc(100%-2px)] data-[unchecked]:translate-x-0",
+        lg: "size-5 data-[checked]:translate-x-[calc(100%-2px)] data-[unchecked]:translate-x-0",
       },
     },
     defaultVariants: {
-      size: 'md',
+      size: "md",
     },
   },
 );
@@ -57,10 +57,11 @@ const switchThumbVariants = cva(
 function Switch({
   className,
   children,
-  size = 'md',
+  size = "md",
   ...props
-}: React.ComponentProps<typeof SwitchPrimitive.Root> & VariantProps<typeof switchVariants>) {
-  const effectiveSize = size ?? 'md';
+}: React.ComponentProps<typeof SwitchPrimitive.Root> &
+  VariantProps<typeof switchVariants>) {
+  const effectiveSize = size ?? "md";
   return (
     <SwitchContext.Provider value={{ size: effectiveSize }}>
       <SwitchPrimitive.Root
@@ -78,7 +79,8 @@ function SwitchThumb({
   className,
   size,
   ...props
-}: React.ComponentProps<typeof SwitchPrimitive.Thumb> & Partial<VariantProps<typeof switchThumbVariants>>) {
+}: React.ComponentProps<typeof SwitchPrimitive.Thumb> &
+  Partial<VariantProps<typeof switchThumbVariants>>) {
   const context = useSwitchContext();
   const effectiveSize = size ?? context.size;
 

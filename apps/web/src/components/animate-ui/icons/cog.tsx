@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
+import * as React from "react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/components/animate-ui/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/components/animate-ui/icons/icon";
 
 type CogProps = IconProps<keyof typeof animations>;
 
@@ -22,7 +22,7 @@ const animations = {
         rotate: [0, 90, 180],
         transition: {
           duration: 1.25,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -41,7 +41,7 @@ const animations = {
     path13: {},
     path14: {},
   } satisfies Record<string, Variants>,
-  'default-loop': {
+  "default-loop": {
     group: {
       initial: {
         rotate: 0,
@@ -50,7 +50,7 @@ const animations = {
         rotate: [0, 90, 180, 270, 360],
         transition: {
           duration: 2.5,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -78,7 +78,7 @@ const animations = {
         rotate: 360,
         transition: {
           duration: 2,
-          ease: 'linear',
+          ease: "linear",
         },
       },
     },

@@ -1,5 +1,5 @@
-import { env } from "@/env";
 import type { Metadata } from "next";
+import { env } from "@/env";
 export const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
 export const siteMetadata: Metadata = {
   generator: "Next.js",

@@ -1,5 +1,6 @@
 "use client";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useCopyToClipboard } from "@uidotdev/usehooks";
 import { nanoid } from "nanoid";
 import Link from "next/link";
 import React from "react";
@@ -15,6 +16,7 @@ import {
 } from "react-icons/pi";
 import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -22,8 +24,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { orpc, queryClient } from "@/utils/orpc";
-import { Card, CardContent } from "@/components/ui/card";
-import { useCopyToClipboard } from "@uidotdev/usehooks";
 
 function Page() {
   const abortControllerRef = React.useRef<AbortController | null>(null);
