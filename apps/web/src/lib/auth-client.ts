@@ -13,6 +13,9 @@ import { env } from "@/env";
 
 export const authClient = createAuthClient({
   baseURL: env.NEXT_PUBLIC_AUTH_URL,
+  fetchOptions: {
+    credentials: "include",
+  },
   plugins: [
     inferAdditionalFields<typeof auth>(),
     customSessionClient<typeof auth>(),
