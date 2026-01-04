@@ -244,29 +244,31 @@ export const auth = betterAuth({
       ],
     }),
   ],
-  // secondaryStorage: {
-  //   get: async (key: string) => await env.AUTH_KV.get(key),
-  //   set: async (key: string, value: string, ttl?: number) => {
-  //     if (ttl) await env.AUTH_KV.put(key, value, { expirationTtl: ttl });
-  //     else await env.AUTH_KV.put(key, value);
-  //   },
-  //   delete: async (key: string) => await env.AUTH_KV.delete(key),
-  // },
-  rateLimit: {
-    enabled: true,
-    window: 60,
-    maxRequests: 500,
+  secondaryStorage: {
+    get: async (key: string) => await env.AUTH_KV.get(key),
+    set: async (key: string, value: string, ttl?: number) => {
+      if (ttl) await env.AUTH_KV.put(key, value, { expirationTtl: ttl });
+      else await env.AUTH_KV.put(key, value);
+    },
+    delete: async (key: string) => await env.AUTH_KV.delete(key),
   },
   rateLimit: {
     enabled: true,
     window: 60,
     maxRequests: 500,
   },
-  // uncomment cookieCache setting when ready to deploy to Cloudflare using *.workers.dev domains
   session: {
     cookieCache: {
       enabled: true,
       maxAge: 60,
+    },
+  },
+  advanced: {
+    cookiePrefix: "morpics",
+    useSecureCookies: true,
+    crossSubDomainCookies: {
+      enabled: true,
+      domain: "mor.pics",
     },
   },
   trustedOrigins: [

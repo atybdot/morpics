@@ -91,6 +91,7 @@ export default function UploadImagesForm({
   const uploadMutation = useMutation({
     mutationFn: async (filesToUpload: FileWithPreview[]) => {
       abortControllerRef.current = new AbortController();
+      console.info("[STARTED GENERATING PRESIGNED URLS]");
       // Generate presigned URLs
       const urls = await orpc.images.getPreSignedUrl.call(
         {
@@ -104,6 +105,7 @@ export default function UploadImagesForm({
       // Upload all files in parallel
       const uploadResults = await Promise.allSettled(
         urls.map(async (url) => {
+          console.info("[FINDING FILES]: ", url.key);
           const file = filesToUpload.find(
             (fl) => `${reqMetadata.bucket}/${fl.file.name}` === url.key,
           );
@@ -111,7 +113,7 @@ export default function UploadImagesForm({
           if (!file) {
             throw new Error(`File not found for key: ${url.key}`);
           }
-
+          console.info("[STARTED UPLOADING FILE]: ", url.key);
           await fetch(url.url, {
             method: "PUT",
             body: file.file as File,
@@ -129,6 +131,8 @@ export default function UploadImagesForm({
               );
             })
             .then(async () => {
+              console.info("[FILE UPLOADED]: ", url.key);
+              console.info("[MUTATING STATUS]: ", url.key);
               const imgid = await orpc.images["update-status"].call({
                 imageKey: url.key,
                 status: "success",

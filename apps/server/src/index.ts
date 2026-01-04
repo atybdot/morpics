@@ -35,7 +35,8 @@ app.use(
       env.FUNCTION_URL,
     ],
     allowMethods: ["*"],
-    allowHeaders: ["Content-Type", "Authorization", "Cache-Control", "ETag"],
+    allowHeaders: ["Content-Type", "Authorization", "Cache-Control", "ETag", "Cookie"],
+    exposeHeaders: ["Set-Cookie"],
     credentials: true,
   }),
 );
