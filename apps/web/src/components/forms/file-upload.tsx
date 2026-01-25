@@ -101,6 +101,11 @@ export default function UploadImagesForm({
         },
         { signal: abortControllerRef.current?.signal },
       );
+      if (urls.length <= 0) {
+        toast.error("No presigned URLs returned");
+        throw new Error("No presigned URLs returned");
+      }
+      console.log("[URLS]:", urls);
 
       // Upload all files in parallel
       const uploadResults = await Promise.allSettled(

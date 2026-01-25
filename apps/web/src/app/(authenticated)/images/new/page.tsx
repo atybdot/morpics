@@ -8,13 +8,12 @@ import { authClient } from "@/lib/auth-client";
 
 function Page() {
   const { data: session, isPending } = authClient.useSession();
+
   useEffect(() => {
-    if (!isPending) {
-      if (!session?.session?.activeOrganizationId) {
-        redirect("/buckets");
-      }
+    if (!isPending && !session?.session?.activeOrganizationId) {
+      redirect("/buckets");
     }
-  }, [isPending]);
+  }, [isPending, session?.session?.activeOrganizationId]);
   return (
     <section className="h-full w-full flex items-center flex-col justify-center">
       <GoBackBtn divProps={{ className: "w-full" }} />
