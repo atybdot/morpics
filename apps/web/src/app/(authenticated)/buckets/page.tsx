@@ -139,17 +139,22 @@ function Page() {
                         return router.push("/images");
                       }
                     }
-                    const { error } = await authClient.organization.setActive({
-                      organizationId: org.id,
-                      organizationSlug: org.slug,
-                    });
-                    if (!error) {
-                      router.push("/buckets");
-                    } else {
-                      console.log(error);
-
-                      toast.error("unable to switch bucket");
-                    }
+                    toast.promise(
+                      authClient.organization.setActive({
+                        organizationId: org.id,
+                        organizationSlug: org.slug,
+                      }),
+                      {
+                        loading: "switching bucket...",
+                        success: () => {
+                          router.push(`/buckets/${org.slug}` as any);
+                          return "bucket switched";
+                        },
+                        error: () => {
+                          return "unable to switch bucket";
+                        },
+                      },
+                    );
                   }}
                 >
                   see images
