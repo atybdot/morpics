@@ -265,11 +265,11 @@ export const auth = betterAuth({
   },
   advanced: {
     cookiePrefix: "morpics",
-    useSecureCookies: true,
-    crossSubDomainCookies: {
+    useSecureCookies: env.NODE_ENV === "production",
+    ...(env.NODE_ENV === "production" && {
       enabled: true,
       domain: "mor.pics",
-    },
+    }),
   },
   trustedOrigins: [
     env.BACKEND_URL,

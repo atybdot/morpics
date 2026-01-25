@@ -147,7 +147,7 @@ function Page() {
                       {
                         loading: "switching bucket...",
                         success: () => {
-                          router.push(`/buckets/${org.slug}` as any);
+                          router.push("/images");
                           return "bucket switched";
                         },
                         error: () => {
