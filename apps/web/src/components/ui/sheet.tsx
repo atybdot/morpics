@@ -8,9 +8,7 @@ function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
-function SheetTrigger({
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
+function SheetTrigger({ ...props }: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
 }
 
@@ -30,19 +28,13 @@ function SheetClose({
   return (
     <SheetPrimitive.Close
       data-slot="sheet-action"
-      className={cn(
-        !props.render && buttonVariants({ variant: "outline" }),
-        className,
-      )}
+      className={cn(!props.render && buttonVariants({ variant: "outline" }), className)}
       {...props}
     />
   );
 }
 
-function SheetAction({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Close>) {
+function SheetAction({ className, ...props }: React.ComponentProps<typeof SheetPrimitive.Close>) {
   return (
     <SheetPrimitive.Close
       data-slot="sheet-close"
@@ -52,9 +44,7 @@ function SheetAction({
   );
 }
 
-function SheetPortal({
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Portal>) {
+function SheetPortal({ ...props }: React.ComponentProps<typeof SheetPrimitive.Portal>) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
@@ -128,29 +118,16 @@ function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function SheetBody({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="sheet-body"
-      className={cn("px-4 py-2.5", className)}
-      {...props}
-    />
-  );
+  return <div data-slot="sheet-body" className={cn("px-4 py-2.5", className)} {...props} />;
 }
 
 function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
-      data-slot="sheet-footer"
-      className={cn("flex sm:space-x-2.5 p-4", className)}
-      {...props}
-    />
+    <div data-slot="sheet-footer" className={cn("flex sm:space-x-2.5 p-4", className)} {...props} />
   );
 }
 
-function SheetTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Title>) {
+function SheetTitle({ className, ...props }: React.ComponentProps<typeof SheetPrimitive.Title>) {
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"

@@ -13,14 +13,7 @@ import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { Logo } from "./elements/logo";
 import { Button, type ButtonProps, buttonVariants } from "./ui/button";
-import {
-  Sheet,
-  SheetBody,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger,
-} from "./ui/sheet";
+import { Sheet, SheetBody, SheetClose, SheetContent, SheetHeader, SheetTrigger } from "./ui/sheet";
 
 type NavLinkVariant = { asLink: true; href: string; className?: string };
 
@@ -55,18 +48,11 @@ export default function Header() {
           <div className="space-x-2 items-center hidden sm:flex">
             <Link
               href={"/docs" as any}
-              className={cn(
-                buttonVariants({ variant: "outline", size: "xs" }),
-                "text-sm",
-              )}
+              className={cn(buttonVariants({ variant: "outline", size: "xs" }), "text-sm")}
             >
               go to docs
             </Link>
-            <AuthBtn
-              showLogin={!session?.session}
-              isPending={isPending}
-              size={"xs"}
-            />
+            <AuthBtn showLogin={!session?.session} isPending={isPending} size={"xs"} />
           </div>
 
           {/* mobile menu */}
@@ -91,10 +77,7 @@ export default function Header() {
                 </div>
                 {navLink.links.map((link) => {
                   return (
-                    <div
-                      className="group hover:bg-muted w-full p-2 relative"
-                      key={nanoid()}
-                    >
+                    <div className="group hover:bg-muted w-full p-2 relative" key={nanoid()}>
                       {pathname === link.href && (
                         <div className="hidden group-hover:block p-0.5 bg-primary h-8/12 absolute left-0 top-1/2 -translate-y-1/2" />
                       )}
@@ -133,11 +116,7 @@ function AuthBtn({
   return (
     <Link
       href={showLogin ? "/sign-in" : "/dashboard"}
-      className={cn(
-        buttonVariants({ variant: "primary", size }),
-        "text-sm w-full",
-        className,
-      )}
+      className={cn(buttonVariants({ variant: "primary", size }), "text-sm w-full", className)}
     >
       {isPending && <Loader className="animate-spin " />}
       {isPending ? "loading" : showLogin ? "Sign in" : "dashboard"}

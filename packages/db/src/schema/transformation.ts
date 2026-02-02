@@ -1,11 +1,4 @@
-import {
-  boolean,
-  integer,
-  pgTable,
-  text,
-  timestamp,
-  uuid,
-} from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { mimeEnum } from "./enums";
 import { image } from "./images";
 
@@ -18,9 +11,7 @@ export const transformation = pgTable("transformation", {
   bucket: text("bucket_slug").notNull(),
   transformation_query: text("transformation_query").notNull(),
 
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .defaultNow()
-    .notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 export const transformation_metadata = pgTable("transformation_metadata", {
   id: uuid("id").primaryKey().defaultRandom(),

@@ -129,18 +129,8 @@ function IconComponent({ size, ...props }: CogProps) {
           initial="initial"
           animate={controls}
         />
-        <motion.path
-          d="M12 2v2"
-          variants={variants.path3}
-          initial="initial"
-          animate={controls}
-        />
-        <motion.path
-          d="M12 22v-2"
-          variants={variants.path4}
-          initial="initial"
-          animate={controls}
-        />
+        <motion.path d="M12 2v2" variants={variants.path3} initial="initial" animate={controls} />
+        <motion.path d="M12 22v-2" variants={variants.path4} initial="initial" animate={controls} />
         <motion.path
           d="m17 20.66-1-1.73"
           variants={variants.path5}
@@ -165,18 +155,8 @@ function IconComponent({ size, ...props }: CogProps) {
           initial="initial"
           animate={controls}
         />
-        <motion.path
-          d="M14 12h8"
-          variants={variants.path9}
-          initial="initial"
-          animate={controls}
-        />
-        <motion.path
-          d="M2 12h2"
-          variants={variants.path10}
-          initial="initial"
-          animate={controls}
-        />
+        <motion.path d="M14 12h8" variants={variants.path9} initial="initial" animate={controls} />
+        <motion.path d="M2 12h2" variants={variants.path10} initial="initial" animate={controls} />
         <motion.path
           d="m20.66 7-1.73 1"
           variants={variants.path11}
@@ -210,10 +190,4 @@ function Cog(props: CogProps) {
   return <IconWrapper icon={IconComponent} {...props} />;
 }
 
-export {
-  animations,
-  Cog,
-  Cog as CogIcon,
-  type CogProps,
-  type CogProps as CogIconProps,
-};
+export { animations, Cog, Cog as CogIcon, type CogProps, type CogProps as CogIconProps };

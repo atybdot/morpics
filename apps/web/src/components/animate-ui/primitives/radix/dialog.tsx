@@ -12,8 +12,7 @@ type DialogContextType = {
   setIsOpen: DialogProps["onOpenChange"];
 };
 
-const [DialogProvider, useDialog] =
-  getStrictContext<DialogContextType>("DialogContext");
+const [DialogProvider, useDialog] = getStrictContext<DialogContextType>("DialogContext");
 
 type DialogProps = React.ComponentProps<typeof DialogPrimitive.Root>;
 
@@ -26,11 +25,7 @@ function Dialog(props: DialogProps) {
 
   return (
     <DialogProvider value={{ isOpen, setIsOpen }}>
-      <DialogPrimitive.Root
-        data-slot="dialog"
-        {...props}
-        onOpenChange={setIsOpen}
-      />
+      <DialogPrimitive.Root data-slot="dialog" {...props} onOpenChange={setIsOpen} />
     </DialogProvider>
   );
 }
@@ -41,23 +36,14 @@ function DialogTrigger(props: DialogTriggerProps) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
-type DialogPortalProps = Omit<
-  React.ComponentProps<typeof DialogPrimitive.Portal>,
-  "forceMount"
->;
+type DialogPortalProps = Omit<React.ComponentProps<typeof DialogPrimitive.Portal>, "forceMount">;
 
 function DialogPortal(props: DialogPortalProps) {
   const { isOpen } = useDialog();
 
   return (
     <AnimatePresence>
-      {isOpen && (
-        <DialogPrimitive.Portal
-          data-slot="dialog-portal"
-          forceMount
-          {...props}
-        />
-      )}
+      {isOpen && <DialogPrimitive.Portal data-slot="dialog-portal" forceMount {...props} />}
     </AnimatePresence>
   );
 }
@@ -106,8 +92,7 @@ function DialogContent({
   transition = { type: "spring", stiffness: 150, damping: 25 },
   ...props
 }: DialogContentProps) {
-  const initialRotation =
-    from === "bottom" || from === "left" ? "20deg" : "-20deg";
+  const initialRotation = from === "bottom" || from === "left" ? "20deg" : "-20deg";
   const isVertical = from === "top" || from === "bottom";
   const rotateAxis = isVertical ? "rotateX" : "rotateY";
 
@@ -170,14 +155,10 @@ function DialogTitle(props: DialogTitleProps) {
   return <DialogPrimitive.Title data-slot="dialog-title" {...props} />;
 }
 
-type DialogDescriptionProps = React.ComponentProps<
-  typeof DialogPrimitive.Description
->;
+type DialogDescriptionProps = React.ComponentProps<typeof DialogPrimitive.Description>;
 
 function DialogDescription(props: DialogDescriptionProps) {
-  return (
-    <DialogPrimitive.Description data-slot="dialog-description" {...props} />
-  );
+  return <DialogPrimitive.Description data-slot="dialog-description" {...props} />;
 }
 
 export {

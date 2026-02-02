@@ -1,7 +1,7 @@
 {
   "name": "auth-service",
-  "main": "src/index.ts",
   "type": "module",
+  "main": "src/index.ts",
   "scripts": {
     "build": "wrangler deploy --dry-run",
     "check-types": "tsc -b",
@@ -12,17 +12,16 @@
     "typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
-    "hono": "catalog:",
-
+    "@morpics/auth": "workspace:*",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
-    "@morpics/auth": "workspace:*"
+    "hono": "catalog:"
   },
   "devDependencies": {
-    "typescript": "catalog:",
-    "tsdown": "catalog:",
     "@morpics/config": "workspace:*",
-    "wrangler": "^4.40.3",
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "wrangler": "^4.40.3"
   }
 }

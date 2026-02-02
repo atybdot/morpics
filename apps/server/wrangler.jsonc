@@ -10,13 +10,13 @@
     "BETTER_AUTH_URL": "https://auth.mor.pics",
     "FRONTEND_URL": "https://mor.pics",
     "BACKEND_URL": "https://api.mor.pics",
-    "FUNCTION_URL": "https://transform.mor.pics/"
+    "FUNCTION_URL": "https://transform.mor.pics/",
   },
   "r2_buckets": [
     {
       "binding": "IMAGES",
-      "bucket_name": "morpics"
-    }
+      "bucket_name": "morpics",
+    },
   ],
   "routes": [{ "pattern": "api.mor.pics", "custom_domain": true }],
   "observability": {
@@ -24,13 +24,13 @@
       "enabled": true,
       "head_sampling_rate": 1,
       "invocation_logs": true,
-      "persist": true
-    }
+      "persist": true,
+    },
   },
   "kv_namespaces": [
     {
       "binding": "AUTH_KV",
-      "id": "5b0669786c9c479a87898fad16f1b138"
-    }
-  ]
+      "id": "5b0669786c9c479a87898fad16f1b138",
+    },
+  ],
 }

@@ -57,9 +57,7 @@ export default function UploadImagesForm({
   onFilesChange,
   reqMetadata,
 }: GalleryUploadProps) {
-  const [selectedImage, setSelectedImage] = useState<FileWithPreview | null>(
-    null,
-  );
+  const [selectedImage, setSelectedImage] = useState<FileWithPreview | null>(null);
   const [
     { files, isDragging, errors },
     {
@@ -194,10 +192,7 @@ export default function UploadImagesForm({
       onSubmit={(e) => {
         e.preventDefault();
       }}
-      className={cn(
-        "my-auto max-w-2xl space-y-4 bg-background p-2 ",
-        className,
-      )}
+      className={cn("my-auto max-w-2xl space-y-4 bg-background p-2 ", className)}
     >
       <div className="my-auto max-w-2xl space-y-4 bg-background p-2 border ">
         {/* Upload Area */}
@@ -224,21 +219,15 @@ export default function UploadImagesForm({
                 )}
               >
                 <PiImageSquare
-                  className={cn(
-                    "size-6",
-                    isDragging ? "text-primary" : "text-muted-foreground",
-                  )}
+                  className={cn("size-6", isDragging ? "text-primary" : "text-muted-foreground")}
                 />
               </div>
 
               <div className="space-y-2 text-pretty">
                 <h3 className="text-lg">Upload images to gallery</h3>
-                <p className="text-sm text-muted-foreground">
-                  Drag and drop images here
-                </p>
+                <p className="text-sm text-muted-foreground">Drag and drop images here</p>
                 <p className="text-xs text-muted-foreground text-balance ">
-                  PNG, JPG, GIF up to {formatBytes(maxSize)} each (max{" "}
-                  {maxFiles} files)
+                  PNG, JPG, GIF up to {formatBytes(maxSize)} each (max {maxFiles} files)
                 </p>
               </div>
 
@@ -257,20 +246,12 @@ export default function UploadImagesForm({
                 Gallery ({files.length}/{maxFiles})
               </h4>
               <div className="text-muted-foreground">
-                Total:{" "}
-                {formatBytes(
-                  files.reduce((acc, file) => acc + file.file.size, 0),
-                )}
+                Total: {formatBytes(files.reduce((acc, file) => acc + file.file.size, 0))}
               </div>
             </div>
             {/* right side buttons */}
             <div className="inline-flex items-center justify-between gap-2 pointer-events-auto">
-              <Button
-                onClick={clearFiles}
-                variant="destructive"
-                className=""
-                size="sm"
-              >
+              <Button onClick={clearFiles} variant="destructive" className="" size="sm">
                 <PiTrash />
                 <span className="hidden md:block">Clear all</span>
               </Button>
@@ -279,19 +260,10 @@ export default function UploadImagesForm({
         )}
         {/* Image Grid */}
         {files.length > 0 && (
-          <ScrollArea
-            className={"max-h-[calc(100vh-16rem)] overflow-scroll bg-secondary"}
-          >
-            <div
-              className={cn(
-                "grid grid-flow-row grid-cols-1 sm:grid-cols-2 gap-1 p-1",
-              )}
-            >
+          <ScrollArea className={"max-h-[calc(100vh-16rem)] overflow-scroll bg-secondary"}>
+            <div className={cn("grid grid-flow-row grid-cols-1 sm:grid-cols-2 gap-1 p-1")}>
               {files.map((fileItem) => (
-                <div
-                  key={fileItem.id}
-                  className="group relative h-auto max-w-full "
-                >
+                <div key={fileItem.id} className="group relative h-auto max-w-full ">
                   {isImage(fileItem.file) && fileItem.preview ? (
                     <img
                       src={fileItem.preview}
@@ -306,9 +278,7 @@ export default function UploadImagesForm({
 
                   {/* File Info */}
                   <div className="bg-muted p-2 text-foreground transition-opacity">
-                    <p className="truncate text-xs font-medium">
-                      {fileItem.file.name}
-                    </p>
+                    <p className="truncate text-xs font-medium">{fileItem.file.name}</p>
                     <p className="text-xs">{formatBytes(fileItem.file.size)}</p>
                     {/* Overlay */}
                     <div className="flex items-center justify-end gap-1">
@@ -390,8 +360,7 @@ export default function UploadImagesForm({
             }}
             disabled={uploadMutation.isPending}
           >
-            <PiTrayArrowUp />{" "}
-            {uploadMutation.isPending ? "Uploading..." : "Upload"}
+            <PiTrayArrowUp /> {uploadMutation.isPending ? "Uploading..." : "Upload"}
           </Button>
         )}{" "}
         {/* Error Messages */}
@@ -419,10 +388,7 @@ export default function UploadImagesForm({
       </div>
       {/* Image Preview Modal */}
       {selectedImage && (
-        <Dialog
-          open={!!selectedImage}
-          onOpenChange={() => setSelectedImage(null)}
-        >
+        <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
           <DialogContent showDismissButton>
             <DialogBody>
               <img

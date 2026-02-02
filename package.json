@@ -1,13 +1,15 @@
 {
   "name": "morpics",
   "private": true,
-  "type": "module",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
+  "type": "module",
   "scripts": {
-    "check": "biome check --write .",
+    "check": "oxlint .",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
     "prepare": "husky",
     "dev": "turbo dev",
     "build": "turbo build",
@@ -15,11 +17,6 @@
     "dev:native": "turbo -F native dev",
     "dev:web": "turbo -F web dev",
     "dev:server": "turbo -F server dev",
-    "db:push": "turbo -F @morpics/db db:push",
-    "db:studio": "turbo -F @morpics/db db:studio",
-    "db:generate": "turbo -F @morpics/db db:generate",
-    "db:migrate": "turbo -F @morpics/db db:migrate",
-    "db:pull": "turbo -F @morpics/db db:pull",
     "server:typegen": "pnpm --filter server typegen",
     "auth:typegen": "pnpm --filter auth-service typegen"
   },
@@ -29,17 +26,19 @@
     "zod": "^4.3.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.10",
     "@faker-js/faker": "^10.1.0",
     "@types/node": "^22.19.3",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
+    "oxfmt": "^0.28.0",
+    "oxlint": "^1.43.0",
     "tsdown": "^0.15.12",
     "turbo": "^2.7.2"
   },
   "lint-staged": {
     "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
-      "biome lint --write"
+      "oxlint --fix",
+      "oxfmt --write"
     ]
   },
   "packageManager": "pnpm@10.27.0"

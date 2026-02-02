@@ -1,5 +1,6 @@
 {
   "name": "@morpics/auth",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -10,23 +11,22 @@
       "default": "./src/*.ts"
     }
   },
-  "type": "module",
   "scripts": {
     "build": "tsdown"
   },
+  "dependencies": {
+    "@dodopayments/better-auth": "catalog:",
+    "@morpics/db": "workspace:*",
+    "better-auth": "catalog:",
+    "dodopayments": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
   "devDependencies": {
-    "tsdown": "catalog:",
-    "@morpics/config": "workspace:*"
+    "@morpics/config": "workspace:*",
+    "tsdown": "catalog:"
   },
   "peerDependencies": {
     "typescript": "^5"
-  },
-  "dependencies": {
-    "better-auth": "catalog:",
-    "dotenv": "catalog:",
-    "zod": "catalog:",
-    "@morpics/db": "workspace:*",
-    "@dodopayments/better-auth": "catalog:",
-    "dodopayments": "catalog:"
   }
 }

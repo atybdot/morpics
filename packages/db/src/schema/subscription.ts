@@ -1,11 +1,4 @@
-import {
-  boolean,
-  integer,
-  jsonb,
-  pgTable,
-  text,
-  timestamp,
-} from "drizzle-orm/pg-core";
+import { boolean, integer, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { organization, user } from "./auth";
 
@@ -69,8 +62,6 @@ export const USAGE_METRIC_KEYS = [
   "bandwidth",
 ] as const satisfies ReadonlyArray<keyof typeof usage.$inferSelect>;
 
-export const USAGE_FIELDS = Object.fromEntries(
-  USAGE_METRIC_KEYS.map((key) => [key, usage[key]]),
-);
+export const USAGE_FIELDS = Object.fromEntries(USAGE_METRIC_KEYS.map((key) => [key, usage[key]]));
 
 export type UsageMetricKey = (typeof USAGE_METRIC_KEYS)[number];

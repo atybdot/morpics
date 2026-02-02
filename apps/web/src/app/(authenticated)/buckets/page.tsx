@@ -69,10 +69,7 @@ function Page() {
               <h1 className="text-lg mb-2 text-balance">No buckets found</h1>
               <Link
                 href={"/buckets/new"}
-                className={cn(
-                  buttonVariants({ variant: "primary", size: "lg" }),
-                  "w-fit mx-auto",
-                )}
+                className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-fit mx-auto")}
               >
                 <Plus />
                 Create New bucket
@@ -88,10 +85,7 @@ function Page() {
                 <div className="flex-1 p-2 ">
                   <div className=" aspect-square overflow-hidden w-10 text-muted-foreground">
                     {org.logo ? (
-                      <img
-                        src={org.logo}
-                        className="size-8 aspect-square object-cover"
-                      />
+                      <img src={org.logo} className="size-8 aspect-square object-cover" />
                     ) : (
                       <PiShoppingBag className="size-8" />
                     )}
@@ -100,9 +94,7 @@ function Page() {
                   {OrgInfo.some((q) => q.isPending) ? (
                     <Skeleton className="w-full h-6" />
                   ) : (
-                    OrgInfo.filter(
-                      (o) => (o.data?.bucketId ?? "") === org.id,
-                    ).map((o) => (
+                    OrgInfo.filter((o) => (o.data?.bucketId ?? "") === org.id).map((o) => (
                       <div
                         key={o.data?.bucketId}
                         className="flex flex-wrap text-sm text-muted-foreground gap-4"
@@ -181,13 +173,8 @@ function Chip({
 }) {
   return (
     <Tooltip>
-      <TooltipTrigger
-        render={<div />}
-        className="flex items-center justify-between border"
-      >
-        <span className="size-6 inline-flex items-center justify-center">
-          {icon}
-        </span>
+      <TooltipTrigger render={<div />} className="flex items-center justify-between border">
+        <span className="size-6 inline-flex items-center justify-center">{icon}</span>
 
         <p className="text-base px-1 h-6 w-10 text-center bg-muted content-center cursor-default">
           {text}

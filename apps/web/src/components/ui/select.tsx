@@ -32,17 +32,13 @@ const Select = ({
   icon?: ReactNode;
 } & React.ComponentProps<typeof SelectPrimitive.Root>) => {
   return (
-    <SelectContext.Provider
-      value={{ indicatorPosition, indicatorVisibility, indicator, icon }}
-    >
+    <SelectContext.Provider value={{ indicatorPosition, indicatorVisibility, indicator, icon }}>
       <SelectPrimitive.Root data-slot="select" {...props} />
     </SelectContext.Provider>
   );
 };
 
-function SelectGroup({
-  ...props
-}: React.ComponentProps<typeof SelectPrimitive.Group>) {
+function SelectGroup({ ...props }: React.ComponentProps<typeof SelectPrimitive.Group>) {
   return <SelectPrimitive.Group data-slot="select-group" {...props} />;
 }
 
@@ -103,12 +99,7 @@ function SelectValue({
 }
 
 // Clear - A button to clear the input value
-function SelectClear({
-  className,
-  children,
-  onClick,
-  ...props
-}: React.ComponentProps<"button">) {
+function SelectClear({ className, children, onClick, ...props }: React.ComponentProps<"button">) {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
@@ -178,15 +169,11 @@ const selectTriggerVariants = cva(
 );
 
 export interface SelectTriggerProps
-  extends React.ComponentProps<typeof SelectPrimitive.Trigger>,
+  extends
+    React.ComponentProps<typeof SelectPrimitive.Trigger>,
     VariantProps<typeof selectTriggerVariants> {}
 
-function SelectTrigger({
-  className,
-  children,
-  size,
-  ...props
-}: SelectTriggerProps) {
+function SelectTrigger({ className, children, size, ...props }: SelectTriggerProps) {
   const { icon } = React.useContext(SelectContext);
 
   return (
@@ -270,8 +257,7 @@ function SelectItem({
   children,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Item>) {
-  const { indicatorPosition, indicatorVisibility, indicator } =
-    React.useContext(SelectContext);
+  const { indicatorPosition, indicatorVisibility, indicator } = React.useContext(SelectContext);
 
   return (
     <SelectPrimitive.Item
@@ -305,9 +291,7 @@ function SelectItem({
             </SelectPrimitive.ItemIndicator>
           </span>
         ))}
-      <SelectPrimitive.ItemText data-slot="select-item-text">
-        {children}
-      </SelectPrimitive.ItemText>
+      <SelectPrimitive.ItemText data-slot="select-item-text">{children}</SelectPrimitive.ItemText>
     </SelectPrimitive.Item>
   );
 }

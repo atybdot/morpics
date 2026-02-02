@@ -66,10 +66,7 @@ function Footer() {
         </div>
         {footerLinks.map((item) => {
           return (
-            <div
-              className={cn("space-y-3 my-4 md:my-0", item.className)}
-              key={nanoid()}
-            >
+            <div className={cn("space-y-3 my-4 md:my-0", item.className)} key={nanoid()}>
               <h1 className="text-sm cursor-default mb-4">{item.heading}</h1>
               {item.children.map((link) => {
                 return (

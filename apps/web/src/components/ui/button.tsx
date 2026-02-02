@@ -24,8 +24,7 @@ const buttonVariants = cva(
         ghost:
           "text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
         dim: "text-muted-foreground hover:text-foreground data-[state=open]:text-foreground",
-        success:
-          "bg-success border border-emerald-400 dark:border-emerald-600 text-emerald-50",
+        success: "bg-success border border-emerald-400 dark:border-emerald-600 text-emerald-50",
         foreground: "",
         inverse: "",
       },
@@ -54,8 +53,7 @@ const buttonVariants = cva(
         false: "",
       },
       mode: {
-        default:
-          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        default: "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         icon: "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         link: "text-primary h-auto p-0 bg-transparent rounded-none hover:bg-transparent data-[state=open]:bg-transparent",
         input: `
@@ -77,40 +75,34 @@ const buttonVariants = cva(
       {
         variant: "ghost",
         mode: "default",
-        className:
-          "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
+        className: "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
       },
       {
         variant: "outline",
         mode: "default",
-        className:
-          "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
+        className: "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
       },
       {
         variant: "dashed",
         mode: "default",
-        className:
-          "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
+        className: "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
       },
       {
         variant: "secondary",
         mode: "default",
-        className:
-          "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
+        className: "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
       },
 
       // Icons opacity for default mode
       {
         variant: "outline",
         mode: "input",
-        className:
-          "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
+        className: "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
       },
       {
         variant: "outline",
         mode: "icon",
-        className:
-          "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
+        className: "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
       },
 
       // Auto height
@@ -375,8 +367,7 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends useRender.ComponentProps<"button">,
-    VariantProps<typeof buttonVariants> {
+  extends useRender.ComponentProps<"button">, VariantProps<typeof buttonVariants> {
   selected?: boolean;
   asChild?: boolean;
 }
@@ -443,18 +434,8 @@ interface ButtonArrowProps extends React.SVGProps<SVGSVGElement> {
   icon?: LucideIcon;
 }
 
-function ButtonArrow({
-  icon: Icon = ChevronDown,
-  className,
-  ...props
-}: ButtonArrowProps) {
-  return (
-    <Icon
-      data-slot="button-arrow"
-      className={cn("ms-auto -me-1", className)}
-      {...props}
-    />
-  );
+function ButtonArrow({ icon: Icon = ChevronDown, className, ...props }: ButtonArrowProps) {
+  return <Icon data-slot="button-arrow" className={cn("ms-auto -me-1", className)} {...props} />;
 }
 
 export { Button, ButtonArrow, buttonVariants };

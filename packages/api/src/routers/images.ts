@@ -81,10 +81,7 @@ const mutations = {
     .handler(async ({ input: { imageKey: key, status, size }, context }) => {
       if (status === "failed") {
         const [delImg, _] = await Promise.all([
-          db
-            .delete(schema.image)
-            .where(drizzle.eq(schema.image.key, key))
-            .returning(),
+          db.delete(schema.image).where(drizzle.eq(schema.image.key, key)).returning(),
           usageHelpers.decrementMetric({
             userId: context.session.user.id,
             metric: "storage",
@@ -150,9 +147,7 @@ const mutations = {
                 db
                   .update(schema.transformation)
                   .set({ key: newKey })
-                  .where(
-                    drizzle.eq(schema.transformation.imageId, restInput.imgId),
-                  ),
+                  .where(drizzle.eq(schema.transformation.imageId, restInput.imgId)),
               ]);
 
               imgKey = newKey;
@@ -178,10 +173,7 @@ const mutations = {
             value: tag.value,
           }));
 
-          await db
-            .insert(schema.imageTags)
-            .values(tagValues)
-            .onConflictDoNothing();
+          await db.insert(schema.imageTags).values(tagValues).onConflictDoNothing();
         }
       }
 
@@ -247,10 +239,7 @@ const mutations = {
       const deleteImgPromise = [];
       if (dbImg) {
         deleteImgPromise.push(
-          db
-            .delete(schema.image)
-            .where(drizzle.eq(schema.image.id, dbImg.id))
-            .returning(),
+          db.delete(schema.image).where(drizzle.eq(schema.image.id, dbImg.id)).returning(),
         );
       }
       if (r2img) {
@@ -285,10 +274,7 @@ const queries = {
     .handler(async ({ input }) => {
       const imgs = await db.query.image.findMany({
         where: (f, o) =>
-          o.and(
-            o.eq(f.bucket_slug, input.bucket),
-            o.eq(f.uploadingStatus, "success"),
-          ),
+          o.and(o.eq(f.bucket_slug, input.bucket), o.eq(f.uploadingStatus, "success")),
         columns: {
           key: true,
           createdAt: true,
@@ -316,8 +302,7 @@ const queries = {
     .handler(async ({ input }) => {
       const [img, allOrgTags] = await Promise.all([
         db.query.image.findFirst({
-          where: (f, o) =>
-            o.and(o.eq(f.bucket_slug, input.bucket), o.eq(f.key, input.key)),
+          where: (f, o) => o.and(o.eq(f.bucket_slug, input.bucket), o.eq(f.key, input.key)),
           with: {
             metadata: true,
             imageTags: {
@@ -335,10 +320,7 @@ const queries = {
               db
                 .selectDistinct({ tagId: schema.imageTags.tagId })
                 .from(schema.imageTags)
-                .innerJoin(
-                  schema.image,
-                  drizzle.eq(schema.imageTags.imageId, schema.image.id),
-                )
+                .innerJoin(schema.image, drizzle.eq(schema.imageTags.imageId, schema.image.id))
                 .where(drizzle.eq(schema.image.bucket_slug, input.bucket)),
             ),
         }),

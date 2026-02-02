@@ -39,8 +39,7 @@ function Checkbox({
   size,
   variant,
   ...props
-}: React.ComponentProps<typeof BaseCheckbox.Root> &
-  VariantProps<typeof checkboxVariants>) {
+}: React.ComponentProps<typeof BaseCheckbox.Root> & VariantProps<typeof checkboxVariants>) {
   return (
     <BaseCheckbox.Root
       data-slot="checkbox"

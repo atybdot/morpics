@@ -6,10 +6,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <Link
       href={"/"}
-      className={cn(
-        "flex items-center justify-center gap-2 text-blue-500 font-normal",
-        className,
-      )}
+      className={cn("flex items-center justify-center gap-2 text-blue-500 font-normal", className)}
     >
       <SquareDashedMousePointerIcon className="size-5" />
 

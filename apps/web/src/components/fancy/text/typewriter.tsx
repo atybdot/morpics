@@ -186,18 +186,14 @@ const Typewriter = ({
   ]);
 
   return (
-    <Tag
-      className={cn("inline whitespace-pre-wrap tracking-tight", className)}
-      {...props}
-    >
+    <Tag className={cn("inline whitespace-pre-wrap tracking-tight", className)} {...props}>
       <span>{displayText}</span>
       {showCursor && (
         <motion.span
           variants={cursorAnimationVariants}
           className={cn(
             cursorClassName,
-            hideCursorOnType &&
-              (currentIndex < texts[currentTextIndex].length || isDeleting)
+            hideCursorOnType && (currentIndex < texts[currentTextIndex].length || isDeleting)
               ? "hidden"
               : "",
           )}

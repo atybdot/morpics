@@ -20,10 +20,7 @@ function GoBackBtn({
   return (
     <div
       {...divProps}
-      className={cn(
-        "col-span-full flex items-center justify-between",
-        divProps?.className,
-      )}
+      className={cn("col-span-full flex items-center justify-between", divProps?.className)}
     >
       <Button
         {...btn}

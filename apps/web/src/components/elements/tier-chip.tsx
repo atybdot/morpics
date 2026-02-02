@@ -14,33 +14,19 @@ function TierChip({
   if (slug === "starter") {
     return (
       <PiShieldStar
-        className={cn(
-          "size-3.5 -mt-0.5 ",
-          colorful ? "text-emerald-500" : "",
-          className,
-        )}
+        className={cn("size-3.5 -mt-0.5 ", colorful ? "text-emerald-500" : "", className)}
       />
     );
   }
   if (slug === "pro") {
     return (
       <PiCrownSimple
-        className={cn(
-          "size-3.5 -mt-0.5 ",
-          colorful ? "text-indigo-500" : "",
-          className,
-        )}
+        className={cn("size-3.5 -mt-0.5 ", colorful ? "text-indigo-500" : "", className)}
       />
     );
   }
   return (
-    <PiCookie
-      className={cn(
-        "size-3.5 -mt-0.5 ",
-        colorful ? "text-amber-500" : "",
-        className,
-      )}
-    />
+    <PiCookie className={cn("size-3.5 -mt-0.5 ", colorful ? "text-amber-500" : "", className)} />
   );
 }
 

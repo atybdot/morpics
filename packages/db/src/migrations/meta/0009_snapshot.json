@@ -1283,14 +1283,7 @@
     "public.mime_enum": {
       "name": "mime_enum",
       "schema": "public",
-      "values": [
-        "image/png",
-        "image/webp",
-        "image/avif",
-        "image/jpeg",
-        "image/tiff",
-        "image/jp2"
-      ]
+      "values": ["image/png", "image/webp", "image/avif", "image/jpeg", "image/tiff", "image/jp2"]
     },
     "public.tier_enum": {
       "name": "tier_enum",

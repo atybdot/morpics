@@ -13,8 +13,7 @@ export default function Page() {
         <GoBackBtn
           href="/buckets"
           divProps={{
-            className:
-              " absolute flex items-center justify-between top-0 left-0",
+            className: " absolute flex items-center justify-between top-0 left-0",
           }}
         />
         <Card className="w-full max-w-sm p-2">
@@ -23,9 +22,7 @@ export default function Page() {
               <PiShoppingBagOpen className="size-12" />
 
               <div className="space-y-2 text-center">
-                <h1 className="text-xl font-semibold text-foreground">
-                  create new Bucket
-                </h1>
+                <h1 className="text-xl font-semibold text-foreground">create new Bucket</h1>
                 <p className="text-muted-foreground text-sm text-pretty">
                   Buckets are a way to group your images.
                 </p>

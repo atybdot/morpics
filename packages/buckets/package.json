@@ -1,5 +1,6 @@
 {
   "name": "@morpics/buckets",
+  "type": "module",
   "exports": {
     "./client": {
       "types": "./dist/client.d.ts",
@@ -26,16 +27,8 @@
       "default": "./src/upload-file-config.ts"
     }
   },
-  "type": "module",
   "scripts": {
     "build": "tsdown"
-  },
-  "devDependencies": {
-    "@morpics/config": "workspace:*",
-    "tsdown": "catalog:"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.933.0",
@@ -43,5 +36,12 @@
     "@morpics/db": "workspace:*",
     "dotenv": "catalog:",
     "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@morpics/config": "workspace:*",
+    "tsdown": "catalog:"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
   }
 }

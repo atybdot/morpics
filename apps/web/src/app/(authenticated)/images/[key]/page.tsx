@@ -38,13 +38,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import {
-  Input,
-  InputAddon,
-  InputGroup,
-  InputWrapper,
-  inputVariants,
-} from "@/components/ui/input";
+import { Input, InputAddon, InputGroup, InputWrapper, inputVariants } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MultiSelectCombobox } from "@/components/ui/multi-select-combobox";
 import {
@@ -141,10 +135,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
     },
   });
 
-  const transformationStates = useStore(
-    transformationForm.store,
-    (state) => state.values,
-  );
+  const transformationStates = useStore(transformationForm.store, (state) => state.values);
 
   const metaForm = useForm({
     validators: {
@@ -154,12 +145,9 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
       const abortControllerRef = new AbortController();
       const formKeyVal = value.key ? toSlug(value.key) : "";
       toast.promise(
-        orpc.images.updateInfo.call(
-          allowPublickeyChange ? { ...value } : { ...value },
-          {
-            signal: abortControllerRef.signal,
-          },
-        ),
+        orpc.images.updateInfo.call(allowPublickeyChange ? { ...value } : { ...value }, {
+          signal: abortControllerRef.signal,
+        }),
         {
           loading: "updating data",
           error: (e) => {
@@ -185,8 +173,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
       key: image?.key.split("/")[1] ?? "",
       fileName: image?.metadata.fileName ?? undefined,
       altTxt: image?.metadata.altText ?? "",
-      tags:
-        image?.imageTags.map((i) => ({ id: i.tagId, value: i.tag.name })) ?? [],
+      tags: image?.imageTags.map((i) => ({ id: i.tagId, value: i.tag.name })) ?? [],
     } as z.input<typeof schema.updateInfoSchema>,
   });
 
@@ -251,8 +238,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
               <metaForm.Field
                 name="key"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
                     <Field
                       data-invalid={isInvalid}
@@ -277,35 +263,16 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                                   setPublickeyChange(false);
                                 }
                               }}
-                              render={
-                                <Button
-                                  size={"icon"}
-                                  variant={"secondary"}
-                                  type="button"
-                                />
-                              }
+                              render={<Button size={"icon"} variant={"secondary"} type="button" />}
                             >
-                              {!allowPublickeyChange ? (
-                                <PiLock />
-                              ) : (
-                                <PiLockOpen />
-                              )}
+                              {!allowPublickeyChange ? <PiLock /> : <PiLockOpen />}
                             </DialogTrigger>
-                            <DialogContent
-                              className={"p-4"}
-                              showDismissButton={false}
-                            >
-                              <DialogTitle
-                                className={
-                                  "text-muted-foreground font-light text-base"
-                                }
-                              >
+                            <DialogContent className={"p-4"} showDismissButton={false}>
+                              <DialogTitle className={"text-muted-foreground font-light text-base"}>
                                 You are trying to change public-key
                               </DialogTitle>
                               <Separator className={"my-px"} />
-                              <DialogDescription>
-                                changing of public-key :
-                              </DialogDescription>
+                              <DialogDescription>changing of public-key :</DialogDescription>
                               <DialogBody>
                                 <div className="flex flex-col items-start gap-2 mb-2">
                                   {[
@@ -325,9 +292,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                                   onClick={() => {
                                     setPublickeyChange(true);
                                   }}
-                                  render={
-                                    <Button variant={"dim"} size={"sm"} />
-                                  }
+                                  render={<Button variant={"dim"} size={"sm"} />}
                                 >
                                   Yes, change public-key
                                 </DialogAction>
@@ -339,9 +304,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                           </Dialog>
                         </InputWrapper>
                       </InputGroup>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
                     </Field>
                   );
                 }}
@@ -351,8 +314,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
               <metaForm.Field
                 name="fileName"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
                     <Field data-invalid={isInvalid} className="gap-1">
                       <InputGroup className="flex-col sm:flex-row">
@@ -376,9 +338,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                           </div>
                         </InputWrapper>
                       </InputGroup>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
                     </Field>
                   );
                 }}
@@ -386,8 +346,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
               <metaForm.Field
                 name="altTxt"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
                     <Field data-invalid={isInvalid} className="gap-1">
                       <InputGroup className="flex-col sm:flex-row">
@@ -412,9 +371,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                           </div>
                         </InputWrapper>
                       </InputGroup>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
                     </Field>
                   );
                 }}
@@ -422,8 +379,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
               <metaForm.Field
                 name="tags"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
                   return (
                     <Field data-invalid={isInvalid} className="gap-1">
@@ -469,9 +425,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                           }}
                         />
                       </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
                     </Field>
                   );
                 }}
@@ -496,26 +450,17 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                         metaForm.handleSubmit();
                       }
                     }}
-                    render={
-                      <Button
-                        type="button"
-                        disabled={metaForm.state.isSubmitting}
-                      />
-                    }
+                    render={<Button type="button" disabled={metaForm.state.isSubmitting} />}
                   >
                     {metaForm.state.isSubmitting ? (
                       <PiSpinner className="animate-spin" />
                     ) : (
                       <PiFloppyDisk />
                     )}
-                    {metaForm.state.isSubmitting
-                      ? "updating..."
-                      : "Update Metadata"}
+                    {metaForm.state.isSubmitting ? "updating..." : "Update Metadata"}
                   </DialogTrigger>
                   <DialogContent className={"p-4"}>
-                    <DialogTitle
-                      className={"text-muted-foreground font-light text-base"}
-                    >
+                    <DialogTitle className={"text-muted-foreground font-light text-base"}>
                       Update metadata ?
                     </DialogTitle>
                     <Separator className={"my-px"} />
@@ -535,9 +480,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                           "flex-row-reverse justify-between ps-0",
                         )}
                       >
-                        <Label className="font-light">
-                          Don't warn me again
-                        </Label>
+                        <Label className="font-light">Don't warn me again</Label>
                         <Checkbox
                           size={"xs"}
                           className={"mr-1 opacity-80"}
@@ -559,9 +502,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                         {metaForm.state.isSubmitting ? (
                           <PiSpinner className="animate-spin" />
                         ) : null}
-                        {metaForm.state.isSubmitting
-                          ? "updating..."
-                          : "Yes, Update Metadata"}
+                        {metaForm.state.isSubmitting ? "updating..." : "Yes, Update Metadata"}
                       </DialogAction>
                       <DialogClose
                         render={<Button size={"sm"} />}
@@ -588,8 +529,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                 <transformationForm.Field
                   name="h"
                   children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                     return (
                       <Field data-invalid={isInvalid} className="gap-1">
                         <FieldLabel
@@ -608,9 +548,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                             value={field.state.value as number}
                             onBlur={field.handleBlur}
                             onValueChange={(value) =>
-                              field.handleChange(
-                                Array.isArray(value) ? value[0] : value,
-                              )
+                              field.handleChange(Array.isArray(value) ? value[0] : value)
                             }
                             aria-invalid={isInvalid}
                           />
@@ -626,9 +564,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                             {field.state.value as number}
                           </div>
                         </div>
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
+                        {isInvalid && <FieldError errors={field.state.meta.errors} />}
                       </Field>
                     );
                   }}
@@ -636,8 +572,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                 <transformationForm.Field
                   name="w"
                   children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                     return (
                       <Field data-invalid={isInvalid} className="gap-1">
                         <FieldLabel
@@ -656,9 +591,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                             value={field.state.value as number}
                             onBlur={field.handleBlur}
                             onValueChange={(value) =>
-                              field.handleChange(
-                                Array.isArray(value) ? value[0] : value,
-                              )
+                              field.handleChange(Array.isArray(value) ? value[0] : value)
                             }
                             aria-invalid={isInvalid}
                           />
@@ -674,9 +607,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                             {field.state.value as number}
                           </div>
                         </div>
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
+                        {isInvalid && <FieldError errors={field.state.meta.errors} />}
                       </Field>
                     );
                   }}
@@ -684,8 +615,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                 <transformationForm.Field
                   name="r"
                   children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                     return (
                       <Field data-invalid={isInvalid} className="gap-1">
                         <FieldLabel
@@ -705,9 +635,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                             value={field.state.value as number}
                             onBlur={field.handleBlur}
                             onValueChange={(value) =>
-                              field.handleChange(
-                                Array.isArray(value) ? value[0] : value,
-                              )
+                              field.handleChange(Array.isArray(value) ? value[0] : value)
                             }
                             aria-invalid={isInvalid}
                           />
@@ -723,9 +651,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                             {field.state.value as number}
                           </div>
                         </div>
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
+                        {isInvalid && <FieldError errors={field.state.meta.errors} />}
                       </Field>
                     );
                   }}
@@ -734,8 +660,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                 <transformationForm.Field
                   name="blur"
                   children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                     return (
                       <Field data-invalid={isInvalid} className="gap-1">
                         <FieldLabel
@@ -755,9 +680,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                             value={field.state.value as number}
                             onBlur={field.handleBlur}
                             onValueChange={(value) =>
-                              field.handleChange(
-                                Array.isArray(value) ? value[0] : value,
-                              )
+                              field.handleChange(Array.isArray(value) ? value[0] : value)
                             }
                             aria-invalid={isInvalid}
                           />
@@ -773,9 +696,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                             {field.state.value as number}
                           </div>
                         </div>
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
+                        {isInvalid && <FieldError errors={field.state.meta.errors} />}
                       </Field>
                     );
                   }}
@@ -839,19 +760,14 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                       }
                       return string;
                     };
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
-                    const formatOptions =
-                      schema.schemas.mimeEnum.enumValues.map((i) => ({
-                        value: i,
-                        label: renderValue(i),
-                      }));
+                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+                    const formatOptions = schema.schemas.mimeEnum.enumValues.map((i) => ({
+                      value: i,
+                      label: renderValue(i),
+                    }));
                     return (
                       <Field data-invalid={isInvalid} className="gap-y-1">
-                        <FieldLabel
-                          className="text-sm text-muted-foreground"
-                          htmlFor={field.name}
-                        >
+                        <FieldLabel className="text-sm text-muted-foreground" htmlFor={field.name}>
                           format
                         </FieldLabel>
                         <Select
@@ -870,9 +786,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                             )}
                           >
                             <SelectValue
-                              placeholder={renderValue(
-                                image?.metadata.mimeType as any,
-                              )}
+                              placeholder={renderValue(image?.metadata.mimeType as any)}
                             />
                           </SelectTrigger>
                           <SelectContent>
@@ -884,9 +798,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                           </SelectContent>
                         </Select>
 
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
+                        {isInvalid && <FieldError errors={field.state.meta.errors} />}
                       </Field>
                     );
                   }}
@@ -894,14 +806,10 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                 <transformationForm.Field
                   name="quality"
                   children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                     return (
                       <Field data-invalid={isInvalid} className="gap-y-1">
-                        <FieldLabel
-                          className="text-sm text-muted-foreground"
-                          htmlFor={field.name}
-                        >
+                        <FieldLabel className="text-sm text-muted-foreground" htmlFor={field.name}>
                           quality
                         </FieldLabel>
                         <Input
@@ -911,17 +819,11 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                           name={field.name}
                           value={field.state.value as number}
                           onBlur={field.handleBlur}
-                          onChange={(e) =>
-                            field.handleChange(
-                              Number.parseInt(e.target.value, 10),
-                            )
-                          }
+                          onChange={(e) => field.handleChange(Number.parseInt(e.target.value, 10))}
                           aria-invalid={isInvalid}
                           placeholder="quality"
                         />
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
+                        {isInvalid && <FieldError errors={field.state.meta.errors} />}
                       </Field>
                     );
                   }}
@@ -949,9 +851,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                   ) : (
                     <PiPlus />
                   )}
-                  {transformationForm.state.isSubmitting
-                    ? "creating..."
-                    : "create transformation"}
+                  {transformationForm.state.isSubmitting ? "creating..." : "create transformation"}
                 </Button>
               </div>
             </div>
@@ -972,10 +872,7 @@ function Page({ params }: { params: Promise<{ key: string }> }) {
                   return (
                     <CardAlt>
                       <CardContentAlt>
-                        <img
-                          src={imgKey}
-                          className=" aspect-square contain w-full border-0"
-                        />
+                        <img src={imgKey} className=" aspect-square contain w-full border-0" />
                       </CardContentAlt>
                     </CardAlt>
                   );

@@ -88,9 +88,7 @@ function ImageMotion({
             aspectRatio: "auto",
           }}
           className="origin-top-left"
-          src={
-            "https://images.unsplash.com/photo-1535467487981-c86a98db6b9c?auto=format&fit=crop"
-          }
+          src={"https://images.unsplash.com/photo-1535467487981-c86a98db6b9c?auto=format&fit=crop"}
         />
       </div>
     </div>

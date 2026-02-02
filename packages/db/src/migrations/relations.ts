@@ -74,17 +74,14 @@ export const sessionRelations = relations(session, ({ one }) => ({
   }),
 }));
 
-export const transformationRelations = relations(
-  transformation,
-  ({ one, many }) => ({
-    image: one(images, {
-      fields: [transformation.imageId],
-      references: [images.id],
-    }),
-    filters: many(filters),
-    transformationMetadata: many(transformationMetadata),
+export const transformationRelations = relations(transformation, ({ one, many }) => ({
+  image: one(images, {
+    fields: [transformation.imageId],
+    references: [images.id],
   }),
-);
+  filters: many(filters),
+  transformationMetadata: many(transformationMetadata),
+}));
 
 export const imagesRelations = relations(images, ({ one, many }) => ({
   transformations: many(transformation),
@@ -114,15 +111,12 @@ export const imageMetadataRelations = relations(imageMetadata, ({ one }) => ({
   }),
 }));
 
-export const transformationMetadataRelations = relations(
-  transformationMetadata,
-  ({ one }) => ({
-    transformation: one(transformation, {
-      fields: [transformationMetadata.transformationId],
-      references: [transformation.id],
-    }),
+export const transformationMetadataRelations = relations(transformationMetadata, ({ one }) => ({
+  transformation: one(transformation, {
+    fields: [transformationMetadata.transformationId],
+    references: [transformation.id],
   }),
-);
+}));
 
 export const imageTagsRelations = relations(imageTags, ({ one }) => ({
   image: one(images, {

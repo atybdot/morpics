@@ -66,10 +66,7 @@ export function uid(): string {
  * @param count - The number of initials to return. Defaults to all initials.
  * @returns A string of initials from the name.
  */
-export const getInitials = (
-  name: string | null | undefined,
-  count?: number,
-): string => {
+export const getInitials = (name: string | null | undefined, count?: number): string => {
   if (!name || typeof name !== "string") {
     return "";
   }
@@ -79,9 +76,7 @@ export const getInitials = (
     .filter(Boolean)
     .map((part) => part[0].toUpperCase());
 
-  return count && count > 0
-    ? initials.slice(0, count).join("")
-    : initials.join("");
+  return count && count > 0 ? initials.slice(0, count).join("") : initials.join("");
 };
 
 /**
@@ -125,11 +120,7 @@ export function formatDateTime(input: Date | string | number): string {
  * @param locale - The locale for formatting (e.g., "en-US"). Defaults to "en-US".
  * @returns A string formatted as currency.
  */
-export function formatCurrency(
-  amount: number,
-  currency = "USD",
-  locale = "en-US",
-): string {
+export function formatCurrency(amount: number, currency = "USD", locale = "en-US"): string {
   return new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
@@ -174,8 +165,7 @@ export const getTimeZones = (): { label: string; value: string }[] => {
         timeZoneName: "shortOffset",
       });
       const parts = formatter.formatToParts(new Date());
-      const offset =
-        parts.find((part) => part.type === "timeZoneName")?.value || "";
+      const offset = parts.find((part) => part.type === "timeZoneName")?.value || "";
       const formattedOffset = offset === "GMT" ? "GMT+0" : offset;
 
       return {

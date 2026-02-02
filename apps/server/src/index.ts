@@ -22,18 +22,11 @@ import { getOwner } from "./lib/utils";
 const app = new Hono();
 
 app.use(logger(), prettyJSON());
-app.get("/favicon.ico", (c) =>
-  c.redirect("https://mor.pics/favicon/favicon.ico"),
-);
+app.get("/favicon.ico", (c) => c.redirect("https://mor.pics/favicon/favicon.ico"));
 app.use(
   "/*",
   cors({
-    origin: [
-      env.FRONTEND_URL,
-      env.BACKEND_URL,
-      env.BETTER_AUTH_URL,
-      env.FUNCTION_URL,
-    ],
+    origin: [env.FRONTEND_URL, env.BACKEND_URL, env.BETTER_AUTH_URL, env.FUNCTION_URL],
     allowMethods: ["*"],
     allowHeaders: ["Content-Type", "Authorization", "Cache-Control", "ETag", "Cookie"],
     exposeHeaders: ["Set-Cookie"],
@@ -106,9 +99,7 @@ app.get("/:bucketSlug/:key", async (c) => {
   const owner = await getOwner({ bucketSlug, key });
   const origin = c.req.header("Origin") ?? c.req.header("Referer") ?? "unknown";
 
-  const bandwidthInc = !(
-    origin.includes(env.FRONTEND_URL) || origin.includes(env.FUNCTION_URL)
-  );
+  const bandwidthInc = !(origin.includes(env.FRONTEND_URL) || origin.includes(env.FUNCTION_URL));
 
   if (!owner) {
     return c.json({ error: "Organization or owner not found" }, 404);
@@ -152,8 +143,7 @@ app.get("/:bucketSlug/:key", async (c) => {
         headers: {
           "Content-Type": img.httpMetadata?.contentType as string,
           ETag: img.httpEtag,
-          "Cache-Control":
-            "public, max-age=3600, stale-while-revalidate=216000",
+          "Cache-Control": "public, max-age=3600, stale-while-revalidate=216000",
         },
       });
     }
@@ -193,8 +183,7 @@ app.get("/:bucketSlug/:key", async (c) => {
         headers: {
           "Content-Type": transformedImg.httpMetadata?.contentType as string,
           ETag: transformedImg.httpEtag,
-          "Cache-Control":
-            "public, max-age=3600, stale-while-revalidate=216000",
+          "Cache-Control": "public, max-age=3600, stale-while-revalidate=216000",
         },
       });
     }
@@ -243,9 +232,7 @@ app.get("/:bucketSlug/:key", async (c) => {
           db.insert(tables.transformation_metadata)
             .values({
               fileSize: file.byteLength,
-              mimetype: parseQuery?.format
-                ? `image/${parseQuery.format}`
-                : "image/jpeg",
+              mimetype: parseQuery?.format ? `image/${parseQuery.format}` : "image/jpeg",
               height: parseQuery.h as number,
               width: parseQuery.w as number,
               rotate: parseQuery.r as number,
@@ -284,8 +271,7 @@ app.get("/:bucketSlug/:key", async (c) => {
         Etag: img.httpEtag,
         "Content-Type": `image/${parseQuery.format}`,
         "Content-Length": String(file.byteLength),
-        "Cache-Control":
-          "public, max-age=31536000, stale-while-revalidate=216000",
+        "Cache-Control": "public, max-age=31536000, stale-while-revalidate=216000",
       },
     });
   });

@@ -10,7 +10,7 @@ export async function createContext({ context }: CreateContextOptions) {
     const session = await auth.api.getSession({
       headers: context.req.raw.headers,
     });
-    
+
     // Debug logging - remove after testing
     if (!session) {
       console.log("[AUTH] No session found. Headers:", {
@@ -20,7 +20,7 @@ export async function createContext({ context }: CreateContextOptions) {
     } else {
       console.log("[AUTH] Session found for user:", session.user?.id);
     }
-    
+
     return {
       session,
     };

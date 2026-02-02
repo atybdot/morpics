@@ -8,18 +8,11 @@ import { logger } from "hono/logger";
 const app = new Hono();
 
 app.use(logger());
-app.get("/favicon.ico", (c) =>
-  c.redirect("https://mor.pics/favicon/favicon.ico"),
-);
+app.get("/favicon.ico", (c) => c.redirect("https://mor.pics/favicon/favicon.ico"));
 app.use(
   "/*",
   cors({
-    origin: [
-      env.BACKEND_URL,
-      env.FRONTEND_URL,
-      "http://localhost:3001",
-      "http://localhost:3002",
-    ],
+    origin: [env.BACKEND_URL, env.FRONTEND_URL, "http://localhost:3001", "http://localhost:3002"],
     allowMethods: ["GET", "POST", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     credentials: true,

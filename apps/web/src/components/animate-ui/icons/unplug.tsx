@@ -192,24 +192,14 @@ function IconComponent({ size, ...props }: UnplugProps) {
       strokeLinejoin="round"
       {...props}
     >
-      <motion.path
-        d="m19 5 3-3"
-        variants={variants.path1}
-        initial="initial"
-        animate={controls}
-      />
+      <motion.path d="m19 5 3-3" variants={variants.path1} initial="initial" animate={controls} />
       <motion.path
         d="m12 6 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"
         variants={variants.path2}
         initial="initial"
         animate={controls}
       />
-      <motion.path
-        d="m2 22 3-3"
-        variants={variants.path3}
-        initial="initial"
-        animate={controls}
-      />
+      <motion.path d="m2 22 3-3" variants={variants.path3} initial="initial" animate={controls} />
       <motion.path
         d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"
         variants={variants.path4}

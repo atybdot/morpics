@@ -101,9 +101,7 @@ function button({
       onClick={() => !disabled && mutation.mutate()}
       {...props}
     >
-      {mutation.isPending || success === "success" ? (
-        <LoaderIcon className="animate-spin" />
-      ) : null}
+      {mutation.isPending || success === "success" ? <LoaderIcon className="animate-spin" /> : null}
       {success === "success" ? (
         <span>Redirecting...</span>
       ) : (

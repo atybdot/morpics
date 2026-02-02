@@ -1,7 +1,7 @@
 {
   "name": "server",
-  "main": "src/index.ts",
   "type": "module",
+  "main": "src/index.ts",
   "scripts": {
     "build": "wrangler deploy --dry-run",
     "check-types": "tsc -b",
@@ -12,23 +12,23 @@
     "typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
-    "hono": "catalog:",
-    "@orpc/server": "catalog:",
-    "@orpc/openapi": "catalog:",
-    "@orpc/zod": "catalog:",
-    "dotenv": "catalog:",
-    "zod": "catalog:",
     "@morpics/api": "workspace:*",
     "@morpics/auth": "workspace:*",
+    "@morpics/buckets": "workspace:*",
     "@morpics/db": "workspace:*",
     "@morpics/sdk": "workspace:*",
-    "@morpics/buckets": "workspace:*"
+    "@orpc/openapi": "catalog:",
+    "@orpc/server": "catalog:",
+    "@orpc/zod": "catalog:",
+    "dotenv": "catalog:",
+    "hono": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "typescript": "catalog:",
-    "tsdown": "catalog:",
     "@morpics/config": "workspace:*",
-    "wrangler": "^4.40.3",
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "wrangler": "^4.40.3"
   }
 }

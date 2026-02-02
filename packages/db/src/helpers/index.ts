@@ -18,12 +18,7 @@ export const getOrgOwner = async (orgId: string, userId?: string) => {
     .select()
     .from(member)
     .innerJoin(user, drizzle.eq(member.userId, user.id))
-    .where(
-      drizzle.and(
-        drizzle.eq(member.organizationId, orgId),
-        drizzle.eq(member.role, "owner"),
-      ),
-    )
+    .where(drizzle.and(drizzle.eq(member.organizationId, orgId), drizzle.eq(member.role, "owner")))
     .limit(1);
 
   if (!row[0]) {

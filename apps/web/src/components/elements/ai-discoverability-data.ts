@@ -30,8 +30,7 @@ export const aiDiscoverabilityData = {
     {
       "@type": "PropertyValue",
       name: "Image Resizing",
-      description:
-        "Resize images to any dimensions while maintaining aspect ratio",
+      description: "Resize images to any dimensions while maintaining aspect ratio",
     },
     {
       "@type": "PropertyValue",

@@ -1,13 +1,7 @@
 import { db } from "@morpics/db";
 import { drizzle } from "@morpics/db/dirzzle";
 import * as tables from "@morpics/db/schema";
-export async function getOwner({
-  bucketSlug,
-  key,
-}: {
-  bucketSlug: string;
-  key: string;
-}) {
+export async function getOwner({ bucketSlug, key }: { bucketSlug: string; key: string }) {
   const ownerQuery = db
     .select({ userId: tables.member.userId })
     .from(tables.member)

@@ -97,24 +97,15 @@ const AccordionContext = React.createContext<AccordionContextType>({
 
 // Base UI Accordion Root
 interface AccordionRootProps
-  extends React.ComponentProps<typeof Accordion.Root>,
-    VariantProps<typeof accordionRootVariants> {
+  extends React.ComponentProps<typeof Accordion.Root>, VariantProps<typeof accordionRootVariants> {
   indicator?: "arrow" | "plus" | "none";
 }
 
 function AccordionRoot(props: AccordionRootProps) {
-  const {
-    className,
-    variant = "default",
-    indicator = "arrow",
-    children,
-    ...rest
-  } = props;
+  const { className, variant = "default", indicator = "arrow", children, ...rest } = props;
 
   return (
-    <AccordionContext.Provider
-      value={{ variant: variant || "default", indicator }}
-    >
+    <AccordionContext.Provider value={{ variant: variant || "default", indicator }}>
       <Accordion.Root
         data-slot="accordion"
         className={cn(accordionRootVariants({ variant }), className)}
@@ -159,19 +150,14 @@ function AccordionHeader(props: React.ComponentProps<typeof Accordion.Header>) {
 }
 
 // Base UI Accordion Trigger
-function AccordionTrigger(
-  props: React.ComponentProps<typeof Accordion.Trigger>,
-) {
+function AccordionTrigger(props: React.ComponentProps<typeof Accordion.Trigger>) {
   const { className, children, ...rest } = props;
   const { variant, indicator } = React.useContext(AccordionContext);
 
   return (
     <Accordion.Trigger
       data-slot="accordion-trigger"
-      className={cn(
-        accordionTriggerVariants({ variant, indicator }),
-        className,
-      )}
+      className={cn(accordionTriggerVariants({ variant, indicator }), className)}
       {...rest}
     >
       {children}

@@ -4,28 +4,19 @@ import { PiX } from "react-icons/pi";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-function Dialog({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Root>) {
+function Dialog({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
 
-function DialogTrigger(
-  props: React.ComponentProps<typeof DialogPrimitive.Trigger>,
-) {
+function DialogTrigger(props: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
-function DialogPortal({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Portal>) {
+function DialogPortal({ ...props }: React.ComponentProps<typeof DialogPrimitive.Portal>) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
 }
 
-function DialogAction({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) {
+function DialogAction({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return (
     <DialogPrimitive.Close
       data-slot="dialog-action"
@@ -35,17 +26,11 @@ function DialogAction({
   );
 }
 
-function DialogClose({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) {
+function DialogClose({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return (
     <DialogPrimitive.Close
       data-slot="dialog-close"
-      className={cn(
-        !props.render && buttonVariants({ variant: "outline" }),
-        className,
-      )}
+      className={cn(!props.render && buttonVariants({ variant: "outline" }), className)}
       {...props}
     />
   );
@@ -97,8 +82,7 @@ function DialogPopup({
   );
 }
 
-export interface DialogContentProps
-  extends React.ComponentProps<typeof DialogPrimitive.Popup> {
+export interface DialogContentProps extends React.ComponentProps<typeof DialogPrimitive.Popup> {
   showDismissButton?: boolean;
   showBackdrop?: boolean;
   fullscreen?: boolean;
@@ -146,28 +130,20 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function DialogBody({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div data-slot="sheet-body" className={cn(" p-2", className)} {...props} />
-  );
+  return <div data-slot="sheet-body" className={cn(" p-2", className)} {...props} />;
 }
 
 function DialogFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-footer"
-      className={cn(
-        "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2.5",
-        className,
-      )}
+      className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2.5", className)}
       {...props}
     />
   );
 }
 
-function DialogTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Title>) {
+function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"

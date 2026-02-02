@@ -50,11 +50,7 @@ function PricingGrid() {
             )}
           >
             {table.slug === "starter" && (
-              <Badge
-                variant="info"
-                size={"lg"}
-                className=" absolute top-0 right-0"
-              >
+              <Badge variant="info" size={"lg"} className=" absolute top-0 right-0">
                 <PiAsteriskBold /> popular
               </Badge>
             )}
@@ -72,9 +68,7 @@ function PricingGrid() {
                     slug={String(table.slug) as UserTier}
                     className={cn(
                       "mb-1",
-                      table.slug === "starter"
-                        ? "size-6 -mt-1"
-                        : "size-4 text-muted-foreground",
+                      table.slug === "starter" ? "size-6 -mt-1" : "size-4 text-muted-foreground",
                     )}
                   />
                   {String(table.slug)}

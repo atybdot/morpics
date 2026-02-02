@@ -17,7 +17,7 @@ Pass `CloudflareBindings` as generics when instantiation `Hono`:
 
 ```ts
 // src/index.ts
-const app = new Hono<{ Bindings: CloudflareBindings }>()
+const app = new Hono<{ Bindings: CloudflareBindings }>();
 ```
 
 ## GitHub Actions
@@ -46,7 +46,6 @@ Configure these secrets in your GitHub repository settings:
 3. Scroll to the bottom and find the "API" section
 4. Copy the Account ID
 
-
 ```txt
 npm run deploy
 ```
@@ -61,5 +60,5 @@ Pass the `CloudflareBindings` as generics when instantiation `Hono`:
 
 ```ts
 // src/index.ts
-const app = new Hono<{ Bindings: CloudflareBindings }>()
+const app = new Hono<{ Bindings: CloudflareBindings }>();
 ```

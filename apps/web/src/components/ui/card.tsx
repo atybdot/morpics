@@ -94,20 +94,13 @@ function Card({
 }: React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof cardVariants>) {
   return (
     <CardContext.Provider value={{ variant: variant || "default" }}>
-      <div
-        data-slot="card"
-        className={cn(cardVariants({ variant }), className)}
-        {...props}
-      />
+      <div data-slot="card" className={cn(cardVariants({ variant }), className)} {...props} />
     </CardContext.Provider>
   );
 }
 
 // CardHeader Component
-function CardHeader({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { variant } = useCardContext();
   return (
     <div
@@ -119,10 +112,7 @@ function CardHeader({
 }
 
 // CardContent Component
-function CardContent({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { variant } = useCardContext();
   return (
     <div
@@ -134,10 +124,7 @@ function CardContent({
 }
 
 // CardTable Component
-function CardTable({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function CardTable({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { variant } = useCardContext();
   return (
     <div
@@ -149,10 +136,7 @@ function CardTable({
 }
 
 // CardFooter Component
-function CardFooter({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function CardFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { variant } = useCardContext();
   return (
     <div
@@ -164,23 +148,11 @@ function CardFooter({
 }
 
 // Other Components
-function CardHeading({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      data-slot="card-heading"
-      className={cn("space-y-1", className)}
-      {...props}
-    />
-  );
+function CardHeading({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div data-slot="card-heading" className={cn("space-y-1", className)} {...props} />;
 }
 
-function CardToolbar({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function CardToolbar({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       data-slot="card-toolbar"
@@ -190,26 +162,17 @@ function CardToolbar({
   );
 }
 
-function CardTitle({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLHeadingElement>) {
+function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
       data-slot="card-title"
-      className={cn(
-        "text-base font-semibold leading-none tracking-tight",
-        className,
-      )}
+      className={cn("text-base font-semibold leading-none tracking-tight", className)}
       {...props}
     />
   );
 }
 
-function CardDescription({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function CardDescription({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       data-slot="card-description"
@@ -224,43 +187,20 @@ function CardAlt({
   className,
   outer = true,
   ...props
-}: React.HTMLAttributes<HTMLDivElement> &
-  VariantProps<typeof cardVariants> & { outer?: boolean }) {
+}: React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof cardVariants> & { outer?: boolean }) {
   return (
-    <div
-      data-slot="card"
-      className={cn(outer ? "p-2" : "", "border", className)}
-      {...props}
-    />
+    <div data-slot="card" className={cn(outer ? "p-2" : "", "border", className)} {...props} />
   );
 }
 
 // CardHeader Component
-function CardHeaderAlt({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      data-slot="card-header"
-      className={cn("p-2 bg-muted", className)}
-      {...props}
-    />
-  );
+function CardHeaderAlt({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div data-slot="card-header" className={cn("p-2 bg-muted", className)} {...props} />;
 }
 
 // CardContent Component
-function CardContentAlt({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      data-slot="card-content"
-      className={cn("bg-background ", className)}
-      {...props}
-    />
-  );
+function CardContentAlt({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div data-slot="card-content" className={cn("bg-background ", className)} {...props} />;
 }
 
 // Exports

@@ -1,10 +1,7 @@
 import { drizzle } from "../dirzzle";
 import { db } from "../index";
 import { PRICING_TABLE, type UserTier } from "../schema/constants";
-import {
-  type UsageMetricKey,
-  usage as usageSchema,
-} from "../schema/subscription";
+import { type UsageMetricKey, usage as usageSchema } from "../schema/subscription";
 import { getLimitValue } from "./index";
 
 export interface Base {
@@ -50,14 +47,9 @@ export const usageHelpers = {
   /**
    * Check if user can perform an action based on usage limits
    */
-  async canUse({
-    userId,
-    metric,
-    userTier = "free",
-  }: Base & { userTier: UserTier }) {
+  async canUse({ userId, metric, userTier = "free" }: Base & { userTier: UserTier }) {
     const usage = await this.getUsage(userId);
-    const limits =
-      PRICING_TABLE[userTier as keyof typeof PRICING_TABLE]?.package;
+    const limits = PRICING_TABLE[userTier as keyof typeof PRICING_TABLE]?.package;
 
     if (!limits || !limits[metric as keyof typeof limits]) {
       return false;
@@ -162,8 +154,7 @@ export const usageHelpers = {
    */
   async checkOrgSeatsLimit({ userId, orgId, userTier = "free" }: OrgSeatLimit) {
     const usage = await this.getUsage(userId);
-    const limits =
-      PRICING_TABLE[userTier as keyof typeof PRICING_TABLE]?.package;
+    const limits = PRICING_TABLE[userTier as keyof typeof PRICING_TABLE]?.package;
 
     if (!limits) return false;
 
@@ -179,20 +170,13 @@ export const usageHelpers = {
    * Check all metrics for a user against their tier limits
    * Returns a map of metric -> status/details
    */
-  async checkAllMetrics({
-    userId,
-    userTier = "free",
-  }: {
-    userId: string;
-    userTier: UserTier;
-  }) {
+  async checkAllMetrics({ userId, userTier = "free" }: { userId: string; userTier: UserTier }) {
     type LimitConfig = { allowed: number; unit?: string };
     type SeatsEntry = { orgId: string; members: number };
 
     const usage = await this.getUsage(userId);
     const limits =
-      PRICING_TABLE[userTier as keyof typeof PRICING_TABLE]?.package ??
-      PRICING_TABLE.free.package;
+      PRICING_TABLE[userTier as keyof typeof PRICING_TABLE]?.package ?? PRICING_TABLE.free.package;
 
     const result: Record<string, unknown> = {};
     const typedLimits = limits as Record<string, LimitConfig>;
@@ -204,9 +188,7 @@ export const usageHelpers = {
 
       if (metric === "seats") {
         const seatsRaw = usageRec["seats"];
-        const seats: SeatsEntry[] = Array.isArray(seatsRaw)
-          ? (seatsRaw as SeatsEntry[])
-          : [];
+        const seats: SeatsEntry[] = Array.isArray(seatsRaw) ? (seatsRaw as SeatsEntry[]) : [];
         const maxPerOrg = getLimitValue(limitConfig);
         const allowed = seats.every((seat) => (seat?.members ?? 0) < maxPerOrg);
 

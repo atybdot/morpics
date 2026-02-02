@@ -113,8 +113,7 @@ export default function NewBucketForm() {
             },
           }}
           children={(field) => {
-            const isInvalid =
-              field.state.meta.isTouched && !field.state.meta.isValid;
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field orientation={"vertical"} data-invalid={isInvalid}>
                 {

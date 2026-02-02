@@ -15,9 +15,8 @@ export default function TermsAndConditionsPage() {
         <div>
           <h2 className="font-medium mb-3">1. The Gist</h2>
           <p className="text-muted-foreground text-sm text-balance">
-            We're not here to trap you in legal loopholes. We just want to
-            provide a killer image manipulation API. By using Morpics, you agree
-            to play nice and not abuse the service.
+            We're not here to trap you in legal loopholes. We just want to provide a killer image
+            manipulation API. By using Morpics, you agree to play nice and not abuse the service.
           </p>
         </div>
 
@@ -27,11 +26,10 @@ export default function TermsAndConditionsPage() {
             We don't own your images. You do. Period.
           </p>
           <p className="text-muted-foreground text-sm text-balance">
-            When you upload files to Morpics, you give us permission to store
-            and transform them (resize, blur, format, etc.) so we can deliver
-            them to your users. That's it. We will <strong>never</strong> sell
-            your images or data to third parties. We're in the business of
-            infrastructure, not data brokering.
+            When you upload files to Morpics, you give us permission to store and transform them
+            (resize, blur, format, etc.) so we can deliver them to your users. That's it. We will{" "}
+            <strong>never</strong> sell your images or data to third parties. We're in the business
+            of infrastructure, not data brokering.
           </p>
         </div>
 
@@ -47,9 +45,8 @@ export default function TermsAndConditionsPage() {
             >
               Cloudflare R2
             </a>{" "}
-            for storage because it's fast, reliable, and affordable. This means
-            your encrypted bits are physically stored on their servers. Since we
-            rely on them, their{" "}
+            for storage because it's fast, reliable, and affordable. This means your encrypted bits
+            are physically stored on their servers. Since we rely on them, their{" "}
             <a
               href="https://www.cloudflare.com/terms/"
               target="_blank"
@@ -82,27 +79,24 @@ export default function TermsAndConditionsPage() {
             <li>Content that infringes on someone else's copyright.</li>
           </ul>
           <p className="text-muted-foreground mt-4 text-sm">
-            If you do, we'll have to ban you. We are not left with any other
-            option
+            If you do, we'll have to ban you. We are not left with any other option
           </p>
         </div>
 
         <div>
           <h2 className="font-medium mb-3">5. Liability (The "Oops" Clause)</h2>
           <p className="text-muted-foreground text-sm text-balance">
-            We work hard to keep Morpics up 24/7 and running smoothly. However,
-            software is hard, and things break. We provide this service "as is"
-            without any warranties. We aren't liable for any damages if the
-            service goes down or if a gremlin eats your pixels (though we have
-            backups, so that's unlikely).
+            We work hard to keep Morpics up 24/7 and running smoothly. However, software is hard,
+            and things break. We provide this service "as is" without any warranties. We aren't
+            liable for any damages if the service goes down or if a gremlin eats your pixels (though
+            we have backups, so that's unlikely).
           </p>
         </div>
 
         <div>
           <h2 className="font-medium mb-3">6. Questions?</h2>
           <p className="text-muted-foreground text-sm text-balance">
-            If you're unsure about something or just want to say hi, drop us an
-            email at{" "}
+            If you're unsure about something or just want to say hi, drop us an email at{" "}
             <a
               href="mailto:support@morpics.com"
               className="underline underline-offset-4 hover:text-primary"

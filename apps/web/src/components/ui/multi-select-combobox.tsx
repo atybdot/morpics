@@ -43,11 +43,8 @@ export default function ComboboxCreatable({
   const comboboxInputRef = React.useRef<HTMLInputElement | null>(null);
 
   const selected = controlledValue ?? [];
-  const setSelected = (
-    updater: LabelItem[] | ((prev: LabelItem[]) => LabelItem[]),
-  ) => {
-    const newValue =
-      typeof updater === "function" ? updater(selected) : updater;
+  const setSelected = (updater: LabelItem[] | ((prev: LabelItem[]) => LabelItem[])) => {
+    const newValue = typeof updater === "function" ? updater(selected) : updater;
     onValueChange?.(newValue);
   };
 
@@ -57,13 +54,9 @@ export default function ComboboxCreatable({
       return;
     }
     const normalized = trimmedValue.toLocaleLowerCase();
-    const existing = items.find(
-      (l) => l.value.trim().toLocaleLowerCase() === normalized,
-    );
+    const existing = items.find((l) => l.value.trim().toLocaleLowerCase() === normalized);
     if (existing) {
-      setSelected((prev) =>
-        prev.some((i) => i.id === existing.id) ? prev : [...prev, existing],
-      );
+      setSelected((prev) => (prev.some((i) => i.id === existing.id) ? prev : [...prev, existing]));
       setQuery("");
       return;
     }
@@ -73,9 +66,7 @@ export default function ComboboxCreatable({
   }
   const trimmed = query.trim();
   const lowered = trimmed.toLocaleLowerCase();
-  const exactExists = items.some(
-    (l) => l.value.trim().toLocaleLowerCase() === lowered,
-  );
+  const exactExists = items.some((l) => l.value.trim().toLocaleLowerCase() === lowered);
   const itemsForView: Array<LabelItem> =
     trimmed !== "" && !exactExists
       ? [
@@ -111,14 +102,10 @@ export default function ComboboxCreatable({
           if (trimmed === "") {
             return;
           }
-          const existing = items.find(
-            (l) => l.value.trim().toLocaleLowerCase() === lowered,
-          );
+          const existing = items.find((l) => l.value.trim().toLocaleLowerCase() === lowered);
           if (existing) {
             setSelected((prev) =>
-              prev.some((i) => i.id === existing.id)
-                ? prev
-                : [...prev, existing],
+              prev.some((i) => i.id === existing.id) ? prev : [...prev, existing],
             );
             setQuery("");
             return;
@@ -151,9 +138,7 @@ export default function ComboboxCreatable({
       <ComboboxContent anchor={containerRef}>
         <ComboboxEmpty>
           <div className="flex flex-col items-center justify-center py-6 px-4 text-center">
-            <p className="text-sm text-muted-foreground mb-3">
-              No labels found.
-            </p>
+            <p className="text-sm text-muted-foreground mb-3">No labels found.</p>
 
             <Button
               size="sm"
@@ -167,9 +152,7 @@ export default function ComboboxCreatable({
               className="gap-2"
             >
               <PiPlus />
-              {query.length > 0
-                ? `Create &quot;${query.trim()}&quot;`
-                : "type to create a tag"}
+              {query.length > 0 ? `Create &quot;${query.trim()}&quot;` : "type to create a tag"}
             </Button>
           </div>
         </ComboboxEmpty>
@@ -180,9 +163,7 @@ export default function ComboboxCreatable({
                 <span className="col-start-1">
                   <PiPlus />
                 </span>
-                <div className="col-start-2">
-                  Create &quot;{item.creatable}&quot;
-                </div>
+                <div className="col-start-2">Create &quot;{item.creatable}&quot;</div>
               </ComboboxItem>
             ) : (
               <ComboboxItem key={item.id} value={item}>

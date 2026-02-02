@@ -159,13 +159,7 @@ function InputGroup({
   className,
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupVariants>) {
-  return (
-    <div
-      data-slot="input-group"
-      className={cn(inputGroupVariants(), className)}
-      {...props}
-    />
-  );
+  return <div data-slot="input-group" className={cn(inputGroupVariants(), className)} {...props} />;
 }
 
 function InputWrapper({
@@ -176,21 +170,10 @@ function InputWrapper({
   return (
     <div
       data-slot="input-wrapper"
-      className={cn(
-        inputVariants({ variant }),
-        inputWrapperVariants({ variant }),
-        className,
-      )}
+      className={cn(inputVariants({ variant }), inputWrapperVariants({ variant }), className)}
       {...props}
     />
   );
 }
 
-export {
-  Input,
-  InputAddon,
-  InputGroup,
-  InputWrapper,
-  inputVariants,
-  inputAddonVariants,
-};
+export { Input, InputAddon, InputGroup, InputWrapper, inputVariants, inputAddonVariants };

@@ -31,25 +31,17 @@ export function FaqsGridHome() {
     },
   ];
   return (
-    <Accordion
-      indicator="plus"
-      variant={"outline"}
-      className="w-full bg-background p-4"
-    >
+    <Accordion indicator="plus" variant={"outline"} className="w-full bg-background p-4">
       {questions.map((q, index) => (
         <AccordionItem
           key={nanoid()}
           value={`faq-${index}`}
-          className={
-            "data-open:bg-muted transition-all duration-150 ease-in-out"
-          }
+          className={"data-open:bg-muted transition-all duration-150 ease-in-out"}
         >
           <AccordionHeader>
             <AccordionTrigger>{q.trigger}</AccordionTrigger>
           </AccordionHeader>
-          <AccordionPanel className={"text-muted-foreground"}>
-            {q.panel}
-          </AccordionPanel>
+          <AccordionPanel className={"text-muted-foreground"}>{q.panel}</AccordionPanel>
         </AccordionItem>
       ))}
     </Accordion>
@@ -60,8 +52,7 @@ export function FaqsGridPrice() {
   const questions = [
     {
       trigger: "Can I change my plan later?",
-      panel:
-        "Yes, you can upgrade or downgrade your plan at any time from your account settings.",
+      panel: "Yes, you can upgrade or downgrade your plan at any time from your account settings.",
     },
     {
       trigger: "Is there a free trial available?",
@@ -74,25 +65,17 @@ export function FaqsGridPrice() {
     },
   ];
   return (
-    <Accordion
-      indicator="plus"
-      variant={"outline"}
-      className="w-full bg-background p-4"
-    >
+    <Accordion indicator="plus" variant={"outline"} className="w-full bg-background p-4">
       {questions.map((q, index) => (
         <AccordionItem
           key={nanoid()}
           value={`faq-${index}`}
-          className={
-            "data-open:bg-muted transition-all duration-150 ease-in-out"
-          }
+          className={"data-open:bg-muted transition-all duration-150 ease-in-out"}
         >
           <AccordionHeader>
             <AccordionTrigger>{q.trigger}</AccordionTrigger>
           </AccordionHeader>
-          <AccordionPanel className={"text-muted-foreground"}>
-            {q.panel}
-          </AccordionPanel>
+          <AccordionPanel className={"text-muted-foreground"}>{q.panel}</AccordionPanel>
         </AccordionItem>
       ))}
     </Accordion>

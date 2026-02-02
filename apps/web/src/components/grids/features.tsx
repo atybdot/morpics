@@ -57,24 +57,11 @@ function FeaturesGrid() {
   return (
     <>
       {gridItems.map(({ className, ...item }) => (
-        <AnimateIcon
-          key={nanoid()}
-          asChild
-          animateOnHover
-          loop
-          animation="default-loop"
-        >
-          <div
-            className={cn(
-              "bg-background relative content-end p-4 pt-16",
-              className?.wrapper,
-            )}
-          >
+        <AnimateIcon key={nanoid()} asChild animateOnHover loop animation="default-loop">
+          <div className={cn("bg-background relative content-end p-4 pt-16", className?.wrapper)}>
             <item.icon className={cn("mb-2", className?.icon)} />
             <h1 className={cn("mb-1", className?.h1)}>{item.h1}</h1>
-            <p className={cn("text-sm text-muted-foreground", className?.p)}>
-              {item.p}
-            </p>
+            <p className={cn("text-sm text-muted-foreground", className?.p)}>{item.p}</p>
           </div>
         </AnimateIcon>
       ))}

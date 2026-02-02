@@ -1,6 +1,9 @@
 {
   "name": "function",
   "type": "module",
+  "scripts": {
+    "dev": "vc dev"
+  },
   "dependencies": {
     "@hono/zod-validator": "^0.7.5",
     "@morpics/sdk": "workspace:*",
@@ -9,9 +12,6 @@
     "hono": "catalog:",
     "sharp": "^0.34.5",
     "zod": "catalog:"
-  },
-  "scripts": {
-    "dev": "vc dev"
   },
   "devDependencies": {
     "@types/node": "catalog:",

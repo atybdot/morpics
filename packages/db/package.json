@@ -32,6 +32,14 @@
     "db:pull": "drizzle-kit pull",
     "db:bundle": "drizzle-kit generate && drizzle-kit migrate && tsdown"
   },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.1",
+    "dotenv": "catalog:",
+    "drizzle-orm": "^0.44.2",
+    "drizzle-zod": "^0.8.3",
+    "ws": "^8.18.3",
+    "zod": "catalog:"
+  },
   "devDependencies": {
     "@morpics/config": "workspace:*",
     "@types/ws": "^8.18.1",
@@ -40,13 +48,5 @@
   },
   "peerDependencies": {
     "typescript": "^5"
-  },
-  "dependencies": {
-    "@neondatabase/serverless": "^1.0.1",
-    "dotenv": "catalog:",
-    "drizzle-orm": "^0.44.2",
-    "drizzle-zod": "^0.8.3",
-    "ws": "^8.18.3",
-    "zod": "catalog:"
   }
 }

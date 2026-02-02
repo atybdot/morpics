@@ -19,10 +19,7 @@ export default function Home() {
           </h2>
 
           <div className="mt-12 flex flex-col sm:flex-row gap-4 sm:gap-8">
-            <Link
-              href={"/dashboard"}
-              className={cn(buttonVariants({ size: "lg" }))}
-            >
+            <Link href={"/dashboard"} className={cn(buttonVariants({ size: "lg" }))}>
               Try for free
             </Link>
             <Link
@@ -41,15 +38,11 @@ export default function Home() {
         </div>
       </section>
       <section className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-0.5 bg-secondary gap-0.5 my-32 mt-0">
-        <h2 className="col-span-full py-2 text-center text-xl bg-muted ">
-          How It Works?
-        </h2>
+        <h2 className="col-span-full py-2 text-center text-xl bg-muted ">How It Works?</h2>
         <HowItWorksGrid />
       </section>
       <section className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-0.5 bg-secondary gap-0.5 my-32">
-        <h2 className="col-span-full py-2 text-center text-xl bg-muted ">
-          features
-        </h2>
+        <h2 className="col-span-full py-2 text-center text-xl bg-muted ">features</h2>
         <FeaturesGrid />
       </section>
       <section className="w-full grid grid-cols-1 p-0.5 bg-secondary gap-0.5 my-32">
@@ -59,9 +52,7 @@ export default function Home() {
         <FaqsGridHome />
       </section>
       <section className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-0.5 bg-secondary gap-0.5 my-32">
-        <h2 className="col-span-full py-2 text-center text-xl bg-muted ">
-          Pricing
-        </h2>
+        <h2 className="col-span-full py-2 text-center text-xl bg-muted ">Pricing</h2>
         <PricingGrid />
       </section>
     </section>

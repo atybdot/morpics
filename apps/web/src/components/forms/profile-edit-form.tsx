@@ -9,12 +9,7 @@ import z from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError } from "@/components/ui/field";
-import {
-  Input,
-  InputAddon,
-  InputGroup,
-  InputWrapper,
-} from "@/components/ui/input";
+import { Input, InputAddon, InputGroup, InputWrapper } from "@/components/ui/input";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { authClient } from "@/lib/auth-client";
 
@@ -31,23 +26,20 @@ export default function ProfileEditForm({
 }: {
   session: (typeof authClient.$Infer)["Session"];
 }) {
-  const [avatarPreview, setAvatarPreview] = useState<string | undefined>(
-    session.user?.image ?? "",
-  );
+  const [avatarPreview, setAvatarPreview] = useState<string | undefined>(session.user?.image ?? "");
 
-  const [{ files, errors }, { removeFile, openFileDialog, getInputProps }] =
-    useFileUpload({
-      maxFiles: 1,
-      maxSize: 5 * 1024 * 1024, // 5MB
-      accept: "image/*",
-      multiple: false,
-      onFilesChange: (newFiles) => {
-        if (newFiles.length > 0 && newFiles[0].preview) {
-          setAvatarPreview(newFiles[0].preview);
-          form.setFieldValue("avatar", newFiles[0].preview);
-        }
-      },
-    });
+  const [{ files, errors }, { removeFile, openFileDialog, getInputProps }] = useFileUpload({
+    maxFiles: 1,
+    maxSize: 5 * 1024 * 1024, // 5MB
+    accept: "image/*",
+    multiple: false,
+    onFilesChange: (newFiles) => {
+      if (newFiles.length > 0 && newFiles[0].preview) {
+        setAvatarPreview(newFiles[0].preview);
+        form.setFieldValue("avatar", newFiles[0].preview);
+      }
+    },
+  });
 
   const { refetch } = authClient.useSession();
   const form = useForm({
@@ -113,23 +105,13 @@ export default function ProfileEditForm({
           <div className="flex flex-col gap-2">
             <input {...getInputProps()} className="sr-only" />
 
-            <Button
-              type="button"
-              variant="dim"
-              size="sm"
-              onClick={openFileDialog}
-            >
+            <Button type="button" variant="dim" size="sm" onClick={openFileDialog}>
               <Upload className="size-4" />
               Upload
             </Button>
 
             {avatarPreview !== session.user?.image && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={handleRemoveAvatar}
-              >
+              <Button type="button" variant="ghost" size="sm" onClick={handleRemoveAvatar}>
                 Reset
               </Button>
             )}
@@ -149,8 +131,7 @@ export default function ProfileEditForm({
         {/* Name Field */}
         <form.Field name="name">
           {(field) => {
-            const isInvalid =
-              field.state.meta.isTouched && !field.state.meta.isValid;
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field className="" data-invalid={isInvalid}>
                 <InputGroup className="flex-col sm:flex-row ">

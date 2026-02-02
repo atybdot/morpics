@@ -6,15 +6,11 @@ import { type SVGProps, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface ThemeSwitcherButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ThemeSwitcherButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
-export function ThemeSwitcherButton({
-  className,
-  ...props
-}: ThemeSwitcherButtonProps) {
+export function ThemeSwitcherButton({ className, ...props }: ThemeSwitcherButtonProps) {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [theme, setThemeQuery] = useQueryState("theme", {
@@ -55,23 +51,10 @@ export function ThemeSwitcherButton({
   );
 }
 
-export function IconParkOutlineContrastViewCircle(
-  props: SVGProps<SVGSVGElement>,
-) {
+export function IconParkOutlineContrastViewCircle(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="1em"
-      height="1em"
-      viewBox="0 0 48 48"
-      {...props}
-    >
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeLinejoin="round"
-        strokeWidth="4"
-      >
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48" {...props}>
+      <g fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="4">
         <path
           strokeLinecap="round"
           d="M24 4C12.954 4 4 12.954 4 24s8.954 20 20 20z"

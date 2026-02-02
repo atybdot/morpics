@@ -1,7 +1,4 @@
-import {
-  type TransformationQuerySchema,
-  transformationQuerySchema,
-} from "./schema";
+import { type TransformationQuerySchema, transformationQuerySchema } from "./schema";
 
 interface props {
   bucket: string;

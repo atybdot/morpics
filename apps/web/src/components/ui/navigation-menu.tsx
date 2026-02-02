@@ -30,10 +30,7 @@ function NavigationMenuList({
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
-      className={cn(
-        "group flex flex-1 list-none items-center justify-center gap-1",
-        className,
-      )}
+      className={cn("group flex flex-1 list-none items-center justify-center gap-1", className)}
       {...props}
     />
   );
@@ -101,12 +98,7 @@ function NavigationMenuContent({
 function NavigationMenuPortal({
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Portal>) {
-  return (
-    <NavigationMenuPrimitive.Portal
-      data-slot="navigation-menu-portal"
-      {...props}
-    />
-  );
+  return <NavigationMenuPrimitive.Portal data-slot="navigation-menu-portal" {...props} />;
 }
 
 function NavigationMenuPositioner({

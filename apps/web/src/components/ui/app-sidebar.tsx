@@ -46,10 +46,7 @@ interface SidebarItembase {
 }
 type SidebarItem = SidebarItembase & {
   subItems?: SidebarItem[];
-} & (
-    | ({ as: "a" } & React.ComponentProps<"a">)
-    | ({ as: "button" } & ButtonProps)
-  );
+} & (({ as: "a" } & React.ComponentProps<"a">) | ({ as: "button" } & ButtonProps));
 export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
   const { data: session, isPending, refetch } = authClient.useSession();
@@ -158,13 +155,7 @@ export function AppSidebar() {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
-                render={
-                  <Button
-                    size={"icon"}
-                    variant={"dim"}
-                    className="mr-2 inline"
-                  />
-                }
+                render={<Button size={"icon"} variant={"dim"} className="mr-2 inline" />}
                 className={cn(
                   "font-light text-muted-foreground relative hover:bg-transparent w-fit ml-auto",
                 )}
@@ -180,35 +171,33 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.header.map(
-                ({ as, title, icon: Icon, subItems, ...item }) => (
-                  <SidebarMenuItem key={title} className="relative">
-                    <SidebarMenuButton
-                      render={
-                        as === "button" ? (
-                          <Button {...(item as ButtonProps)} />
-                        ) : (
-                          //@ts-expect-error
-                          <Link {...item} />
-                        )
-                      }
-                      //@ts-expect-error
-                      isActive={pathname === item?.href}
-                      className={cn(
-                        "font-light text-muted-foreground relative",
-                        // item?.className,
-                      )}
-                    >
-                      <Icon className="stroke-1" />
-                      <span>{title}</span>
+              {navItems.header.map(({ as, title, icon: Icon, subItems, ...item }) => (
+                <SidebarMenuItem key={title} className="relative">
+                  <SidebarMenuButton
+                    render={
+                      as === "button" ? (
+                        <Button {...(item as ButtonProps)} />
+                      ) : (
+                        //@ts-expect-error
+                        <Link {...item} />
+                      )
+                    }
+                    //@ts-expect-error
+                    isActive={pathname === item?.href}
+                    className={cn(
+                      "font-light text-muted-foreground relative",
+                      // item?.className,
+                    )}
+                  >
+                    <Icon className="stroke-1" />
+                    <span>{title}</span>
 
-                      {pathname === item?.href && (
-                        <div className="pl-0.5 inset-y-0 absolute bg-primary left-0" />
-                      )}
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ),
-              )}
+                    {pathname === item?.href && (
+                      <div className="pl-0.5 inset-y-0 absolute bg-primary left-0" />
+                    )}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -343,9 +332,7 @@ export function AppSidebar() {
             <div className="h-fit p-1 items-center gap-x-4 flex aria-[expanded='true']:bg-accent aria-[expanded='true']:text-sidebar-accent-foreground w-full bg-none hover:bg-none cursor-default">
               <Avatar className={"size-8 aspect-square"}>
                 <AvatarImage src={session?.user.image as string} />
-                <AvatarFallback
-                  className={"text-lg object-cover aspect-square"}
-                >
+                <AvatarFallback className={"text-lg object-cover aspect-square"}>
                   {session?.user.name[0]}
                 </AvatarFallback>
               </Avatar>

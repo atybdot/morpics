@@ -12,9 +12,7 @@ import { env } from "../env.js";
 
 type Variables = JwtVariables;
 const app = new Hono<{ Variables: Variables }>().use(logger());
-app.get("/favicon.ico", (c) =>
-  c.redirect("https://mor.pics/favicon/favicon.ico"),
-);
+app.get("/favicon.ico", (c) => c.redirect("https://mor.pics/favicon/favicon.ico"));
 app.get("/", (c) => {
   return c.json({
     message: "Function is running!",
@@ -61,8 +59,7 @@ app.post(
     const transformationOpts = Object.fromEntries(url.searchParams.entries());
 
     url.search = "";
-    const { data: params, error } =
-      schema.transformationQuerySchema.safeParse(transformationOpts);
+    const { data: params, error } = schema.transformationQuerySchema.safeParse(transformationOpts);
     if (error) {
       console.error("validation failed");
       return c.json({ error: "validation failed", message: error }, 400);

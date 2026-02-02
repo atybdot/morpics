@@ -27,10 +27,7 @@ function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <sessionCtx.Provider value={data}>
       <section className="p-4 w-full relative">
-        <GoBackBtn
-          divProps={{ className: " absolute top-0 left-2" }}
-          href="/images"
-        />
+        <GoBackBtn divProps={{ className: " absolute top-0 left-2" }} href="/images" />
         <section className="max-w-2xl mx-auto space-y-8">{children}</section>
       </section>
     </sessionCtx.Provider>

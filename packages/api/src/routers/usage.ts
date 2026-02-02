@@ -47,14 +47,12 @@ export const usageRoutes = {
     .handler(async ({ context }) => {
       return await usageHelpers.getUsage(context.session.user.id);
     }),
-  check: protectedProcedure
-    .route({ method: "GET" })
-    .handler(async ({ context }) => {
-      const userTier = context.session.user.activeTier ?? "free";
+  check: protectedProcedure.route({ method: "GET" }).handler(async ({ context }) => {
+    const userTier = context.session.user.activeTier ?? "free";
 
-      return await usageHelpers.checkAllMetrics({
-        userId: context.session.user.id,
-        userTier,
-      });
-    }),
+    return await usageHelpers.checkAllMetrics({
+      userId: context.session.user.id,
+      userTier,
+    });
+  }),
 };

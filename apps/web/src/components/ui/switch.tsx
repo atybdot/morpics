@@ -59,8 +59,7 @@ function Switch({
   children,
   size = "md",
   ...props
-}: React.ComponentProps<typeof SwitchPrimitive.Root> &
-  VariantProps<typeof switchVariants>) {
+}: React.ComponentProps<typeof SwitchPrimitive.Root> & VariantProps<typeof switchVariants>) {
   const effectiveSize = size ?? "md";
   return (
     <SwitchContext.Provider value={{ size: effectiveSize }}>

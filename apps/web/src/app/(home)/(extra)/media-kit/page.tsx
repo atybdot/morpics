@@ -29,10 +29,8 @@ interface AssetPaths {
 export default function MediaKitPage() {
   const [_, copy] = useCopyToClipboard();
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
-  const [selectedPrimaryLightFormat, setSelectedPrimaryLightFormat] =
-    useState("hex");
-  const [selectedPrimaryDarkFormat, setSelectedPrimaryDarkFormat] =
-    useState("hex");
+  const [selectedPrimaryLightFormat, setSelectedPrimaryLightFormat] = useState("hex");
+  const [selectedPrimaryDarkFormat, setSelectedPrimaryDarkFormat] = useState("hex");
 
   useEffect(() => {
     if (copiedItem) {
@@ -171,9 +169,7 @@ export default function MediaKitPage() {
     <div className="max-w-5xl mx-auto py-12 space-y-16 mb-24">
       <section className="space-y-4">
         <h1 className="text-3xl font-semibold mb-2">Media Kit</h1>
-        <p className="text-muted-foreground">
-          Logos, colors, and assets for Morpics.
-        </p>
+        <p className="text-muted-foreground">Logos, colors, and assets for Morpics.</p>
       </section>
 
       <section className="space-y-6">
@@ -252,17 +248,13 @@ export default function MediaKitPage() {
                       className="border-l-0 bg-muted"
                       onClick={() =>
                         handleCopy(
-                          item.colors[
-                            item.selectedFormat as keyof typeof item.colors
-                          ],
+                          item.colors[item.selectedFormat as keyof typeof item.colors],
                           "Color code",
                         )
                       }
                     >
                       {copiedItem ===
-                      item.colors[
-                        item.selectedFormat as keyof typeof item.colors
-                      ] ? (
+                      item.colors[item.selectedFormat as keyof typeof item.colors] ? (
                         <Check className="h-4 w-4" />
                       ) : (
                         <Copy className="h-4 w-4" />

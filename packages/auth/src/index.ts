@@ -1,10 +1,5 @@
 import { env } from "cloudflare:workers";
-import {
-  checkout,
-  dodopayments,
-  portal,
-  webhooks,
-} from "@dodopayments/better-auth";
+import { checkout, dodopayments, portal, webhooks } from "@dodopayments/better-auth";
 import { db } from "@morpics/db";
 import { drizzle } from "@morpics/db/dirzzle";
 import { getOrgOwner } from "@morpics/db/helpers/index";
@@ -67,8 +62,7 @@ export const auth = betterAuth({
           where: (f, o) => o.eq(f.userId, user.id),
         }),
         db.query.session.findFirst({
-          where: (f, o) =>
-            o.and(o.eq(f.userId, user.id), o.gte(f.expiresAt, new Date())),
+          where: (f, o) => o.and(o.eq(f.userId, user.id), o.gte(f.expiresAt, new Date())),
           orderBy: (f, o) => o.desc(f.createdAt),
         }),
       ]);
@@ -79,8 +73,7 @@ export const auth = betterAuth({
     }),
     organization({
       allowUserToCreateOrganization: async (user) => {
-        const userTier = (user.activeTier ??
-          "free") as keyof typeof PRICING_TABLE;
+        const userTier = (user.activeTier ?? "free") as keyof typeof PRICING_TABLE;
         return await usageHelpers.canUse({
           userId: user.id,
           metric: "buckets",
@@ -188,9 +181,7 @@ export const auth = betterAuth({
           // #TODO when planChange/expire notify users if they are using more than allocated resources, like overflow of storage cache bandwidth etc...
           // # TODO better move to metered billing in dodpayments
           onPayload: async (payload) => {
-            const hasReferenceId = (
-              d: unknown,
-            ): d is { metadata?: { referenceId?: string } } =>
+            const hasReferenceId = (d: unknown): d is { metadata?: { referenceId?: string } } =>
               typeof d === "object" && d !== null && "metadata" in d;
 
             const referenceId = hasReferenceId(payload.data)
@@ -198,10 +189,7 @@ export const auth = betterAuth({
               : "";
 
             if (!referenceId) {
-              console.error(
-                "[WEBHOOK] Missing referenceId in payload:",
-                payload.type,
-              );
+              console.error("[WEBHOOK] Missing referenceId in payload:", payload.type);
               return;
             }
 
@@ -293,11 +281,7 @@ export const auth = betterAuth({
             // Initialize usage record for new user
             await usageHelpers.getUsage(user.id);
           } catch (error) {
-            console.error(
-              "[ERROR] Failed to create usage record for user:",
-              user.id,
-              error,
-            );
+            console.error("[ERROR] Failed to create usage record for user:", user.id, error);
           }
         },
       },
@@ -306,8 +290,7 @@ export const auth = betterAuth({
       create: {
         before: async (useSession) => {
           const activeOrg = await db.query.member.findFirst({
-            where: (fields, operators) =>
-              operators.eq(fields.userId, useSession.userId),
+            where: (fields, operators) => operators.eq(fields.userId, useSession.userId),
             orderBy: (fields, operators) => operators.desc(fields.createdAt),
             columns: { organizationId: true },
           });

@@ -145,13 +145,8 @@ const TabsContext = React.createContext<TabsContextType>({
 });
 
 // Components
-function Tabs({
-  className,
-  ...props
-}: React.ComponentProps<typeof BaseTabs.Root>) {
-  return (
-    <BaseTabs.Root data-slot="tabs" className={cn("", className)} {...props} />
-  );
+function Tabs({ className, ...props }: React.ComponentProps<typeof BaseTabs.Root>) {
+  return <BaseTabs.Root data-slot="tabs" className={cn("", className)} {...props} />;
 }
 
 function TabsList({
@@ -160,12 +155,9 @@ function TabsList({
   shape = "default",
   size = "md",
   ...props
-}: React.ComponentProps<typeof BaseTabs.List> &
-  VariantProps<typeof tabsListVariants>) {
+}: React.ComponentProps<typeof BaseTabs.List> & VariantProps<typeof tabsListVariants>) {
   return (
-    <TabsContext.Provider
-      value={{ variant: variant || "default", size: size || "md" }}
-    >
+    <TabsContext.Provider value={{ variant: variant || "default", size: size || "md" }}>
       <BaseTabs.List
         data-slot="tabs-list"
         className={cn(tabsListVariants({ variant, shape, size }), className)}
@@ -175,10 +167,7 @@ function TabsList({
   );
 }
 
-function TabsTrigger({
-  className,
-  ...props
-}: React.ComponentProps<typeof BaseTabs.Tab>) {
+function TabsTrigger({ className, ...props }: React.ComponentProps<typeof BaseTabs.Tab>) {
   const { variant, size } = React.useContext(TabsContext);
 
   return (
@@ -194,8 +183,7 @@ function TabsContent({
   className,
   variant,
   ...props
-}: React.ComponentProps<typeof BaseTabs.Panel> &
-  VariantProps<typeof tabsContentVariants>) {
+}: React.ComponentProps<typeof BaseTabs.Panel> & VariantProps<typeof tabsContentVariants>) {
   return (
     <BaseTabs.Panel
       data-slot="tabs-content"

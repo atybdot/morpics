@@ -12,13 +12,7 @@ import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../ui/button";
 import { Field, FieldError, FieldLabel } from "../ui/field";
 import { Input, inputVariants } from "../ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Slider } from "../ui/slider";
 export const SvgImag = (props: SVGProps<SVGSVGElement>) => {
   return (
@@ -33,14 +27,7 @@ export const SvgImag = (props: SVGProps<SVGSVGElement>) => {
         stroke="currentColor"
         strokeWidth={12}
       />
-      <circle
-        cx="156"
-        cy="100"
-        r="16"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={12}
-      />
+      <circle cx="156" cy="100" r="16" fill="none" stroke="currentColor" strokeWidth={12} />
       <path
         d="M147.31,164,173,138.34a8,8,0,0,1,11.31,0L224,178.06"
         fill="none"
@@ -139,20 +126,14 @@ export default function TransformationAnonForm() {
             <p className="px-2 truncate leading-tight text-sm text-muted-foreground flex-1">
               {`${files[0].file.name.split(".")[0]}`}
             </p>
-            <Button
-              onClick={() => removeFile(files[0].id)}
-              variant={"secondary"}
-              size={"icon"}
-            >
+            <Button onClick={() => removeFile(files[0].id)} variant={"secondary"} size={"icon"}>
               <Trash2 />
             </Button>
           </div>
           <div className="w-full aspect-video h-[calc(100svh-8rem)] lg:h-full overflow-hidden content-center">
             <img
               src={files[0]?.preview}
-              className={cn(
-                "object-contain overflow-hidden origin-center mx-auto",
-              )}
+              className={cn("object-contain overflow-hidden origin-center mx-auto")}
               style={{
                 height: `${Math.round((formstore.height / imgDimensions.h) * 100)}%`,
                 width: `${Math.round((formstore.width / imgDimensions.w) * 100)}%`,
@@ -193,9 +174,7 @@ export default function TransformationAnonForm() {
               <h3 className="text-sm font-medium text-muted-foreground">
                 Try transforming an image
               </h3>
-              <p className="text-xs text-muted-foreground">
-                drop an image or paste url
-              </p>
+              <p className="text-xs text-muted-foreground">drop an image or paste url</p>
               <p className="text-xs text-muted-foreground/50">
                 up to {formatBytes(fileUploadConfig.max_file_size)}
               </p>
@@ -205,9 +184,7 @@ export default function TransformationAnonForm() {
               variant={"secondary"}
               onClick={openFileDialog}
               size="lg"
-              className={cn(
-                "text-muted-foreground hover:text-foreground pointer-events-none",
-              )}
+              className={cn("text-muted-foreground hover:text-foreground pointer-events-none")}
             >
               <Upload className="h-4 w-4" />
               Select images
@@ -232,11 +209,7 @@ export default function TransformationAnonForm() {
             <p className="px-2 truncate leading-tight text-sm text-muted-foreground flex-1">
               transformations
             </p>
-            <Button
-              onClick={() => form.reset()}
-              variant={"secondary"}
-              size={"icon"}
-            >
+            <Button onClick={() => form.reset()} variant={"secondary"} size={"icon"}>
               <RotateCcwIcon />
             </Button>
           </div>
@@ -244,14 +217,10 @@ export default function TransformationAnonForm() {
             <form.Field
               name="height"
               children={(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid} className="gap-1">
-                    <FieldLabel
-                      className="text-sm mb-0 text-muted-foreground"
-                      htmlFor={field.name}
-                    >
+                    <FieldLabel className="text-sm mb-0 text-muted-foreground" htmlFor={field.name}>
                       height
                     </FieldLabel>
                     <div className="flex gap-4 items-center justify-start ps-2">
@@ -264,9 +233,7 @@ export default function TransformationAnonForm() {
                         value={field.state.value as number}
                         onBlur={field.handleBlur}
                         onValueChange={(value) =>
-                          field.handleChange(
-                            Array.isArray(value) ? value[0] : value,
-                          )
+                          field.handleChange(Array.isArray(value) ? value[0] : value)
                         }
                         aria-invalid={isInvalid}
                       />
@@ -279,9 +246,7 @@ export default function TransformationAnonForm() {
                         {field.state.value as number}
                       </div>
                     </div>
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -289,14 +254,10 @@ export default function TransformationAnonForm() {
             <form.Field
               name="width"
               children={(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid} className="gap-1">
-                    <FieldLabel
-                      className="text-sm mb-0 text-muted-foreground"
-                      htmlFor={field.name}
-                    >
+                    <FieldLabel className="text-sm mb-0 text-muted-foreground" htmlFor={field.name}>
                       width
                     </FieldLabel>
                     <div className="flex gap-4 items-center justify-start ps-2">
@@ -309,9 +270,7 @@ export default function TransformationAnonForm() {
                         value={field.state.value as number}
                         onBlur={field.handleBlur}
                         onValueChange={(value) =>
-                          field.handleChange(
-                            Array.isArray(value) ? value[0] : value,
-                          )
+                          field.handleChange(Array.isArray(value) ? value[0] : value)
                         }
                         aria-invalid={isInvalid}
                       />
@@ -324,9 +283,7 @@ export default function TransformationAnonForm() {
                         {field.state.value as number}
                       </div>
                     </div>
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -334,14 +291,10 @@ export default function TransformationAnonForm() {
             <form.Field
               name="rotate"
               children={(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid} className="gap-1">
-                    <FieldLabel
-                      className="text-sm mb-0 text-muted-foreground"
-                      htmlFor={field.name}
-                    >
+                    <FieldLabel className="text-sm mb-0 text-muted-foreground" htmlFor={field.name}>
                       rotate
                     </FieldLabel>
                     <div className="flex gap-4 items-center justify-start ps-2">
@@ -355,9 +308,7 @@ export default function TransformationAnonForm() {
                         value={field.state.value as number}
                         onBlur={field.handleBlur}
                         onValueChange={(value) =>
-                          field.handleChange(
-                            Array.isArray(value) ? value[0] : value,
-                          )
+                          field.handleChange(Array.isArray(value) ? value[0] : value)
                         }
                         aria-invalid={isInvalid}
                       />
@@ -370,9 +321,7 @@ export default function TransformationAnonForm() {
                         {field.state.value as number}
                       </div>
                     </div>
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -381,14 +330,10 @@ export default function TransformationAnonForm() {
             <form.Field
               name="blur"
               children={(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid} className="gap-1">
-                    <FieldLabel
-                      className="text-sm mb-0 text-muted-foreground"
-                      htmlFor={field.name}
-                    >
+                    <FieldLabel className="text-sm mb-0 text-muted-foreground" htmlFor={field.name}>
                       blur
                     </FieldLabel>
                     <div className="flex gap-4 items-center justify-start ps-2">
@@ -402,9 +347,7 @@ export default function TransformationAnonForm() {
                         value={field.state.value as number}
                         onBlur={field.handleBlur}
                         onValueChange={(value) =>
-                          field.handleChange(
-                            Array.isArray(value) ? value[0] : value,
-                          )
+                          field.handleChange(Array.isArray(value) ? value[0] : value)
                         }
                         aria-invalid={isInvalid}
                       />
@@ -417,9 +360,7 @@ export default function TransformationAnonForm() {
                         {field.state.value as number}
                       </div>
                     </div>
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -427,14 +368,10 @@ export default function TransformationAnonForm() {
             <form.Field
               name="grayscale"
               children={(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid} className="gap-1">
-                    <FieldLabel
-                      className="text-sm mb-0 text-muted-foreground"
-                      htmlFor={field.name}
-                    >
+                    <FieldLabel className="text-sm mb-0 text-muted-foreground" htmlFor={field.name}>
                       grayscale
                     </FieldLabel>
                     <div className="flex gap-4 items-center justify-start ps-2">
@@ -448,9 +385,7 @@ export default function TransformationAnonForm() {
                         value={field.state.value as number}
                         onBlur={field.handleBlur}
                         onValueChange={(value) =>
-                          field.handleChange(
-                            Array.isArray(value) ? value[0] : value,
-                          )
+                          field.handleChange(Array.isArray(value) ? value[0] : value)
                         }
                         aria-invalid={isInvalid}
                       />
@@ -463,9 +398,7 @@ export default function TransformationAnonForm() {
                         {field.state.value as number}
                       </div>
                     </div>
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -479,31 +412,22 @@ export default function TransformationAnonForm() {
                   }
                   return string;
                 };
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                 const formatOptions = schemas.mimeEnum.enumValues.map((i) => ({
                   value: i,
                   label: renderValue(i),
                 }));
                 return (
                   <Field data-invalid={isInvalid} className="gap-y-0">
-                    <FieldLabel
-                      className="text-sm mb-0 text-muted-foreground"
-                      htmlFor={field.name}
-                    >
+                    <FieldLabel className="text-sm mb-0 text-muted-foreground" htmlFor={field.name}>
                       format
                     </FieldLabel>
                     <Select items={formatOptions} indicatorPosition="right">
                       <SelectTrigger
                         disabled={files.length < 1}
-                        className={cn(
-                          inputVariants({ variant: "sm" }),
-                          "justify-between mt-auto",
-                        )}
+                        className={cn(inputVariants({ variant: "sm" }), "justify-between mt-auto")}
                       >
-                        <SelectValue
-                          placeholder={renderValue(files[0]?.file?.type)}
-                        />
+                        <SelectValue placeholder={renderValue(files[0]?.file?.type)} />
                       </SelectTrigger>
                       <SelectContent>
                         {formatOptions?.map((item) => (
@@ -514,9 +438,7 @@ export default function TransformationAnonForm() {
                       </SelectContent>
                     </Select>
 
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -524,14 +446,10 @@ export default function TransformationAnonForm() {
             <form.Field
               name="quality"
               children={(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid} className="gap-y-0.5">
-                    <FieldLabel
-                      className="text-xs text-muted-foreground mb-0"
-                      htmlFor={field.name}
-                    >
+                    <FieldLabel className="text-xs text-muted-foreground mb-0" htmlFor={field.name}>
                       quality
                     </FieldLabel>
                     <Input
@@ -541,25 +459,17 @@ export default function TransformationAnonForm() {
                       name={field.name}
                       value={field.state.value as number}
                       onBlur={field.handleBlur}
-                      onChange={(e) =>
-                        field.handleChange(Number.parseInt(e.target.value, 10))
-                      }
+                      onChange={(e) => field.handleChange(Number.parseInt(e.target.value, 10))}
                       aria-invalid={isInvalid}
                       placeholder="quality"
                     />
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
             />
 
-            <Button
-              type="submit"
-              form="image-transformation-demo"
-              className="w-full"
-            >
+            <Button type="submit" form="image-transformation-demo" className="w-full">
               submit
             </Button>
           </div>

@@ -1,5 +1,6 @@
 {
   "name": "@morpics/api",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -14,27 +15,26 @@
       "default": "./dist/schema.ts"
     }
   },
-  "type": "module",
   "scripts": {
     "build": "tsdown"
   },
+  "dependencies": {
+    "@morpics/auth": "workspace:*",
+    "@morpics/buckets": "workspace:*",
+    "@morpics/db": "workspace:*",
+    "@orpc/client": "catalog:",
+    "@orpc/openapi": "catalog:",
+    "@orpc/server": "catalog:",
+    "@orpc/zod": "catalog:",
+    "dotenv": "catalog:",
+    "hono": "catalog:",
+    "zod": "catalog:"
+  },
   "devDependencies": {
-    "tsdown": "catalog:",
-    "@morpics/config": "workspace:*"
+    "@morpics/config": "workspace:*",
+    "tsdown": "catalog:"
   },
   "peerDependencies": {
     "typescript": "^5"
-  },
-  "dependencies": {
-    "@orpc/server": "catalog:",
-    "@orpc/client": "catalog:",
-    "@orpc/openapi": "catalog:",
-    "@orpc/zod": "catalog:",
-    "hono": "catalog:",
-    "dotenv": "catalog:",
-    "zod": "catalog:",
-    "@morpics/auth": "workspace:*",
-    "@morpics/db": "workspace:*",
-    "@morpics/buckets": "workspace:*"
   }
 }

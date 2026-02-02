@@ -66,21 +66,15 @@ function Page() {
           </CardContentAlt>
         </CardAlt>
         <CardAlt outer={false}>
-          <CardHeaderAlt className="text-muted-foreground text-base">
-            Active Sessions
-          </CardHeaderAlt>
+          <CardHeaderAlt className="text-muted-foreground text-base">Active Sessions</CardHeaderAlt>
           <CardContentAlt className="space-y-2 p-2">
             {loadingAllSessions
               ? Array(2)
                   .fill(0)
-                  .map(() => (
-                    <Skeleton key={nanoid()} className="w-full h-20" />
-                  ))
+                  .map(() => <Skeleton key={nanoid()} className="w-full h-20" />)
               : activeSessions
                   ?.sort(
-                    (i, j) =>
-                      new Date(j.updatedAt).getTime() -
-                      new Date(i.updatedAt).getTime(),
+                    (i, j) => new Date(j.updatedAt).getTime() - new Date(i.updatedAt).getTime(),
                   )
                   ?.map((s) => {
                     const os = detectOS(s.userAgent);
@@ -113,13 +107,9 @@ function Page() {
                           </span>
 
                           <p className="text-muted-foreground">last updated:</p>
-                          <span className=" break-all">
-                            {s.updatedAt.toLocaleString()}
-                          </span>
+                          <span className=" break-all">{s.updatedAt.toLocaleString()}</span>
                           <p className="text-muted-foreground">created:</p>
-                          <span className=" break-all">
-                            {s.createdAt.toLocaleString()}
-                          </span>
+                          <span className=" break-all">{s.createdAt.toLocaleString()}</span>
                           <p className="text-muted-foreground">ip</p>
                           <span className=" break-all">{s.ipAddress}</span>
 
@@ -129,28 +119,21 @@ function Page() {
                               size={"xs"}
                               onClick={() => {
                                 if (isCurrent) return;
-                                toast.promise(
-                                  authClient.revokeSession({ token: s.token }),
-                                  {
-                                    loading: "revoking session",
-                                    success: () => {
-                                      refetchSessions();
-                                      return "session revoked";
-                                    },
-                                    error: (e) => {
-                                      console.error(
-                                        "[UNABLE TO REMOVE SESSION]",
-                                        e,
-                                      );
-
-                                      return {
-                                        message: "unable to revoke session",
-                                        description:
-                                          "see browser console for more details",
-                                      };
-                                    },
+                                toast.promise(authClient.revokeSession({ token: s.token }), {
+                                  loading: "revoking session",
+                                  success: () => {
+                                    refetchSessions();
+                                    return "session revoked";
                                   },
-                                );
+                                  error: (e) => {
+                                    console.error("[UNABLE TO REMOVE SESSION]", e);
+
+                                    return {
+                                      message: "unable to revoke session",
+                                      description: "see browser console for more details",
+                                    };
+                                  },
+                                });
                               }}
                               variant={isCurrent ? "secondary" : "destructive"}
                             >

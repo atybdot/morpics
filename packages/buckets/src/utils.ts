@@ -28,9 +28,7 @@ export const generatePreSignedURL = async ({
   );
   const successfulUrls = results
     .filter(
-      (
-        result,
-      ): result is PromiseFulfilledResult<{ key: string; url: string }> =>
+      (result): result is PromiseFulfilledResult<{ key: string; url: string }> =>
         result.status === "fulfilled",
     )
     .map((result) => result.value);

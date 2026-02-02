@@ -56,27 +56,17 @@ const chipsVariants = cva(
 );
 
 // Root - Groups all parts of the combobox
-function Combobox({
-  ...props
-}: React.ComponentProps<typeof ComboboxPrimitive.Root>) {
+function Combobox({ ...props }: React.ComponentProps<typeof ComboboxPrimitive.Root>) {
   return <ComboboxPrimitive.Root data-slot="combobox" {...props} />;
 }
 
 // Input and Clear controls
 function ComboboxControl({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <span
-      data-slot="combobox-control"
-      className={cn("relative", className)}
-      {...props}
-    />
-  );
+  return <span data-slot="combobox-control" className={cn("relative", className)} {...props} />;
 }
 
 // Value - Displays the selected value
-function ComboboxValue({
-  ...props
-}: React.ComponentProps<typeof ComboboxPrimitive.Value>) {
+function ComboboxValue({ ...props }: React.ComponentProps<typeof ComboboxPrimitive.Value>) {
   return <ComboboxPrimitive.Value data-slot="combobox-value" {...props} />;
 }
 
@@ -85,8 +75,7 @@ function ComboboxInput({
   className,
   variant = "md",
   ...props
-}: React.ComponentProps<typeof ComboboxPrimitive.Input> &
-  VariantProps<typeof inputVariants>) {
+}: React.ComponentProps<typeof ComboboxPrimitive.Input> & VariantProps<typeof inputVariants>) {
   return (
     <ComboboxPrimitive.Input
       data-slot="combobox-input"
@@ -112,19 +101,13 @@ function ComboboxStatus({
 }
 
 // Portal - A portal element that moves the popup to a different part of the DOM
-function ComboboxPortal({
-  ...props
-}: React.ComponentProps<typeof ComboboxPrimitive.Portal>) {
+function ComboboxPortal({ ...props }: React.ComponentProps<typeof ComboboxPrimitive.Portal>) {
   return <ComboboxPrimitive.Portal data-slot="combobox-portal" {...props} />;
 }
 
 // Backdrop - An overlay displayed beneath the combobox popup
-function ComboboxBackdrop({
-  ...props
-}: React.ComponentProps<typeof ComboboxPrimitive.Backdrop>) {
-  return (
-    <ComboboxPrimitive.Backdrop data-slot="combobox-backdrop" {...props} />
-  );
+function ComboboxBackdrop({ ...props }: React.ComponentProps<typeof ComboboxPrimitive.Backdrop>) {
+  return <ComboboxPrimitive.Backdrop data-slot="combobox-backdrop" {...props} />;
 }
 
 function ComboboxContent({
@@ -216,16 +199,11 @@ function ComboboxList({
 function ComboboxCollection({
   ...props
 }: React.ComponentProps<typeof ComboboxPrimitive.Collection>) {
-  return (
-    <ComboboxPrimitive.Collection data-slot="combobox-collection" {...props} />
-  );
+  return <ComboboxPrimitive.Collection data-slot="combobox-collection" {...props} />;
 }
 
 // Row - A row container for combobox items
-function ComboboxRow({
-  className,
-  ...props
-}: React.ComponentProps<typeof ComboboxPrimitive.Row>) {
+function ComboboxRow({ className, ...props }: React.ComponentProps<typeof ComboboxPrimitive.Row>) {
   return (
     <ComboboxPrimitive.Row
       data-slot="combobox-row"
@@ -275,9 +253,7 @@ function ComboboxItemIndicator({
 }
 
 // Group - Groups related combobox items with the corresponding label
-function ComboboxGroup({
-  ...props
-}: React.ComponentProps<typeof ComboboxPrimitive.Group>) {
+function ComboboxGroup({ ...props }: React.ComponentProps<typeof ComboboxPrimitive.Group>) {
   return <ComboboxPrimitive.Group data-slot="combobox-group" {...props} />;
 }
 
@@ -289,10 +265,7 @@ function ComboboxGroupLabel({
   return (
     <ComboboxPrimitive.GroupLabel
       data-slot="combobox-group-label"
-      className={cn(
-        "px-2 py-1.5 text-xs text-muted-foreground font-medium",
-        className,
-      )}
+      className={cn("px-2 py-1.5 text-xs text-muted-foreground font-medium", className)}
       {...props}
     />
   );
@@ -306,10 +279,7 @@ function ComboboxEmpty({
   return (
     <ComboboxPrimitive.Empty
       data-slot="combobox-empty"
-      className={cn(
-        "px-2 py-1.5 text-sm text-muted-foreground empty:m-0 empty:p-0",
-        className,
-      )}
+      className={cn("px-2 py-1.5 text-sm text-muted-foreground empty:m-0 empty:p-0", className)}
       {...props}
     />
   );
@@ -365,11 +335,7 @@ function ComboboxArrow({
   ...props
 }: React.ComponentProps<typeof ComboboxPrimitive.Arrow>) {
   return (
-    <ComboboxPrimitive.Arrow
-      data-slot="combobox-arrow"
-      className={cn("", className)}
-      {...props}
-    />
+    <ComboboxPrimitive.Arrow data-slot="combobox-arrow" className={cn("", className)} {...props} />
   );
 }
 
@@ -392,16 +358,11 @@ function ComboboxChips({
   className,
   variant = "md",
   ...props
-}: React.ComponentProps<typeof ComboboxPrimitive.Chips> &
-  VariantProps<typeof inputVariants>) {
+}: React.ComponentProps<typeof ComboboxPrimitive.Chips> & VariantProps<typeof inputVariants>) {
   return (
     <ComboboxPrimitive.Chips
       data-slot="combobox-chips"
-      className={cn(
-        inputVariants({ variant }),
-        chipsVariants({ variant }),
-        className,
-      )}
+      className={cn(inputVariants({ variant }), chipsVariants({ variant }), className)}
       {...props}
     />
   );

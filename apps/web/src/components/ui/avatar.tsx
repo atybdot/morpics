@@ -23,10 +23,7 @@ const avatarStatusVariants = cva(
 );
 
 // Base UI Avatar Root
-function AvatarRoot({
-  className,
-  ...props
-}: React.ComponentProps<typeof Avatar.Root>) {
+function AvatarRoot({ className, ...props }: React.ComponentProps<typeof Avatar.Root>) {
   return (
     <Avatar.Root
       data-slot="avatar"
@@ -37,10 +34,7 @@ function AvatarRoot({
 }
 
 // Base UI Avatar Image
-function AvatarImage({
-  className,
-  ...props
-}: React.ComponentProps<typeof Avatar.Image>) {
+function AvatarImage({ className, ...props }: React.ComponentProps<typeof Avatar.Image>) {
   return (
     <Avatar.Image
       data-slot="avatar-image"
@@ -51,10 +45,7 @@ function AvatarImage({
 }
 
 // Base UI Avatar Fallback
-function AvatarFallback({
-  className,
-  ...props
-}: React.ComponentProps<typeof Avatar.Fallback>) {
+function AvatarFallback({ className, ...props }: React.ComponentProps<typeof Avatar.Fallback>) {
   return (
     <Avatar.Fallback
       data-slot="avatar-fallback"
@@ -67,17 +58,11 @@ function AvatarFallback({
   );
 }
 
-function AvatarIndicator({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function AvatarIndicator({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       data-slot="avatar-indicator"
-      className={cn(
-        "absolute flex size-6 items-center justify-center",
-        className,
-      )}
+      className={cn("absolute flex size-6 items-center justify-center", className)}
       {...props}
     />
   );
@@ -87,8 +72,7 @@ function AvatarStatus({
   className,
   variant,
   ...props
-}: React.HTMLAttributes<HTMLDivElement> &
-  VariantProps<typeof avatarStatusVariants>) {
+}: React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof avatarStatusVariants>) {
   return (
     <div
       data-slot="avatar-status"

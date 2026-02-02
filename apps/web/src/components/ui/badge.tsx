@@ -5,16 +5,14 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export interface BadgeProps
-  extends useRender.ComponentProps<"span">,
-    VariantProps<typeof badgeVariants> {
+  extends useRender.ComponentProps<"span">, VariantProps<typeof badgeVariants> {
   asChild?: boolean;
   dotClassName?: string;
   disabled?: boolean;
 }
 
 export interface BadgeButtonProps
-  extends useRender.ComponentProps<"button">,
-    VariantProps<typeof badgeButtonVariants> {
+  extends useRender.ComponentProps<"button">, VariantProps<typeof badgeButtonVariants> {
   asChild?: boolean;
 }
 
@@ -32,8 +30,7 @@ const badgeVariants = cva(
         warning:
           "bg-[var(--color-warning-accent,var(--color-yellow-500))] text-[var(--color-warning-foreground,var(--color-white))]",
         info: "bg-[var(--color-info-accent,var(--color-violet-500))] text-[var(--color-info-foreground,var(--color-white))]",
-        outline:
-          "bg-transparent border border-border text-secondary-foreground",
+        outline: "bg-transparent border border-border text-secondary-foreground",
         destructive: "bg-destructive text-destructive-foreground",
       },
       appearance: {
@@ -67,8 +64,7 @@ const badgeVariants = cva(
       {
         variant: "secondary",
         appearance: "light",
-        className:
-          "bg-secondary dark:bg-secondary/50 text-secondary-foreground",
+        className: "bg-secondary dark:bg-secondary/50 text-secondary-foreground",
       },
       {
         variant: "success",
@@ -197,10 +193,7 @@ function Badge({
   ...props
 }: BadgeProps) {
   const defaultProps = {
-    className: cn(
-      badgeVariants({ variant, size, appearance, shape, disabled }),
-      className,
-    ),
+    className: cn(badgeVariants({ variant, size, appearance, shape, disabled }), className),
     "data-slot": "badge",
   };
 
@@ -268,10 +261,7 @@ function BadgeDot({ className, ...props }: BadgeDotProps) {
   return (
     <span
       data-slot="badge-dot"
-      className={cn(
-        "size-1.5 rounded-full bg-[currentColor] opacity-75",
-        className,
-      )}
+      className={cn("size-1.5 rounded-full bg-[currentColor] opacity-75", className)}
       {...props}
     />
   );

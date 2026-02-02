@@ -35,12 +35,8 @@ export const user = pgTable(
     email: text().notNull(),
     emailVerified: boolean("email_verified").default(false).notNull(),
     image: text(),
-    createdAt: timestamp("created_at", { mode: "string" })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp("updated_at", { mode: "string" })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { mode: "string" }).defaultNow().notNull(),
     lastLoginMethod: text("last_login_method"),
   },
   (table) => [unique("user_email_unique").on(table.email)],
@@ -64,9 +60,7 @@ export const account = pgTable(
     }),
     scope: text(),
     password: text(),
-    createdAt: timestamp("created_at", { mode: "string" })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { mode: "string" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { mode: "string" }).notNull(),
   },
   (table) => [
@@ -179,9 +173,7 @@ export const session = pgTable(
     id: text().primaryKey().notNull(),
     expiresAt: timestamp("expires_at", { mode: "string" }).notNull(),
     token: text().notNull(),
-    createdAt: timestamp("created_at", { mode: "string" })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { mode: "string" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { mode: "string" }).notNull(),
     ipAddress: text("ip_address"),
     userAgent: text("user_agent"),
@@ -327,9 +319,7 @@ export const transformationMetadata = pgTable(
       foreignColumns: [transformation.id],
       name: "transformation_metadata_transformation_id_transformation_id_fk",
     }).onDelete("cascade"),
-    unique("transformation_metadata_transformation_id_unique").on(
-      table.transformationId,
-    ),
+    unique("transformation_metadata_transformation_id_unique").on(table.transformationId),
   ],
 );
 

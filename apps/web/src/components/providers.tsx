@@ -11,12 +11,7 @@ import ToasterExtractor from "./ui/toaster-provider";
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NuqsAdapter>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <QueryClientProvider client={queryClient}>
           <Suspense>
             <ToasterExtractor>{children}</ToasterExtractor>

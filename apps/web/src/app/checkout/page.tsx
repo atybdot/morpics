@@ -49,22 +49,19 @@ async function Page({
     default:
   }
 
-  const { error: dodoError, data: checkout } =
-    await authClient.dodopayments.checkoutSession(
-      {
-        slug: data.slug,
-        referenceId: session?.user.id,
-        return_url: returnUrl.toString() as string,
-      },
-      { headers: await headers() },
-    );
+  const { error: dodoError, data: checkout } = await authClient.dodopayments.checkoutSession(
+    {
+      slug: data.slug,
+      referenceId: session?.user.id,
+      return_url: returnUrl.toString() as string,
+    },
+    { headers: await headers() },
+  );
 
   if (dodoError) {
     console.log(dodoError);
 
-    return redirect(
-      `/dashboard?error=${encodeURI(dodoError.message ?? "")}` as any,
-    );
+    return redirect(`/dashboard?error=${encodeURI(dodoError.message ?? "")}` as any);
   }
   if (checkout.redirect && checkout.url) {
     throw redirect(checkout.url as any);

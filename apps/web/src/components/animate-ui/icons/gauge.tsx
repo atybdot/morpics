@@ -60,12 +60,7 @@ function IconComponent({ size, ...props }: GaugeProps) {
       strokeLinejoin="round"
       {...props}
     >
-      <motion.path
-        d="m12 14 4-4"
-        variants={variants.path1}
-        initial="initial"
-        animate={controls}
-      />
+      <motion.path d="m12 14 4-4" variants={variants.path1} initial="initial" animate={controls} />
       <motion.path
         d="M3.34 19a10 10 0 1 1 17.32 0"
         variants={variants.path2}

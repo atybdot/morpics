@@ -28,11 +28,7 @@ function Slider({
   tooltipVariant?: "dark" | "light";
 }) {
   const [internalValues, setInternalValues] = React.useState<number[]>(
-    Array.isArray(value)
-      ? value
-      : Array.isArray(defaultValue)
-        ? defaultValue
-        : [min, max],
+    Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max],
   );
 
   React.useEffect(() => {
@@ -133,19 +129,14 @@ function Slider({
           <SliderPrimitive.Indicator className="absolute h-full bg-primary data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full" />
         </SliderPrimitive.Track>
         {showTooltip
-          ? internalValues.map((thumbValue, index) =>
-              renderThumb(thumbValue, index),
-            )
+          ? internalValues.map((thumbValue, index) => renderThumb(thumbValue, index))
           : children}
       </SliderPrimitive.Control>
     </SliderPrimitive.Root>
   );
 }
 
-function SliderThumb({
-  className,
-  ...props
-}: React.ComponentProps<typeof SliderPrimitive.Thumb>) {
+function SliderThumb({ className, ...props }: React.ComponentProps<typeof SliderPrimitive.Thumb>) {
   return (
     <SliderPrimitive.Thumb
       data-slot="slider-thumb"

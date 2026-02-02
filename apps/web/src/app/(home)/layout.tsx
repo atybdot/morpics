@@ -9,9 +9,7 @@ export default function RootLayout({
   return (
     <section className="min-h-svh grid grid-rows-[auto_1fr_auto] relative mx-auto">
       <Header />
-      <section className="mx-auto w-full h-full max-w-6xl bg-transparent px-4">
-        {children}
-      </section>
+      <section className="mx-auto w-full h-full max-w-6xl bg-transparent px-4">{children}</section>
       <Footer />
     </section>
   );

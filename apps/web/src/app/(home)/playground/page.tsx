@@ -8,9 +8,7 @@ function Page() {
         <h2 id="playground-demo" className=" font-semibold text-2xl mb-1">
           Morpics Live Playground
         </h2>
-        <p className=" text-muted-foreground">
-          Upload your image and get realtime results
-        </p>
+        <p className=" text-muted-foreground">Upload your image and get realtime results</p>
       </div>
       <HomeFileUpload />
     </section>

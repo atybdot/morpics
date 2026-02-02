@@ -88,9 +88,7 @@ function Page() {
 
               <div className="space-y-2 text-center">
                 <h1 className="text-xl font-semibold text-foreground">error</h1>
-                <p className="text-muted-foreground text-sm text-pretty">
-                  unable to fetch images
-                </p>
+                <p className="text-muted-foreground text-sm text-pretty">unable to fetch images</p>
               </div>
               <Button variant={"secondary"} onClick={() => refetchImages()}>
                 <PiArrowCounterClockwise />
@@ -122,8 +120,7 @@ function Page() {
                 className={"mr-1 opacity-80"}
                 checked={selectedImages?.length === images?.length}
                 indeterminate={
-                  selectedImages?.length !== images?.length &&
-                  (selectedImages?.length ?? 0) > 0
+                  selectedImages?.length !== images?.length && (selectedImages?.length ?? 0) > 0
                 }
                 onCheckedChange={(e) => {
                   if (e) {
@@ -139,9 +136,7 @@ function Page() {
                 size={"sm"}
                 variant={"destructive"}
                 onClick={async () => {
-                  deleteImageMutation.mutate(
-                    selectedImages?.map((i) => i.key) as string[],
-                  );
+                  deleteImageMutation.mutate(selectedImages?.map((i) => i.key) as string[]);
                 }}
                 disabled={deleteImageMutation.isPending}
               >
@@ -161,10 +156,7 @@ function Page() {
                 )}
               </Button>
             )}
-            <Link
-              className={cn(buttonVariants({ size: "sm" }))}
-              href={"/images/new"}
-            >
+            <Link className={cn(buttonVariants({ size: "sm" }))} href={"/images/new"}>
               <PiPlusBold className="size-3" /> Upload Images
             </Link>
           </div>
@@ -173,25 +165,17 @@ function Page() {
       {isPending
         ? Array(isMobile ? 6 : 16)
             .fill(0)
-            .map(() => (
-              <Skeleton key={nanoid()} className=" aspect-video w-full" />
-            ))
+            .map(() => <Skeleton key={nanoid()} className=" aspect-video w-full" />)
         : images?.map((item) => (
             <div key={nanoid()} className="flex flex-col border p-1 relative">
-              <div
-                className={cn(
-                  "relative group flex-1 h-full aspect-square bg-muted",
-                )}
-              >
+              <div className={cn("relative group flex-1 h-full aspect-square bg-muted")}>
                 <Checkbox
                   checked={!!selectedImages?.find((i) => i.key === item.key)}
                   onCheckedChange={(e) => {
                     if (e) {
                       setSelectedImages((p) => [...(p || []), item]);
                     } else {
-                      setSelectedImages((p) =>
-                        p?.filter((i) => i.key !== item.key),
-                      );
+                      setSelectedImages((p) => p?.filter((i) => i.key !== item.key));
                     }
                   }}
                   className={cn(
@@ -201,9 +185,7 @@ function Page() {
                 <img className="object-contain aspect-square" src={item.url} />
               </div>
               <div className="flex items-center gap-4 ps-2 h-9 border-b-0 border mt-1">
-                <h3 className="text-muted-foreground text-sm truncate flex-1">
-                  {item.key}
-                </h3>
+                <h3 className="text-muted-foreground text-sm truncate flex-1">{item.key}</h3>
                 <Button
                   className="bg-muted h-full"
                   variant={"dim"}
@@ -247,12 +229,8 @@ function Empty() {
             <PiTray className="size-12" />
 
             <div className="space-y-2 text-center">
-              <h1 className="text-xl font-semibold text-foreground">
-                It's Empty here
-              </h1>
-              <p className="text-muted-foreground text-sm text-pretty">
-                No images found
-              </p>
+              <h1 className="text-xl font-semibold text-foreground">It's Empty here</h1>
+              <p className="text-muted-foreground text-sm text-pretty">No images found</p>
             </div>
             <Link className={cn(buttonVariants())} href={"/images/new"}>
               <PiTrayArrowUp />

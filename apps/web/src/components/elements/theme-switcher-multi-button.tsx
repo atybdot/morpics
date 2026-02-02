@@ -7,15 +7,11 @@ import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 
-interface ThemeSwitcherMultiButtonProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface ThemeSwitcherMultiButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
-export function ThemeSwitcherMultiButton({
-  className,
-  ...props
-}: ThemeSwitcherMultiButtonProps) {
+export function ThemeSwitcherMultiButton({ className, ...props }: ThemeSwitcherMultiButtonProps) {
   const { setTheme, theme } = useTheme();
 
   const themes = [
@@ -25,13 +21,7 @@ export function ThemeSwitcherMultiButton({
   ];
 
   return (
-    <div
-      className={cn(
-        "relative isolate inline-flex items-center w-fit",
-        className,
-      )}
-      {...props}
-    >
+    <div className={cn("relative isolate inline-flex items-center w-fit", className)} {...props}>
       {themes.map(({ value, icon: Icon, label }) => (
         <Button
           key={value}

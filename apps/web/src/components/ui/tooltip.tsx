@@ -3,17 +3,8 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-function TooltipProvider({
-  delay = 0,
-  ...props
-}: TooltipPrimitive.Provider.Props) {
-  return (
-    <TooltipPrimitive.Provider
-      data-slot="tooltip-provider"
-      delay={delay}
-      {...props}
-    />
-  );
+function TooltipProvider({ delay = 0, ...props }: TooltipPrimitive.Provider.Props) {
+  return <TooltipPrimitive.Provider data-slot="tooltip-provider" delay={delay} {...props} />;
 }
 
 function Tooltip({ ...props }: TooltipPrimitive.Root.Props) {
@@ -28,10 +19,7 @@ function TooltipTrigger({ ...props }: TooltipPrimitive.Trigger.Props) {
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
 }
 
-function TooltipPositioner({
-  className,
-  ...props
-}: TooltipPrimitive.Positioner.Props) {
+function TooltipPositioner({ className, ...props }: TooltipPrimitive.Positioner.Props) {
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Positioner
@@ -44,11 +32,7 @@ function TooltipPositioner({
   );
 }
 
-function TooltipContent({
-  className,
-  children,
-  ...props
-}: TooltipPrimitive.Popup.Props) {
+function TooltipContent({ className, children, ...props }: TooltipPrimitive.Popup.Props) {
   return (
     <TooltipPrimitive.Popup
       data-slot="tooltip-content"
@@ -81,10 +65,4 @@ function TooltipArrow({ className, ...props }: TooltipPrimitive.Arrow.Props) {
   );
 }
 
-export {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-  TooltipPositioner,
-};
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, TooltipPositioner };

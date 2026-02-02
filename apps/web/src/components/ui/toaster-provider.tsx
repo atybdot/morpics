@@ -3,9 +3,7 @@ import { useSearchParams } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 
-export default function ToasterExtractor({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function ToasterExtractor({ children }: Readonly<{ children: React.ReactNode }>) {
   const info = useSearchParams().get("info");
   const error = useSearchParams().get("error");
   const success = useSearchParams().get("success");
