@@ -1,9 +1,6 @@
-import { createClient } from "@convex-dev/better-auth";
 import { v } from "convex/values";
-import { components } from "./_generated/api";
+import { authComponent } from "../auth";
 import { mutation, query } from "./_generated/server";
-
-export const authComponent = createClient(components.betterAuth);
 
 export const getCurrentUser = query({
   args: {},
