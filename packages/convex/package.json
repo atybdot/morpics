@@ -8,7 +8,7 @@
     "typegen": "convex dev --typegen"
   },
   "dependencies": {
-    "@convex-dev/better-auth": "^1.0.0",
+    "@convex-dev/better-auth": "^0.10.10",
     "better-auth": "^1.4.9",
     "convex": "^1.18.0",
     "zod": "^4.3.4"
