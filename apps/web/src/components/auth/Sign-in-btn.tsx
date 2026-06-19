@@ -90,6 +90,18 @@ function button({
       });
     },
   });
+
+  useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        setSuccess(undefined);
+        mutation.reset();
+      }
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, [mutation.reset]);
+
   const lastUsed = authClient.isLastUsedLoginMethod(provider);
 
   return (
